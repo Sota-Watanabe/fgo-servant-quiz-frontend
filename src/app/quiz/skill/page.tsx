@@ -2,39 +2,12 @@
 
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
-
-// export const metadata: Metadata = {
-//   title: 'スキルクイズ | FGO Servant Quiz',
-//   description: 'FGOサーヴァントに関するクイズページです。',
-// };
-
-interface QuizData {
-  mstSvt: {
-    name: string;
-    ruby: string;
-  };
-  mstSkill: Array<{
-    mstSkill: {
-      name: string;
-      ruby: string;
-    };
-    mstSkillDetail: Array<{
-      detail: string;
-    }>;
-  }>;
-  mstTreasureDevice: Array<{
-    mstTreasureDevice: {
-      name: string;
-      ruby: string;
-    };
-    mstSvtTreasureDevice: Array<{
-      cardId: number;
-    }>;
-  }>;
-}
+import { useState } from "react";
+import { SkillQuizResponse } from "@/types/api";
+import { getClassTypeName } from "@/models/classTypes";
 
 // API関数
-const fetchQuizData = async (): Promise<QuizData> => {
+const fetchQuizData = async (): Promise<SkillQuizResponse> => {
   const response = await fetch("http://localhost:8888/quiz/skill");
 
   if (!response.ok) {
@@ -47,14 +20,23 @@ const fetchQuizData = async (): Promise<QuizData> => {
 };
 
 export default function SkillQuizPage() {
+  const [showAnswer, setShowAnswer] = useState(false);
+  const [questionId, setQuestionId] = useState(0);
+
   const {
     data: quizData,
-    isLoading: loading,
+    isFetching: loading,
     error,
   } = useQuery({
-    queryKey: ["/quiz/skill"],
+    queryKey: ["/quiz/skill", questionId],
     queryFn: fetchQuizData,
   });
+
+  // 次の問題を取得する関数
+  const handleNextQuestion = async () => {
+    setShowAnswer(false); // 答えを非表示にする
+    setQuestionId((prev) => prev + 1); // questionIdを更新して新しいクエリとして認識させる
+  };
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8 px-4">
       <div className="max-w-4xl mx-auto">
@@ -92,8 +74,7 @@ export default function SkillQuizPage() {
                     {error?.message || "データの取得に失敗しました"}
                   </p>
                   <p className="text-red-600 text-sm mt-2">
-                    バックエンドサーバー
-                    が起動していることを確認してください
+                    バックエンドサーバー が起動していることを確認してください
                   </p>
                 </div>
               </>
@@ -103,30 +84,40 @@ export default function SkillQuizPage() {
                   このスキルはどのサーヴァントのものでしょう？
                 </h2>
                 <div className="space-y-4 mb-6">
-                  {quizData.mstSkill.map((skill, index) => (
-                    <div key={index} className="bg-blue-50 rounded-lg p-6">
-                      <h3 className="text-lg font-bold text-blue-800 mb-3">
-                        スキル{index + 1}: {skill.mstSkill.name}
-                        {skill.mstSkill.ruby && (
-                          <span className="ml-2 text-sm font-normal text-blue-600">
-                            ({skill.mstSkill.ruby})
-                          </span>
-                        )}
-                      </h3>
-                      <p className="text-gray-700 text-sm leading-relaxed">
-                        {skill.mstSkillDetail[0]?.detail || "スキル詳細が読み込まれていません"}
-                      </p>
-                    </div>
-                  ))}
+                  {quizData.skills
+                    .reduce((acc, skill) => {
+                      // skillNumbers毎に配列の後ろ（最後）のスキルのみを保持
+                      const existingSkill = acc.find(
+                        (s) => s.skillNumbers === skill.skillNumbers
+                      );
+                      if (!existingSkill) {
+                        return acc.concat(skill);
+                      } else {
+                        // 既存のスキルを新しいスキルで置き換え（配列の後ろを優先）
+                        return acc
+                          .filter((s) => s.skillNumbers !== skill.skillNumbers)
+                          .concat(skill);
+                      }
+                    }, [] as typeof quizData.skills)
+                    .sort((a, b) => a.skillNumbers - b.skillNumbers) // skillNumbers順にソート
+                    .slice(0, 3) // 3つだけ表示
+                    .map((skill, index) => (
+                      <div key={index} className="bg-blue-50 rounded-lg p-6">
+                        <h3 className="text-lg font-bold text-blue-800 mb-3">
+                          スキル{index + 1}: {skill.name}
+                          {skill.ruby && (
+                            <span className="ml-2 text-sm font-normal text-blue-600">
+                              ({skill.ruby})
+                            </span>
+                          )}
+                        </h3>
+                        <p className="text-gray-700 text-sm leading-relaxed">
+                          {skill.details[0] ||
+                            "スキル詳細が読み込まれていません"}
+                        </p>
+                      </div>
+                    ))}
                 </div>
-                {/* <div className="bg-green-50 rounded-lg p-4 mb-6">
-                  <p className="text-sm text-green-700">
-                    正解: <span className="font-bold">{quizData.mstSvt.name}</span>
-                    {quizData.mstSvt.ruby && (
-                      <span className="ml-2 text-xs">({quizData.mstSvt.ruby})</span>
-                    )}
-                  </p>
-                </div> */}
               </>
             ) : (
               <>
@@ -141,33 +132,40 @@ export default function SkillQuizPage() {
               </>
             )}
 
-            {/* 選択肢エリア */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-              {["選択肢 1", "選択肢 2", "選択肢 3", "選択肢 4"].map(
-                (choice, index) => (
-                  <button
-                    key={index}
-                    className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200 disabled:opacity-50"
-                    disabled={loading || !!error}
-                  >
-                    {choice}
-                  </button>
-                )
-              )}
-            </div>
-
             {/* 操作ボタン */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-6 rounded-lg transition-colors duration-200">
-                次の問題
+              <button
+                onClick={handleNextQuestion}
+                disabled={loading}
+                className="bg-green-500 hover:bg-green-600 disabled:bg-gray-400 text-white font-medium py-2 px-6 rounded-lg transition-colors duration-200"
+              >
+                {loading ? "読み込み中..." : "次の問題"}
               </button>
-              <button className="bg-gray-500 hover:bg-gray-600 text-white font-medium py-2 px-6 rounded-lg transition-colors duration-200">
-                ヒント
-              </button>
-              <button className="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-6 rounded-lg transition-colors duration-200">
-                リセット
+              <button
+                onClick={() => setShowAnswer(true)}
+                className="bg-gray-500 hover:bg-gray-600 text-white font-medium py-2 px-6 rounded-lg transition-colors duration-200"
+              >
+                答え
               </button>
             </div>
+
+            {/* 答えの表示 */}
+            {showAnswer && quizData && (
+              <div className="mt-6 bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                <h3 className="text-lg font-bold text-yellow-800 mb-2">正解</h3>
+                <p className="text-xl font-bold text-yellow-900">
+                  {quizData.servant.name}
+                  {quizData.servant.ruby && (
+                    <span className="ml-2 text-base font-normal text-yellow-700">
+                      ({quizData.servant.ruby})
+                    </span>
+                  )}
+                  <span className="ml-2 text-base font-normal text-yellow-700">
+                    - {getClassTypeName(quizData.servant.classId)}
+                  </span>
+                </p>
+              </div>
+            )}
           </div>
         </main>
 
