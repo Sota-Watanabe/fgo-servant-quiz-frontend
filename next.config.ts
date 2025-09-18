@@ -2,9 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   output: 'standalone',
-  experimental: {
-    outputFileTracingRoot: process.cwd(),
-  },
+  outputFileTracingRoot: process.cwd(),
   // Cloud Run では通常 HTTP/1.1 を使用
   compress: true,
   // 環境変数でバックエンドAPIのURLを設定可能にする
