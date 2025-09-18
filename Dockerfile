@@ -6,8 +6,8 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies
-RUN npm ci --only=production
+# Install all dependencies (including devDependencies for build)
+RUN npm ci
 
 # Copy source code
 COPY . .
@@ -28,6 +28,9 @@ RUN adduser --system --uid 1001 nextjs
 COPY --from=builder /app/next.config.ts ./
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/package*.json ./
+
+# Install only production dependencies for runtime
+RUN npm ci --only=production && npm cache clean --force
 
 # Copy built application with correct ownership
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
