@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'fgo-servant-quiz-frontend/**'
+      - '**'
   workflow_dispatch:
 
 env:
@@ -28,14 +28,12 @@ jobs:
       with:
         node-version: '18'
         cache: 'npm'
-        cache-dependency-path: fgo-servant-quiz-frontend/package-lock.json
+        cache-dependency-path: package-lock.json
 
     - name: Install dependencies
-      working-directory: ./fgo-servant-quiz-frontend
       run: npm ci
 
     - name: Build application
-      working-directory: ./fgo-servant-quiz-frontend
       run: npm run build
 
     - name: Authenticate to Google Cloud
@@ -47,7 +45,6 @@ jobs:
       run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev
 
     - name: Build Docker image
-      working-directory: ./fgo-servant-quiz-frontend
       run: |
         docker build -t ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ github.sha }} .
         docker tag ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ github.sha }} ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE_NAME }}:latest
