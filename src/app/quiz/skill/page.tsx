@@ -42,20 +42,33 @@ export default function SkillQuizPage() {
   // 表示用のスキルデータを定義
   const displaySkills = quizData?.skills
     .reduce((acc, skill) => {
-      // skillNumbers毎に配列の後ろ（最後）のスキルのみを保持
+      // num毎に最適なスキルを保持（priorityが高いものを優先）
       const existingSkill = acc.find(
-        (s) => s.skillNumbers === skill.skillNumbers
+        (s) => s.num === skill.num
       );
+      
       if (!existingSkill) {
-        return acc.concat(skill);
+        // 同じnumのスキルがまだない場合は追加
+        acc.push(skill);
       } else {
-        // 既存のスキルを新しいスキルで置き換え（配列の後ろを優先）
-        return acc
-          .filter((s) => s.skillNumbers !== skill.skillNumbers)
-          .concat(skill);
+        // 既に同じnumのスキルがある場合、priorityを比較
+        const existingIndex = acc.findIndex((s) => s.num === skill.num);
+        if (skill.priority > existingSkill.priority) {
+          // より高いpriorityの場合は置き換え
+          acc[existingIndex] = skill;
+        }
       }
+      
+      return acc;
     }, [] as typeof quizData.skills)
-    .sort((a, b) => a.skillNumbers - b.skillNumbers) // skillNumbers順にソート
+    .sort((a, b) => {
+      // まずnum順でソート
+      if (a.num !== b.num) {
+        return a.num - b.num;
+      }
+      // numが同じ場合はpriorityの降順でソート（高い方が優先）
+      return b.priority - a.priority;
+    })
     .slice(0, 3) || []; // 3つだけ表示
 
   return (
@@ -116,7 +129,7 @@ export default function SkillQuizPage() {
                         )}
                       </h3>
                       <p className="text-gray-700 text-sm leading-relaxed">
-                        {skill.details[0] ||
+                        {skill.detail ||
                           "スキル詳細が読み込まれていません"}
                       </p>
                     </div>
@@ -158,14 +171,14 @@ export default function SkillQuizPage() {
               <div className="mt-6 bg-yellow-50 border border-yellow-200 rounded-lg p-4">
                 <h3 className="text-lg font-bold text-yellow-800 mb-2">正解</h3>
                 <p className="text-xl font-bold text-yellow-900">
-                  {quizData.servant.name}
-                  {quizData.servant.ruby && (
+                  {quizData.name}
+                  {quizData.ruby && (
                     <span className="ml-2 text-base font-normal text-yellow-700">
-                      ({quizData.servant.ruby})
+                      ({quizData.ruby})
                     </span>
                   )}
                   <span className="ml-2 text-base font-normal text-yellow-700">
-                    - {getClassTypeName(quizData.servant.classId)}
+                    - {getClassTypeName(quizData.classId)}
                   </span>
                 </p>
               </div>
