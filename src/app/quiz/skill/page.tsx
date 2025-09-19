@@ -38,6 +38,26 @@ export default function SkillQuizPage() {
     setShowAnswer(false); // 答えを非表示にする
     setQuestionId((prev) => prev + 1); // questionIdを更新して新しいクエリとして認識させる
   };
+
+  // 表示用のスキルデータを定義
+  const displaySkills = quizData?.skills
+    .reduce((acc, skill) => {
+      // skillNumbers毎に配列の後ろ（最後）のスキルのみを保持
+      const existingSkill = acc.find(
+        (s) => s.skillNumbers === skill.skillNumbers
+      );
+      if (!existingSkill) {
+        return acc.concat(skill);
+      } else {
+        // 既存のスキルを新しいスキルで置き換え（配列の後ろを優先）
+        return acc
+          .filter((s) => s.skillNumbers !== skill.skillNumbers)
+          .concat(skill);
+      }
+    }, [] as typeof quizData.skills)
+    .sort((a, b) => a.skillNumbers - b.skillNumbers) // skillNumbers順にソート
+    .slice(0, 3) || []; // 3つだけ表示
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8 px-4">
       <div className="max-w-4xl mx-auto">
@@ -85,39 +105,22 @@ export default function SkillQuizPage() {
                   このスキルはどのサーヴァントのものでしょう？
                 </h2>
                 <div className="space-y-4 mb-6">
-                  {quizData.skills
-                    .reduce((acc, skill) => {
-                      // skillNumbers毎に配列の後ろ（最後）のスキルのみを保持
-                      const existingSkill = acc.find(
-                        (s) => s.skillNumbers === skill.skillNumbers
-                      );
-                      if (!existingSkill) {
-                        return acc.concat(skill);
-                      } else {
-                        // 既存のスキルを新しいスキルで置き換え（配列の後ろを優先）
-                        return acc
-                          .filter((s) => s.skillNumbers !== skill.skillNumbers)
-                          .concat(skill);
-                      }
-                    }, [] as typeof quizData.skills)
-                    .sort((a, b) => a.skillNumbers - b.skillNumbers) // skillNumbers順にソート
-                    .slice(0, 3) // 3つだけ表示
-                    .map((skill, index) => (
-                      <div key={index} className="bg-blue-50 rounded-lg p-6">
-                        <h3 className="text-lg font-bold text-blue-800 mb-3">
-                          スキル{index + 1}: {skill.name}
-                          {skill.ruby && (
-                            <span className="ml-2 text-sm font-normal text-blue-600">
-                              ({skill.ruby})
-                            </span>
-                          )}
-                        </h3>
-                        <p className="text-gray-700 text-sm leading-relaxed">
-                          {skill.details[0] ||
-                            "スキル詳細が読み込まれていません"}
-                        </p>
-                      </div>
-                    ))}
+                  {displaySkills.map((skill, index) => (
+                    <div key={index} className="bg-blue-50 rounded-lg p-6">
+                      <h3 className="text-lg font-bold text-blue-800 mb-3">
+                        スキル{index + 1}: {skill.name}
+                        {skill.ruby && (
+                          <span className="ml-2 text-sm font-normal text-blue-600">
+                            ({skill.ruby})
+                          </span>
+                        )}
+                      </h3>
+                      <p className="text-gray-700 text-sm leading-relaxed">
+                        {skill.details[0] ||
+                          "スキル詳細が読み込まれていません"}
+                      </p>
+                    </div>
+                  ))}
                 </div>
               </>
             ) : (
