@@ -13,7 +13,7 @@ export const ClassType = {
   Alterego: 10,
   Beast: 33,
   Foreigner: 25,
-  MoonCancer: 28,
+  MoonCancer: 23,
   Pretender: 29,
 } as const;
 
