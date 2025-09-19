@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
   // 環境変数でバックエンドAPIのURLを設定可能にする
   env: {
     NEXT_PUBLIC_API_URL:
-      process.env.NEXT_PUBLIC_API_URL || "http://localhost:8888",
+      process.env.NEXT_PUBLIC_API_URL || "http://localhost:3388",
   },
 };
 

@@ -37,12 +37,7 @@ jobs:
       env:
         NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
       run: |
-        echo "NEXT_PUBLIC_API_URL is set: $NEXT_PUBLIC_API_URL"
-        if [ -z "$NEXT_PUBLIC_API_URL" ]; then
-          echo "WARNING: NEXT_PUBLIC_API_URL is empty or not set"
-        else
-          echo "NEXT_PUBLIC_API_URL length: ${#NEXT_PUBLIC_API_URL} characters"
-        fi
+        echo "NEXT_PUBLIC_API_URL is set to: $NEXT_PUBLIC_API_URL"
 
     - name: Build application
       env:

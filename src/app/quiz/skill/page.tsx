@@ -8,7 +8,7 @@ import { getClassTypeName } from "@/models/classTypes";
 
 // API関数
 const fetchQuizData = async (): Promise<SkillQuizResponse> => {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8888';
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1234';
   const response = await fetch(`${apiUrl}/quiz/skill`);
 
   if (!response.ok) {
