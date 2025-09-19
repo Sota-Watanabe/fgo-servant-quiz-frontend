@@ -8,7 +8,8 @@ import { getClassTypeName } from "@/models/classTypes";
 
 // API関数
 const fetchQuizData = async (): Promise<SkillQuizResponse> => {
-  const response = await fetch("http://localhost:8888/quiz/skill");
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8888';
+  const response = await fetch(`${apiUrl}/quiz/skill`);
 
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
