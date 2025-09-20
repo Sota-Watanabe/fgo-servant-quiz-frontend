@@ -24,6 +24,9 @@ export default function SkillQuizPage() {
   const [showAnswer, setShowAnswer] = useState(false);
   const [questionId, setQuestionId] = useState(0);
 
+  // 本番環境では広告枠を非表示にする
+  const isProduction = process.env.NODE_ENV === 'production';
+
   const {
     data: quizData,
     isFetching: loading,
@@ -37,15 +40,6 @@ export default function SkillQuizPage() {
   const handleNextQuestion = async () => {
     setShowAnswer(false); // 答えを非表示にする
     setQuestionId((prev) => prev + 1); // questionIdを更新して新しいクエリとして認識させる
-    
-    // 広告を再読み込み
-    try {
-      if (typeof window !== "undefined" && window.adsbygoogle) {
-        window.adsbygoogle.push({});
-      }
-    } catch (error) {
-      console.error("AdSense reload error:", error);
-    }
   };
 
   // 表示用のスキルデータを定義
@@ -97,9 +91,10 @@ export default function SkillQuizPage() {
           {/* 左側の広告（デスクトップ） / 上部広告（モバイル） */}
           <div className="lg:w-64 flex-shrink-0 order-1 lg:order-1">
             <div className="lg:sticky lg:top-4">
-              <div className="bg-gray-50 rounded-lg p-2 sm:p-4 border-2 border-dashed border-gray-300">
-                <p className="text-xs text-gray-500 mb-2">広告</p>
+              {isProduction ? (
+                // 本番環境では広告枠なしで広告のみ表示
                 <AdSense
+                  key={`ad-left-${questionId}`}
                   adSlot="2934488082"
                   style={{ 
                     display: "block", 
@@ -107,7 +102,21 @@ export default function SkillQuizPage() {
                     width: "100%" 
                   }}
                 />
-              </div>
+              ) : (
+                // 開発環境では広告枠付きで表示
+                <div className="bg-gray-50 rounded-lg p-2 sm:p-4 border-2 border-dashed border-gray-300">
+                  <p className="text-xs text-gray-500 mb-2">広告</p>
+                  <AdSense
+                    key={`ad-left-${questionId}`}
+                    adSlot="2934488082"
+                    style={{ 
+                      display: "block", 
+                      minHeight: "100px",
+                      width: "100%" 
+                    }}
+                  />
+                </div>
+              )}
             </div>
           </div>
 
@@ -223,9 +232,10 @@ export default function SkillQuizPage() {
           {/* 右側の広告（デスクトップ） / 下部広告（モバイル） */}
           <div className="lg:w-64 flex-shrink-0 order-3 lg:order-3">
             <div className="lg:sticky lg:top-4">
-              <div className="bg-gray-50 rounded-lg p-2 sm:p-4 border-2 border-dashed border-gray-300">
-                <p className="text-xs text-gray-500 mb-2">広告</p>
+              {isProduction ? (
+                // 本番環境では広告枠なしで広告のみ表示
                 <AdSense
+                  key={`ad-right-${questionId}`}
                   adSlot="2934488082"
                   style={{ 
                     display: "block", 
@@ -233,7 +243,21 @@ export default function SkillQuizPage() {
                     width: "100%" 
                   }}
                 />
-              </div>
+              ) : (
+                // 開発環境では広告枠付きで表示
+                <div className="bg-gray-50 rounded-lg p-2 sm:p-4 border-2 border-dashed border-gray-300">
+                  <p className="text-xs text-gray-500 mb-2">広告</p>
+                  <AdSense
+                    key={`ad-right-${questionId}`}
+                    adSlot="2934488082"
+                    style={{ 
+                      display: "block", 
+                      minHeight: "100px",
+                      width: "100%" 
+                    }}
+                  />
+                </div>
+              )}
             </div>
           </div>
         </div>
