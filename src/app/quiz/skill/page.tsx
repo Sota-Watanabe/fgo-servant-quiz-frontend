@@ -81,7 +81,7 @@ export default function SkillQuizPage() {
     .slice(0, 3) || []; // 3つだけ表示
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-4 sm:py-8 px-2 sm:px-4">
+    <div className="min-h-full bg-gradient-to-br from-blue-50 to-indigo-100 py-4 sm:py-8 px-2 sm:px-4">
       <div className="max-w-7xl mx-auto">
         {/* ヘッダー */}
         <header className="text-center mb-6 sm:mb-8">

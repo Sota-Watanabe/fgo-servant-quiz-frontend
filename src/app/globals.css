@@ -19,8 +19,14 @@
   }
 }
 
+html,
 body {
-  background: var(--background);
+  height: 100%;
+  min-height: 100vh;
+}
+
+body {
+  background: linear-gradient(to bottom right, #eff6ff, #e0e7ff);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
