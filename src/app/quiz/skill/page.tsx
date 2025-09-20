@@ -149,20 +149,13 @@ export default function SkillQuizPage() {
               </>
             )}
 
-            {/* 操作ボタン */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            {/* 答えボタン */}
+            <div className="flex justify-center">
               <button
-                onClick={handleNextQuestion}
-                disabled={loading}
-                className="bg-green-500 hover:bg-green-600 disabled:bg-gray-400 text-white font-medium py-2 px-6 rounded-lg transition-colors duration-200"
-              >
-                {loading ? "読み込み中..." : "次の問題"}
-              </button>
-              <button
-                onClick={() => setShowAnswer(true)}
+                onClick={() => setShowAnswer(!showAnswer)}
                 className="bg-gray-500 hover:bg-gray-600 text-white font-medium py-2 px-6 rounded-lg transition-colors duration-200"
               >
-                答え
+                {showAnswer ? "答えを隠す" : "答え"}
               </button>
             </div>
 
@@ -181,6 +174,16 @@ export default function SkillQuizPage() {
                     - {getClassTypeName(quizData.classId)}
                   </span>
                 </p>
+                {/* 次の問題ボタン */}
+                <div className="mt-4 text-center">
+                  <button
+                    onClick={handleNextQuestion}
+                    disabled={loading}
+                    className="bg-green-500 hover:bg-green-600 disabled:bg-gray-400 text-white font-medium py-2 px-6 rounded-lg transition-colors duration-200"
+                  >
+                    {loading ? "読み込み中..." : "次の問題"}
+                  </button>
+                </div>
               </div>
             )}
           </div>
