@@ -75,7 +75,7 @@ export default function AdSense({
         ref={adRef}
         className="adsbygoogle"
         style={style}
-        data-ad-client="ca-pub-6714287536670840"
+        data-ad-client={process.env.NEXT_PUBLIC_GOOGLE_ADSENSE_CLIENT_ID }
         data-ad-slot={adSlot}
         data-ad-format={adFormat}
         data-full-width-responsive={fullWidthResponsive.toString()}
