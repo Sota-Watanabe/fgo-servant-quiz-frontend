@@ -1,4 +1,6 @@
-import { Skill } from "@/types/api";
+import { components } from "@/types/api";
+
+type Skill = components["schemas"]["Skill"];
 
 /**
  * 表示用のスキルデータを処理する

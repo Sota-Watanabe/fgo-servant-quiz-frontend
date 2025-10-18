@@ -1,21 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
-import { SkillQuizResponse } from "@/types/api";
+import { components } from "@/types/api";
+import { apiClient, API_ENDPOINTS } from "@/utils/apiClient";
+
+type SkillQuizResponse = components["schemas"]["ServantDetailGetResponseDto"];
 
 const fetchQuizData = async (): Promise<SkillQuizResponse> => {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1234';
-  const response = await fetch(`${apiUrl}/quiz/skill`);
-
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
-
-  const data = await response.json();
-  return data;
+  return apiClient<SkillQuizResponse>(API_ENDPOINTS.QUIZ_SKILL);
 };
 
 export const useFetchQuizSkill = (questionCount: number = 0) => {
   return useQuery({
-    queryKey: ["/quiz/skill", questionCount],
+    queryKey: [API_ENDPOINTS.QUIZ_SKILL, questionCount],
     queryFn: fetchQuizData,
   });
 };

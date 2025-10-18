@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { getClassTypeName } from "@/models/classTypes";
 import QuizLayout from "../../../components/QuizLayout";
-import { useFetchQuizSkill } from "@/hooks/useFetchQuizSkill";
+import { useFetchQuizSkill } from "@/hooks/useApi";
 import { getDisplaySkills } from "@/utils/skillUtils";
 
 export default function SkillQuizPage() {

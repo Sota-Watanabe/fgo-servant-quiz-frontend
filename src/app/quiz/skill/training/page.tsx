@@ -4,7 +4,7 @@ import { useState } from "react";
 import { getClassTypeName } from "@/models/classTypes";
 import QuizLayout from "../../../components/QuizLayout";
 import { getDisplaySkills } from "@/utils/skillUtils";
-import { useFetchQuizSkill } from "@/hooks/useFetchQuizSkill";
+import { useFetchQuizSkill } from "@/hooks/useApi";
 
 export default function SkillQuizPage() {
   const [showAnswer, setShowAnswer] = useState(false);
