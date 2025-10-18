@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { SkillQuizResponse } from "@/types/api";
 import { getClassTypeName } from "@/models/classTypes";
-import AdSense from "../../../components/AdSense";
+import QuizLayout from "../../../components/QuizLayout";
 
 // API関数
 const fetchQuizData = async (): Promise<SkillQuizResponse> => {
@@ -24,13 +24,9 @@ export default function SkillQuizPage() {
   const [showAnswer, setShowAnswer] = useState(false);
   const [questionId, setQuestionId] = useState(0);
 
-  // 本番環境では広告枠を非表示にする
-  const isProduction = process.env.NODE_ENV === 'production';
-
   const {
     data: quizData,
     isFetching: loading,
-    error,
   } = useQuery({
     queryKey: ["/quiz/skill", questionId],
     queryFn: fetchQuizData,
@@ -75,56 +71,9 @@ export default function SkillQuizPage() {
     .slice(0, 3) || []; // 3つだけ表示
 
   return (
-    <div className="min-h-full bg-gradient-to-br from-blue-50 to-indigo-100 py-4 sm:py-8 px-2 sm:px-4">
-      <div className="max-w-7xl mx-auto">
-        {/* ヘッダー */}
-        <header className="text-center mb-6 sm:mb-8">
-          <h1 className="text-2xl sm:text-4xl font-bold text-gray-800 mb-2 sm:mb-4">
-            スキルクイズ
-          </h1>
-          <p className="text-base sm:text-lg text-gray-600">
-            FGOサーヴァントを当てるクイズです
-          </p>
-        </header>
-
-        <div className="flex flex-col lg:flex-row gap-4 lg:gap-6">
-          {/* 左側の広告（デスクトップ） / 上部広告（モバイル） */}
-          <div className="lg:w-64 flex-shrink-0 order-1 lg:order-1">
-            <div className="lg:sticky lg:top-4">
-              {isProduction ? (
-                // 本番環境では広告枠なしで広告のみ表示
-                <AdSense
-                  key={`ad-left-${questionId}`}
-                  adSlot="2934488082"
-                  style={{ 
-                    display: "block", 
-                    minHeight: "100px",
-                    width: "100%" 
-                  }}
-                />
-              ) : (
-                // 開発環境では広告枠付きで表示
-                <div className="bg-gray-50 rounded-lg p-2 sm:p-4 border-2 border-dashed border-gray-300">
-                  <p className="text-xs text-gray-500 mb-2">広告</p>
-                  <AdSense
-                    key={`ad-left-${questionId}`}
-                    adSlot="2934488082"
-                    style={{ 
-                      display: "block", 
-                      minHeight: "100px",
-                      width: "100%" 
-                    }}
-                  />
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* メインコンテンツ */}
-          <div className="flex-1 max-w-4xl order-2 lg:order-2">
-
-        {/* クイズエリア */}
-        <main className="bg-white rounded-lg shadow-lg p-4 sm:p-6 mb-6 sm:mb-8">
+    <QuizLayout adKeyPrefix={questionId.toString()}>
+      {/* クイズエリア */}
+      <main className="bg-white rounded-lg shadow-lg p-4 sm:p-6 mb-6 sm:mb-8">
           <div className="text-center">
             {loading ? (
               <>
@@ -134,20 +83,6 @@ export default function SkillQuizPage() {
                 <div className="bg-gray-100 rounded-lg p-6 sm:p-8 mb-4 sm:mb-6">
                   <p className="text-gray-500 text-base sm:text-lg">
                     スキル情報を読み込んでいます
-                  </p>
-                </div>
-              </>
-            ) : error ? (
-              <>
-                <h2 className="text-xl sm:text-2xl font-semibold text-red-600 mb-4 sm:mb-6">
-                  エラーが発生しました
-                </h2>
-                <div className="bg-red-100 rounded-lg p-6 sm:p-8 mb-4 sm:mb-6">
-                  <p className="text-red-700 text-base sm:text-lg">
-                    {error?.message || "データの取得に失敗しました"}
-                  </p>
-                  <p className="text-red-600 text-sm mt-2">
-                    バックエンドサーバー が起動していることを確認してください
                   </p>
                 </div>
               </>
@@ -227,41 +162,6 @@ export default function SkillQuizPage() {
             )}
           </div>
         </main>
-          </div>
-
-          {/* 右側の広告（デスクトップ） / 下部広告（モバイル） */}
-          <div className="lg:w-64 flex-shrink-0 order-3 lg:order-3">
-            <div className="lg:sticky lg:top-4">
-              {isProduction ? (
-                // 本番環境では広告枠なしで広告のみ表示
-                <AdSense
-                  key={`ad-right-${questionId}`}
-                  adSlot="2934488082"
-                  style={{ 
-                    display: "block", 
-                    minHeight: "100px",
-                    width: "100%" 
-                  }}
-                />
-              ) : (
-                // 開発環境では広告枠付きで表示
-                <div className="bg-gray-50 rounded-lg p-2 sm:p-4 border-2 border-dashed border-gray-300">
-                  <p className="text-xs text-gray-500 mb-2">広告</p>
-                  <AdSense
-                    key={`ad-right-${questionId}`}
-                    adSlot="2934488082"
-                    style={{ 
-                      display: "block", 
-                      minHeight: "100px",
-                      width: "100%" 
-                    }}
-                  />
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    </QuizLayout>
   );
 }
