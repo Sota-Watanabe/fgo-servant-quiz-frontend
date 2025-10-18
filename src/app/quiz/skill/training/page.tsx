@@ -1,77 +1,31 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { SkillQuizResponse } from "@/types/api";
 import { getClassTypeName } from "@/models/classTypes";
 import QuizLayout from "../../../components/QuizLayout";
-
-// API関数
-const fetchQuizData = async (): Promise<SkillQuizResponse> => {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1234';
-  const response = await fetch(`${apiUrl}/quiz/skill`);
-
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
-
-  const data = await response.json();
-  console.log("取得したデータ:", data);
-  return data;
-};
+import { getDisplaySkills } from "@/utils/skillUtils";
+import { useFetchQuizSkill } from "@/hooks/useFetchQuizSkill";
 
 export default function SkillQuizPage() {
   const [showAnswer, setShowAnswer] = useState(false);
-  const [questionId, setQuestionId] = useState(0);
+  const [questionCount, setQuestionCount] = useState(0);
 
   const {
     data: quizData,
     isFetching: loading,
-  } = useQuery({
-    queryKey: ["/quiz/skill", questionId],
-    queryFn: fetchQuizData,
-  });
+  } = useFetchQuizSkill(questionCount);
 
   // 次の問題を取得する関数
   const handleNextQuestion = async () => {
     setShowAnswer(false); // 答えを非表示にする
-    setQuestionId((prev) => prev + 1); // questionIdを更新して新しいクエリとして認識させる
+    setQuestionCount((prev) => prev + 1); // questionCountを更新して新しいクエリとして認識させる
   };
 
   // 表示用のスキルデータを定義
-  const displaySkills = quizData?.skills
-    .reduce((acc, skill) => {
-      // num毎に最適なスキルを保持（priorityが高いものを優先）
-      const existingSkill = acc.find(
-        (s) => s.num === skill.num
-      );
-      
-      if (!existingSkill) {
-        // 同じnumのスキルがまだない場合は追加
-        acc.push(skill);
-      } else {
-        // 既に同じnumのスキルがある場合、priorityを比較
-        const existingIndex = acc.findIndex((s) => s.num === skill.num);
-        if (skill.priority > existingSkill.priority) {
-          // より高いpriorityの場合は置き換え
-          acc[existingIndex] = skill;
-        }
-      }
-      
-      return acc;
-    }, [] as typeof quizData.skills)
-    .sort((a, b) => {
-      // まずnum順でソート
-      if (a.num !== b.num) {
-        return a.num - b.num;
-      }
-      // numが同じ場合はpriorityの降順でソート（高い方が優先）
-      return b.priority - a.priority;
-    })
-    .slice(0, 3) || []; // 3つだけ表示
+  const displaySkills = getDisplaySkills(quizData?.skills);
 
   return (
-    <QuizLayout adKeyPrefix={questionId.toString()}>
+    <QuizLayout adKeyPrefix={questionCount.toString()}>
       {/* クイズエリア */}
       <main className="bg-white rounded-lg shadow-lg p-4 sm:p-6 mb-6 sm:mb-8">
           <div className="text-center">

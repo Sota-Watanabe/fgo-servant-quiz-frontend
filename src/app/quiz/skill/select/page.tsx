@@ -4,60 +4,32 @@ import { useState } from "react";
 import { getClassTypeName } from "@/models/classTypes";
 import QuizLayout from "../../../components/QuizLayout";
 import { useFetchQuizSkill } from "@/hooks/useFetchQuizSkill";
+import { getDisplaySkills } from "@/utils/skillUtils";
 
 export default function SkillQuizPage() {
   const [showAnswer, setShowAnswer] = useState(false);
-  const [questionId, setQuestionId] = useState(0);
+  const [questionCount, setQuestionCount] = useState(0);
 
   const {
     data: quizData,
-    isFetching: loading,
-  } = useFetchQuizSkill(questionId);
+    isFetching: quizLoading,
+  } = useFetchQuizSkill(questionCount);
 
   // 次の問題を取得する関数
   const handleNextQuestion = async () => {
     setShowAnswer(false); // 答えを非表示にする
-    setQuestionId((prev) => prev + 1); // questionIdを更新して新しいクエリとして認識させる
+    setQuestionCount((prev) => prev + 1); // questionCountを更新して新しいクエリとして認識させる
   };
 
   // 表示用のスキルデータを定義
-  const displaySkills = quizData?.skills
-    .reduce((acc, skill) => {
-      // num毎に最適なスキルを保持（priorityが高いものを優先）
-      const existingSkill = acc.find(
-        (s) => s.num === skill.num
-      );
-      
-      if (!existingSkill) {
-        // 同じnumのスキルがまだない場合は追加
-        acc.push(skill);
-      } else {
-        // 既に同じnumのスキルがある場合、priorityを比較
-        const existingIndex = acc.findIndex((s) => s.num === skill.num);
-        if (skill.priority > existingSkill.priority) {
-          // より高いpriorityの場合は置き換え
-          acc[existingIndex] = skill;
-        }
-      }
-      
-      return acc;
-    }, [] as typeof quizData.skills)
-    .sort((a, b) => {
-      // まずnum順でソート
-      if (a.num !== b.num) {
-        return a.num - b.num;
-      }
-      // numが同じ場合はpriorityの降順でソート（高い方が優先）
-      return b.priority - a.priority;
-    })
-    .slice(0, 3) || []; // 3つだけ表示
+  const displaySkills = getDisplaySkills(quizData?.skills);
 
   return (
-    <QuizLayout adKeyPrefix={questionId.toString()}>
+    <QuizLayout adKeyPrefix={questionCount.toString()}>
       {/* クイズエリア */}
       <main className="bg-white rounded-lg shadow-lg p-4 sm:p-6 mb-6 sm:mb-8">
           <div className="text-center">
-            {loading ? (
+            {quizLoading ? (
               <>
                 <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-4 sm:mb-6">
                   問題準備中...
@@ -134,10 +106,10 @@ export default function SkillQuizPage() {
                 <div className="mt-3 sm:mt-4 text-center">
                   <button
                     onClick={handleNextQuestion}
-                    disabled={loading}
+                    disabled={quizLoading}
                     className="bg-green-500 hover:bg-green-600 disabled:bg-gray-400 text-white font-medium py-3 sm:py-2 px-8 sm:px-6 rounded-lg transition-colors duration-200 text-base sm:text-sm w-full sm:w-auto max-w-xs"
                   >
-                    {loading ? "読み込み中..." : "次の問題"}
+                    {quizLoading ? "読み込み中..." : "次の問題"}
                   </button>
                 </div>
               </div>

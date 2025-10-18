@@ -13,9 +13,9 @@ const fetchQuizData = async (): Promise<SkillQuizResponse> => {
   return data;
 };
 
-export const useFetchQuizSkill = (questionId: number = 0) => {
+export const useFetchQuizSkill = (questionCount: number = 0) => {
   return useQuery({
-    queryKey: ["/quiz/skill", questionId],
+    queryKey: ["/quiz/skill", questionCount],
     queryFn: fetchQuizData,
   });
 };
