@@ -29,7 +29,7 @@ export const useFetchQuizSkill = (
  * サーヴァント選択肢データを取得するカスタムフック
  * @param options - React Queryのオプション
  */
-export const useFetchServantsOption = (
+export const useFetchServantsOptions = (
   options?: Omit<UseQueryOptions<ServantsOptionsResponse, ApiError>, 'queryKey' | 'queryFn'>
 ) => {
   return useQuery({
