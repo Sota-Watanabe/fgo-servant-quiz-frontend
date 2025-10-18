@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { SkillQuizResponse } from "@/types/api";
 import { getClassTypeName } from "@/models/classTypes";
-import AdSense from "../../components/AdSense";
+import AdSense from "../../../components/AdSense";
 
 // API関数
 const fetchQuizData = async (): Promise<SkillQuizResponse> => {

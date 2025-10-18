@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
 
 export default function Home() {
-  redirect("/quiz/skill");
+  redirect("/quiz/skill/show-answer");
 }
