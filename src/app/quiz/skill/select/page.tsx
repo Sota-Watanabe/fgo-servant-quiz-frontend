@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { getClassTypeName } from "@/models/classTypes";
 import QuizLayout from "../../../components/QuizLayout";
+import SearchableSelect from "../../../components/SearchableSelect";
 import { useFetchQuizSkill, useFetchServantsOptions } from "@/hooks/useApi";
 import { getDisplaySkills } from "@/utils/skillUtils";
 
@@ -12,6 +13,7 @@ export default function SkillQuizPage() {
   const [selectedServantId, setSelectedServantId] = useState<number | null>(
     null
   );
+  const [isAnswerChecked, setIsAnswerChecked] = useState(false);
 
   const { data: quizData, isFetching: quizFetching } =
     useFetchQuizSkill(questionCount);
@@ -27,6 +29,7 @@ export default function SkillQuizPage() {
   const handleNextQuestion = async () => {
     setShowAnswer(false); // 答えを非表示にする
     setSelectedServantId(null); // 選択をリセット
+    setIsAnswerChecked(false); // 答えチェック状態をリセット
     setQuestionCount((prev) => prev + 1); // questionCountを更新して新しいクエリとして認識させる
   };
 
@@ -34,6 +37,17 @@ export default function SkillQuizPage() {
   const handleCheckAnswer = () => {
     if (selectedServantId !== null) {
       setShowAnswer(true);
+      setIsAnswerChecked(true);
+    }
+  };
+
+  // セレクト変更時の処理
+  const handleServantChange = (servantId: number | null) => {
+    setSelectedServantId(servantId);
+    // セレクトが変更されたら答えチェック状態をリセット
+    if (isAnswerChecked) {
+      setIsAnswerChecked(false);
+      setShowAnswer(false);
     }
   };
 
@@ -41,7 +55,7 @@ export default function SkillQuizPage() {
   const displaySkills = getDisplaySkills(quizData?.skills);
 
   return (
-    <QuizLayout adKeyPrefix={questionCount.toString()}>
+    <QuizLayout adKeyPrefix={questionCount.toString()} minHeight={1200}>
       {/* クイズエリア */}
       <main className="bg-white rounded-lg shadow-lg p-4 sm:p-6 mb-6 sm:mb-8">
         <div className="text-center">
@@ -84,41 +98,32 @@ export default function SkillQuizPage() {
                 <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-3 sm:mb-4">
                   答えを選択してください
                 </h3>
-                <select
-                  className="w-full p-3 border border-gray-300 rounded-lg text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  value={selectedServantId || ""}
-                  onChange={(e) =>
-                    setSelectedServantId(
-                      e.target.value ? Number(e.target.value) : null
-                    )
-                  }
+                <SearchableSelect
+                  options={optionData?.options || []}
+                  value={selectedServantId}
+                  onChange={handleServantChange}
+                  placeholder="サーヴァントを選択してください"
                   disabled={isFetching || !optionData?.options}
-                >
-                  <option value="">サーヴァントを選択してください</option>
-                  {optionData?.options.map((servant) => (
-                    <option key={servant.id} value={servant.id}>
-                      {servant.name} ({getClassTypeName(servant.classId)})
-                    </option>
-                  ))}
-                </select>
+                />
 
                 <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-4">
                   <button
                     onClick={handleCheckAnswer}
-                    disabled={selectedServantId === null || isFetching}
-                    className="flex-1 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-semibold py-2 px-4 rounded-lg transition-colors text-sm sm:text-base"
+                    disabled={
+                      selectedServantId === null || 
+                      isFetching || 
+                      (isAnswerChecked && quizData && selectedServantId !== quizData.id)
+                    }
+                    className={`flex-1 font-semibold py-2 px-4 rounded-lg transition-colors text-sm sm:text-base text-white ${
+                      selectedServantId === null || isFetching
+                        ? "bg-gray-400 cursor-not-allowed"
+                        : isAnswerChecked && quizData && selectedServantId !== quizData.id
+                        ? "bg-gray-400 cursor-default"
+                        : "bg-blue-600 hover:bg-blue-700"
+                    }`}
                   >
                     答えを確認
                   </button>
-
-                  {showAnswer && (
-                    <button
-                      onClick={handleNextQuestion}
-                      className="flex-1 bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors text-sm sm:text-base"
-                    >
-                      次の問題
-                    </button>
-                  )}
                 </div>
               </div>
 
@@ -167,6 +172,18 @@ export default function SkillQuizPage() {
                       </>
                     )}
                   </div>
+                </div>
+              )}
+
+              {/* 次の問題ボタン - 答えが表示された後に表示 */}
+              {showAnswer && (
+                <div className="flex justify-center mt-4 sm:mt-6">
+                  <button
+                    onClick={handleNextQuestion}
+                    className="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors text-sm sm:text-base"
+                  >
+                    {selectedServantId === quizData.id ? "次の問題" : "この問題をスキップ"}
+                  </button>
                 </div>
               )}
             </>

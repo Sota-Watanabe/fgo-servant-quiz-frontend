@@ -5,15 +5,19 @@ import AdBanner from "./AdBanner";
 interface QuizLayoutProps {
   children: React.ReactNode;
   adKeyPrefix?: string;
+  minHeight?: number;
 }
 
 /**
  * クイズページ用の3カラムレイアウトコンポーネント
  * 左右に広告、中央にメインコンテンツを配置
  */
-export default function QuizLayout({ children, adKeyPrefix = "quiz" }: QuizLayoutProps) {
+export default function QuizLayout({ children, adKeyPrefix = "quiz", minHeight }: QuizLayoutProps) {
   return (
-    <div className="min-h-full bg-gradient-to-br from-blue-50 to-indigo-100 py-4 sm:py-8 px-2 sm:px-4">
+    <div 
+      className="bg-gradient-to-br from-blue-50 to-indigo-100 py-4 sm:py-8 px-2 sm:px-4 pb-20"
+      style={{ minHeight: minHeight ? `${minHeight}px` : '100%' }}
+    >
       <div className="max-w-7xl mx-auto">
         {/* ヘッダー */}
         <header className="text-center mb-6 sm:mb-8">
