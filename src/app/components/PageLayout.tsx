@@ -27,7 +27,11 @@ export default function PageLayout({ children, adKeyPrefix = "quiz", minHeight, 
             Fate/Grand Quiz
           </h1>
           <p className="text-base sm:text-lg text-gray-600">
-            Fate/Grand Order に関するクイズを出すWebサイトです。
+            {/* 英霊たちの記憶を辿る旅へ */}
+            {/* これは、知識で紡ぐもうひとつの聖杯戦争 */}
+            {/* 知識を以て、英霊たちと相対せよ */}
+            {/* これは、知識で繋ぐもうひとつの物語 */}
+            記憶に刻まれし英霊たちの軌跡を辿れ
           </p>
         </header>
 
