@@ -8,11 +8,11 @@ export default function SkillQuizTabs() {
 
   const tabs = [
     {
-      href: "/quiz/skill/select",
+      href: "/quiz/skill/practice",
       label: "選択問題",
     },
     {
-      href: "/quiz/skill/training", 
+      href: "/quiz/skill/challenge", 
       label: "練習問題",
     }
   ];
