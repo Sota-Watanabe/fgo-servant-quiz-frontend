@@ -177,7 +177,7 @@ export default function SearchableSelect({
             onChange={(e) => setSearchTerm(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="サーヴァント名で検索..."
-            className="w-full outline-none bg-transparent"
+            className="w-full outline-none bg-transparent text-gray-900 placeholder:text-gray-500"
             disabled={disabled}
           />
         ) : (
@@ -227,7 +227,7 @@ export default function SearchableSelect({
                 className={`px-3 py-3 cursor-pointer transition-colors border-b border-gray-100 last:border-b-0 ${
                   index === highlightedIndex
                     ? "bg-blue-50 text-blue-700"
-                    : "hover:bg-gray-50"
+                    : "hover:bg-gray-50 text-gray-900"
                 } ${value === option.id ? "bg-blue-100 text-blue-800 font-medium" : ""}`}
                 onClick={() => selectOption(option)}
                 onMouseEnter={() => setHighlightedIndex(index)}
