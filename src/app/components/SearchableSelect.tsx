@@ -30,6 +30,20 @@ export default function SearchableSelect({
   // 選択されたサーヴァントを取得
   const selectedServant = options.find((option) => option.id === value);
 
+  // ひらがなをカタカナに変換する関数
+  const hiraganaToKatakana = (str: string) => {
+    return str.replace(/[\u3041-\u3096]/g, (ch) => 
+      String.fromCharCode(ch.charCodeAt(0) + 0x60)
+    );
+  };
+
+  // カタカナをひらがなに変換する関数
+  const katakanaToHiragana = (str: string) => {
+    return str.replace(/[\u30a1-\u30f6]/g, (ch) => 
+      String.fromCharCode(ch.charCodeAt(0) - 0x60)
+    );
+  };
+
   // 検索でフィルタリングされた選択肢
   const filteredOptions = options.filter((option) => {
     const searchLower = searchTerm.toLowerCase();
@@ -47,6 +61,14 @@ export default function SearchableSelect({
       ? normalizeText(option.originalOverwriteName) 
       : '';
     
+    // ひらがな・カタカナ相互変換した検索文字列
+    const searchHiragana = katakanaToHiragana(normalizedSearch);
+    const searchKatakana = hiraganaToKatakana(normalizedSearch);
+    const nameHiragana = katakanaToHiragana(normalizedName);
+    const nameKatakana = hiraganaToKatakana(normalizedName);
+    const originalNameHiragana = normalizedOriginalName ? katakanaToHiragana(normalizedOriginalName) : '';
+    const originalNameKatakana = normalizedOriginalName ? hiraganaToKatakana(normalizedOriginalName) : '';
+    
     return (
       // 元の検索（完全一致優先）
       option.name.toLowerCase().includes(searchLower) ||
@@ -54,7 +76,16 @@ export default function SearchableSelect({
        option.originalOverwriteName.toLowerCase().includes(searchLower)) ||
       // 正規化された検索（・や空白を無視した部分マッチ）
       normalizedName.includes(normalizedSearch) ||
-      (normalizedOriginalName && normalizedOriginalName.includes(normalizedSearch))
+      (normalizedOriginalName && normalizedOriginalName.includes(normalizedSearch)) ||
+      // ひらがな・カタカナ相互変換検索
+      nameHiragana.includes(searchHiragana) ||
+      nameKatakana.includes(searchKatakana) ||
+      nameHiragana.includes(searchKatakana) ||
+      nameKatakana.includes(searchHiragana) ||
+      (originalNameHiragana && originalNameHiragana.includes(searchHiragana)) ||
+      (originalNameKatakana && originalNameKatakana.includes(searchKatakana)) ||
+      (originalNameHiragana && originalNameHiragana.includes(searchKatakana)) ||
+      (originalNameKatakana && originalNameKatakana.includes(searchHiragana))
     );
   });
 
