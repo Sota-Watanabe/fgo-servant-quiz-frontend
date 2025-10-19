@@ -21,26 +21,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/demo/quiz": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * デモクイズの取得
-         * @description デモ用のクイズデータを返します
-         */
-        get: operations["DemoController_getQuiz"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/quiz/skill": {
         parameters: {
             query?: never;
@@ -50,9 +30,29 @@ export interface paths {
         };
         /**
          * スキルクイズの取得
-         * @description ランダムなサーヴァントのスキル情報を含むクイズデータを返します
+         * @description ランダムなサーヴァントのスキル情報を返します
          */
         get: operations["QuizController_getSkillQuiz"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/quiz/profile": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * プロフィールクイズの取得
+         * @description ランダムなサーヴァントのプロフィール情報を返します
+         */
+        get: operations["QuizController_getProfileQuiz"];
         put?: never;
         post?: never;
         delete?: never;
@@ -210,6 +210,82 @@ export interface components {
             /** @description スキル一覧 */
             skills: components["schemas"]["Skill"][];
         };
+        ProfileCommentDto: {
+            /**
+             * @description コメントID
+             * @example 1
+             */
+            id: number;
+            /**
+             * @description 優先度
+             * @example 0
+             */
+            priority: number;
+            /**
+             * @description 条件メッセージ
+             * @example
+             */
+            condMessage: string;
+            /**
+             * @description コメント本文
+             * @example 薩長同盟の立役者であり、亀山社中（のちの海援隊）の結成、大政奉還の成立に尽力するなど明治維新に大きく貢献した志士の一人。
+             */
+            comment: string;
+            /**
+             * @description 条件タイプ
+             * @example none
+             */
+            condType: string;
+        };
+        ServantProfileGetResponseDto: {
+            /**
+             * @description サーヴァントID
+             * @example 102600
+             */
+            id: number;
+            /**
+             * @description コレクション番号
+             * @example 100
+             */
+            collectionNo: number;
+            /**
+             * @description サーヴァント名
+             * @example 坂本龍馬
+             */
+            name: string;
+            /**
+             * @description オリジナル名
+             * @example 坂本龍馬
+             */
+            originalName: string;
+            /**
+             * @description 声優
+             * @example 加瀬康之＆堀江由衣
+             */
+            cv: string;
+            /**
+             * @description イラストレーター
+             * @example pako
+             */
+            illustrator: string;
+            /**
+             * @description ステータス情報
+             * @example {
+             *       "strength": "C",
+             *       "endurance": "C",
+             *       "agility": "B",
+             *       "magic": "D",
+             *       "luck": "A-",
+             *       "np": "EX",
+             *       "policy": "neutral",
+             *       "personality": "balanced",
+             *       "deity": "B-"
+             *     }
+             */
+            stats: Record<string, never>;
+            /** @description プロフィールコメント */
+            comments: components["schemas"]["ProfileCommentDto"][];
+        };
         ServantsOptions: {
             /**
              * @description サーヴァントID
@@ -265,26 +341,6 @@ export interface operations {
             };
         };
     };
-    DemoController_getQuiz: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description デモクイズデータ */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": string;
-                };
-            };
-        };
-    };
     QuizController_getSkillQuiz: {
         parameters: {
             query?: never;
@@ -301,6 +357,26 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ServantDetailGetResponseDto"];
+                };
+            };
+        };
+    };
+    QuizController_getProfileQuiz: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description プロフィールクイズデータ */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServantProfileGetResponseDto"];
                 };
             };
         };

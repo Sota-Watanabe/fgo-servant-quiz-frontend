@@ -8,7 +8,9 @@
     "start": "next start",
     "start:prod": "NODE_ENV=production next start -p 3000",
     "lint": "eslint",
-    "generate:types": "openapi-typescript ../fgo-servant-quiz-backend/openapi.json -o src/types/api.ts"
+    "generate:backend:openapi": "cd ../fgo-servant-quiz-backend && npm run generate:openapi",
+    "generate:frontend:types": "openapi-typescript ../fgo-servant-quiz-backend/openapi.json -o src/types/api.ts",
+    "generate:types": "npm run generate:backend:openapi && npm run generate:frontend:types"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.89.0",
