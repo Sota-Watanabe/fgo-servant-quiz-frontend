@@ -1,4 +1,4 @@
-# FGOサーヴァントクイズ フロントエンド
+# Fate/Grand Quiz フロントエンド
 
 これは [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app) でブートストラップされた [Next.js](https://nextjs.org) プロジェクトです。
 

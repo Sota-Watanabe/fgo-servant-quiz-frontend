@@ -16,9 +16,14 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "FGOスキルクイズ",
-  description: "FGOサーヴァントのスキルを当てるクイズゲーム",
+  title: "Fate/Grand Quiz",
+  description: "Fate/Grand Order に関するクイズを出すWebサイトです。",
   viewport: "width=device-width, initial-scale=1",
+  icons: {
+    icon: "/icon.png",
+    shortcut: "/icon.png",
+    apple: "/icon.png",
+  },
 };
 
 export default function RootLayout({
@@ -29,6 +34,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <link rel="icon" href="/icon.png?v=1" />
+        <link rel="shortcut icon" href="/icon.png?v=1" />
+        <link rel="apple-touch-icon" href="/icon.png?v=1" />
         <GoogleAnalytics measurementId="G-R5XW321DL4" />
         <Script
           async

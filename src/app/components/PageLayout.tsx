@@ -24,10 +24,10 @@ export default function PageLayout({ children, adKeyPrefix = "quiz", minHeight, 
         {/* ヘッダー */}
         <header className="text-center mb-6 sm:mb-8">
           <h1 className="text-2xl sm:text-4xl font-bold text-gray-800 mb-2 sm:mb-4">
-            スキルクイズ
+            Fate/Grand Quiz
           </h1>
           <p className="text-base sm:text-lg text-gray-600">
-            FGOサーヴァントを当てるクイズです
+            Fate/Grand Order に関するクイズを出すWebサイトです。
           </p>
         </header>
 
