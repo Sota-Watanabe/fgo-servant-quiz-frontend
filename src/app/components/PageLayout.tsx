@@ -35,6 +35,9 @@ export default function PageLayout({ children, adKeyPrefix = "quiz", minHeight, 
           </p>
         </header>
 
+        {/* スキルクイズのタブ - 広告の上に配置 */}
+        {showSkillTabs && <SkillQuizTabs />}
+
         <div className="flex flex-col lg:flex-row gap-4 lg:gap-6">
           {/* 左側の広告（デスクトップ） / 上部広告（モバイル） */}
           <div className="lg:w-64 flex-shrink-0 order-1 lg:order-1">
@@ -53,9 +56,6 @@ export default function PageLayout({ children, adKeyPrefix = "quiz", minHeight, 
 
           {/* メインコンテンツ */}
           <div className="flex-1 max-w-4xl order-2 lg:order-2">
-            {/* スキルクイズのタブ */}
-            {showSkillTabs && <SkillQuizTabs />}
-            
             {children}
           </div>
 
