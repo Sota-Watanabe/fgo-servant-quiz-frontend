@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { getClassTypeName } from "@/models/classTypes";
-import QuizLayout from "../../../components/QuizLayout";
+import PageLayout from "@/app/components/PageLayout";
 import { getDisplaySkills } from "@/utils/skillUtils";
 import { useFetchQuizSkill } from "@/hooks/useApi";
 
@@ -25,7 +25,7 @@ export default function SkillQuizPage() {
   const displaySkills = getDisplaySkills(quizData?.skills);
 
   return (
-    <QuizLayout adKeyPrefix={questionCount.toString()}>
+    <PageLayout adKeyPrefix={questionCount.toString()} showSkillTabs={true}>
       {/* クイズエリア */}
       <main className="bg-white rounded-lg shadow-lg p-4 sm:p-6 mb-6 sm:mb-8">
           <div className="text-center">
@@ -116,6 +116,6 @@ export default function SkillQuizPage() {
             )}
           </div>
         </main>
-    </QuizLayout>
+    </PageLayout>
   );
 }

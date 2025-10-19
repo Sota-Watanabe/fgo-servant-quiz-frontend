@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { getClassTypeName } from "@/models/classTypes";
-import QuizLayout from "../../../components/QuizLayout";
-import SearchableSelect from "../../../components/SearchableSelect";
+import PageLayout from "@/app/components/PageLayout";
+import SearchableSelect from "@/app/components/SearchableSelect";
 import { useFetchQuizSkill, useFetchServantsOptions } from "@/hooks/useApi";
 import { getDisplaySkills } from "@/utils/skillUtils";
 
@@ -55,7 +55,7 @@ export default function SkillQuizPage() {
   const displaySkills = getDisplaySkills(quizData?.skills);
 
   return (
-    <QuizLayout adKeyPrefix={questionCount.toString()} minHeight={1200}>
+    <PageLayout adKeyPrefix={questionCount.toString()} minHeight={1200} showSkillTabs={true}>
       {/* クイズエリア */}
       <main className="bg-white rounded-lg shadow-lg p-4 sm:p-6 mb-6 sm:mb-8">
         <div className="text-center">
@@ -201,6 +201,6 @@ export default function SkillQuizPage() {
           )}
         </div>
       </main>
-    </QuizLayout>
+    </PageLayout>
   );
 }

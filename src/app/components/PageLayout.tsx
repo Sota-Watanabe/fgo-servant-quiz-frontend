@@ -1,18 +1,20 @@
 "use client";
 
 import AdBanner from "./AdBanner";
+import SkillQuizTabs from "./SkillQuizTabs";
 
-interface QuizLayoutProps {
+interface PageLayoutProps {
   children: React.ReactNode;
   adKeyPrefix?: string;
   minHeight?: number;
+  showSkillTabs?: boolean;
 }
 
 /**
  * クイズページ用の3カラムレイアウトコンポーネント
  * 左右に広告、中央にメインコンテンツを配置
  */
-export default function QuizLayout({ children, adKeyPrefix = "quiz", minHeight }: QuizLayoutProps) {
+export default function PageLayout({ children, adKeyPrefix = "quiz", minHeight, showSkillTabs = false }: PageLayoutProps) {
   return (
     <div 
       className="bg-gradient-to-br from-blue-50 to-indigo-100 py-4 sm:py-8 px-2 sm:px-4 pb-20"
@@ -47,6 +49,9 @@ export default function QuizLayout({ children, adKeyPrefix = "quiz", minHeight }
 
           {/* メインコンテンツ */}
           <div className="flex-1 max-w-4xl order-2 lg:order-2">
+            {/* スキルクイズのタブ */}
+            {showSkillTabs && <SkillQuizTabs />}
+            
             {children}
           </div>
 
