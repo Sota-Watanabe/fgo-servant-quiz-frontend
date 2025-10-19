@@ -6,7 +6,7 @@ import PageLayout from "@/app/components/PageLayout";
 import { getDisplaySkills } from "@/utils/skillUtils";
 import { useFetchQuizSkill } from "@/hooks/useApi";
 
-export default function SkillQuizPage() {
+export default function ProfileQuizPage() {
   const [showAnswer, setShowAnswer] = useState(false);
   const [questionCount, setQuestionCount] = useState(0);
 

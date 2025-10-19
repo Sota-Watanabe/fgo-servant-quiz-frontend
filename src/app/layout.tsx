@@ -4,6 +4,7 @@ import "./globals.css";
 import QueryProvider from "./components/QueryProvider";
 import GoogleAnalytics from "./components/GoogleAnalytics";
 import Script from "next/script";
+import GlobalNav from "./components/GlobalNav";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -49,6 +50,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <QueryProvider>
+          <GlobalNav />
           {children}
         </QueryProvider>
       </body>

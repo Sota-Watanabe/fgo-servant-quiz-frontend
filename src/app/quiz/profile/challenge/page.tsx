@@ -7,7 +7,7 @@ import SearchableSelect from "@/app/components/SearchableSelect";
 import { useFetchQuizSkill, useFetchServantsOptions } from "@/hooks/useApi";
 import { getDisplaySkills } from "@/utils/skillUtils";
 
-export default function SkillQuizPage() {
+export default function ProfileQuizPage() {
   const [showAnswer, setShowAnswer] = useState(false);
   const [questionCount, setQuestionCount] = useState(0);
   const [selectedServantId, setSelectedServantId] = useState<number | null>(

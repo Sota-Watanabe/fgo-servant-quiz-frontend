@@ -1,7 +1,6 @@
 "use client";
 
 import AdBanner from "./AdBanner";
-import SkillQuizTabs from "./SkillQuizTabs";
 import Footer from "./Footer";
 
 interface PageLayoutProps {
@@ -15,12 +14,16 @@ interface PageLayoutProps {
  * クイズページ用の3カラムレイアウトコンポーネント
  * 左右に広告、中央にメインコンテンツを配置
  */
-export default function PageLayout({ children, adKeyPrefix = "quiz", minHeight, showSkillTabs = false }: PageLayoutProps) {
+export default function PageLayout({
+  children,
+  adKeyPrefix = "quiz",
+  minHeight,
+}: PageLayoutProps) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex flex-col">
-      <div 
+      <div
         className="flex-1 py-4 sm:py-8 px-2 sm:px-4"
-        style={{ minHeight: minHeight ? `${minHeight}px` : 'auto' }}
+        style={{ minHeight: minHeight ? `${minHeight}px` : "auto" }}
       >
         <div className="max-w-7xl mx-auto">
           {/* ヘッダー */}
@@ -37,9 +40,6 @@ export default function PageLayout({ children, adKeyPrefix = "quiz", minHeight, 
             </p>
           </header>
 
-          {/* スキルクイズのタブ - 広告の上に配置 */}
-          {showSkillTabs && <SkillQuizTabs />}
-
           <div className="flex flex-col lg:flex-row gap-4 lg:gap-6">
             {/* 左側の広告（デスクトップ） / 上部広告（モバイル） */}
             <div className="lg:w-64 flex-shrink-0 order-1 lg:order-1">
@@ -47,10 +47,10 @@ export default function PageLayout({ children, adKeyPrefix = "quiz", minHeight, 
                 <AdBanner
                   adKey={`ad-left-${adKeyPrefix}`}
                   adSlot="2934488082"
-                  style={{ 
-                    display: "block", 
+                  style={{
+                    display: "block",
                     minHeight: "100px",
-                    width: "100%" 
+                    width: "100%",
                   }}
                 />
               </div>
@@ -67,10 +67,10 @@ export default function PageLayout({ children, adKeyPrefix = "quiz", minHeight, 
                 <AdBanner
                   adKey={`ad-right-${adKeyPrefix}`}
                   adSlot="2934488082"
-                  style={{ 
-                    display: "block", 
+                  style={{
+                    display: "block",
                     minHeight: "100px",
-                    width: "100%" 
+                    width: "100%",
                   }}
                 />
               </div>
@@ -78,7 +78,7 @@ export default function PageLayout({ children, adKeyPrefix = "quiz", minHeight, 
           </div>
         </div>
       </div>
-      
+
       {/* フッター */}
       <Footer />
     </div>
