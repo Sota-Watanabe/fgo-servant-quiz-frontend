@@ -19,6 +19,15 @@ export default function PageLayout({
   adKeyPrefix = "quiz",
   minHeight,
 }: PageLayoutProps) {
+  const isDev = process.env.NODE_ENV !== "production";
+  const adStyle = {
+    display: "block",
+    minHeight: "800px",
+    width: "100%",
+    border: "2px dashed #a5b4fc",
+    background: isDev ? "#eef2ff" : undefined,
+    borderRadius: "0.5rem",
+  };
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex flex-col">
       <div
@@ -44,15 +53,17 @@ export default function PageLayout({
             {/* 左側の広告（デスクトップ） / 上部広告（モバイル） */}
             <div className="lg:w-64 flex-shrink-0 order-1 lg:order-1">
               <div className="lg:sticky lg:top-4">
-                <AdBanner
-                  adKey={`ad-left-${adKeyPrefix}`}
-                  adSlot="2934488082"
-                  style={{
-                    display: "block",
-                    minHeight: "100px",
-                    width: "100%",
-                  }}
-                />
+                {isDev ? (
+                  <div style={adStyle} className="flex items-center justify-center text-indigo-400 text-xs h-[200px]">
+                    広告枠（開発環境）
+                  </div>
+                ) : (
+                  <AdBanner
+                    adKey={`ad-left-${adKeyPrefix}`}
+                    adSlot="2934488082"
+                    style={adStyle}
+                  />
+                )}
               </div>
             </div>
 
@@ -64,15 +75,17 @@ export default function PageLayout({
             {/* 右側の広告（デスクトップ） / 下部広告（モバイル） */}
             <div className="lg:w-64 flex-shrink-0 order-3 lg:order-3">
               <div className="lg:sticky lg:top-4">
-                <AdBanner
-                  adKey={`ad-right-${adKeyPrefix}`}
-                  adSlot="2934488082"
-                  style={{
-                    display: "block",
-                    minHeight: "100px",
-                    width: "100%",
-                  }}
-                />
+                {isDev ? (
+                  <div style={adStyle} className="flex items-center justify-center text-indigo-400 text-xs h-[200px]">
+                    広告枠（開発環境）
+                  </div>
+                ) : (
+                  <AdBanner
+                    adKey={`ad-right-${adKeyPrefix}`}
+                    adSlot="2934488082"
+                    style={adStyle}
+                  />
+                )}
               </div>
             </div>
           </div>

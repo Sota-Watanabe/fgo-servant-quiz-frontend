@@ -29,7 +29,6 @@ export default function AdSense({
     const loadAd = () => {
       try {
         if (typeof window !== "undefined" && adRef.current && !isLoaded) {
-          console.log("AdSense: 初期化を試行中...", { adSlot });
           
           // 既に data-adsbygoogle-status が設定されている場合は削除
           if (adRef.current.hasAttribute('data-adsbygoogle-status')) {
@@ -44,7 +43,6 @@ export default function AdSense({
           // 広告をプッシュ
           window.adsbygoogle.push({});
           setIsLoaded(true);
-          console.log("AdSense: 広告をプッシュしました");
         }
       } catch (error) {
         console.error("AdSense error:", error);
