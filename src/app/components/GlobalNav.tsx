@@ -1,5 +1,4 @@
 "use client";
-
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -7,50 +6,89 @@ import { usePathname } from "next/navigation";
  * グローバルナビゲーション
  * 4つのクイズページへのリンク
  */
+
+/**
+ * グローバルナビゲーション
+ * 4つのクイズページへのリンク
+ */
 export default function GlobalNav() {
   const pathname = usePathname();
-
   const navLinks = [
     {
-      label: "スキル（フリクエ）",
+      label: "スキル 90+",
       href: "/quiz/skill/practice",
-      color: "blue",
     },
     {
-      label: "スキル（高難易度）",
+      label: "スキル 90++",
       href: "/quiz/skill/challenge",
-      color: "blue",
     },
     {
-      label: "プロフィール（フリクエ）",
+      label: "プロフィール 90+",
       href: "/quiz/profile/practice",
-      color: "purple",
     },
     {
-      label: "プロフィール（高難易度）",
+      label: "ボイス 90++",
       href: "/quiz/profile/challenge",
-      color: "purple",
     },
   ];
 
   return (
-    <nav className="w-full flex justify-center gap-2 sm:gap-4 py-3 bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 shadow-sm mb-8 rounded-b-xl">
+  <nav className="w-full flex justify-center gap-6 pt-6 pb-2">
       {navLinks.map((link) => {
         const isActive = pathname === link.href;
-        const activeClass =
-          link.color === "blue"
-            ? "bg-blue-600 text-white shadow"
-            : "bg-purple-600 text-white shadow";
         return (
           <Link
             key={link.href}
             href={link.href}
-            className={`px-3 sm:px-6 py-2 rounded-lg font-semibold text-sm sm:text-base transition-colors duration-150 border border-transparent hover:border-indigo-300 hover:bg-indigo-100 hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-300 ${
-              isActive ? activeClass : "bg-white text-gray-700"
-            }`}
             prefetch={false}
+            className="relative"
           >
-            {link.label}
+            <button
+              className={`relative w-[330px] h-[68px] rounded-[4px] overflow-hidden shadow-[0_3px_6px_rgba(0,0,0,0.25)] border border-[#b3d1ff] bg-[#f9fbfd] flex flex-col justify-center items-center select-none transition-all hover:brightness-105 active:translate-y-[1px] opacity-95 hover:cursor-pointer`}
+              style={{
+                background:
+                  "linear-gradient(180deg, #ffffff 0%, #f5f8fb 60%, #e0e6ef 100%)",
+              }}
+              tabIndex={0}
+              aria-current={isActive ? "page" : undefined}
+              type="button"
+              disabled={isActive}
+            >
+              {/* 上部の光沢SVG */}
+              <svg
+                className="absolute top-0 left-0 w-full h-full pointer-events-none"
+                viewBox="0 0 330 68"
+                preserveAspectRatio="none"
+              >
+                <path
+                  d="M0,8 Q165,-10 330,8 L330,68 L0,68 Z"
+                  fill="url(#shine)"
+                />
+                <defs>
+                  <linearGradient id="shine" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="rgba(255,255,255,0.7)" />
+                    <stop offset="40%" stopColor="rgba(255,255,255,0.2)" />
+                    <stop offset="100%" stopColor="transparent" />
+                  </linearGradient>
+                </defs>
+              </svg>
+
+              {/* メインテキスト */}
+              <div className="z-10 text-[20px] font-bold text-[#222] drop-shadow-[0_1px_1px_rgba(255,255,255,0.9)]">
+                {link.label}
+              </div>
+
+              {/* 下部グラデーションバー */}
+              <div
+                className="absolute bottom-0 left-0 right-0 h-[8px] flex items-center justify-center text-[8px] font-semibold text-white uppercase tracking-widest shadow-[inset_0_1px_2px_rgba(255,255,255,0.4)]"
+                style={{
+                  marginBottom: "8px",
+                  background: "linear-gradient(90deg, rgba(60,120,255,0) 0%, rgba(60,120,255,0) 12.5%, #2563eb 37.5%, #2563eb 62.5%, rgba(60,120,255,0) 87.5%, rgba(60,120,255,0) 100%)"
+                }}
+              >
+                {link.label.includes("高難易度") ? "CHALLENGE" : "PRACTICE"}
+              </div>
+            </button>
           </Link>
         );
       })}
