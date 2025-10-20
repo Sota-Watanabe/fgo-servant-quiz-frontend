@@ -23,11 +23,11 @@ export default function GlobalNav() {
       href: "/quiz/skill/challenge",
     },
     {
-      label: "プロフィール 90+",
+      label: "未実装",
       href: "/quiz/profile/practice",
     },
     {
-      label: "ボイス 90++",
+      label: "未実装",
       href: "/quiz/profile/challenge",
     },
   ];
