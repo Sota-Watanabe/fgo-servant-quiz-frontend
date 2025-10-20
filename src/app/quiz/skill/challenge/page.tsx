@@ -15,8 +15,11 @@ export default function SkillQuizPage() {
   );
   const [isAnswerChecked, setIsAnswerChecked] = useState(false);
 
+  // ページ名（skill-challenge）+クエスチョン番号でキーを生成
+  const pageKey = `skill-challenge-${questionCount}`;
+
   const { data: quizData, isFetching: quizFetching } =
-    useFetchQuizSkill(questionCount);
+    useFetchQuizSkill(pageKey);
 
   const { data: optionData, isFetching: optionFetching } =
     useFetchServantsOptions();
@@ -31,6 +34,8 @@ export default function SkillQuizPage() {
     setSelectedServantId(null); // 選択をリセット
     setIsAnswerChecked(false); // 答えチェック状態をリセット
     setQuestionCount((prev) => prev + 1); // questionCountを更新して新しいクエリとして認識させる
+    // ページ上部へスクロール
+    window.scrollTo({ top: 0 });
   };
 
   // 答えを確認する関数
@@ -55,7 +60,11 @@ export default function SkillQuizPage() {
   const displaySkills = getDisplaySkills(quizData?.skills);
 
   return (
-    <PageLayout adKeyPrefix={questionCount.toString()} minHeight={1200} showSkillTabs={true}>
+    <PageLayout
+      adKeyPrefix={questionCount.toString()}
+      minHeight={1200}
+      showSkillTabs={true}
+    >
       {/* クイズエリア */}
       <main className="bg-white rounded-lg shadow-lg p-4 sm:p-6 mb-6 sm:mb-8">
         <div className="text-center">
@@ -110,14 +119,18 @@ export default function SkillQuizPage() {
                   <button
                     onClick={handleCheckAnswer}
                     disabled={
-                      selectedServantId === null || 
-                      isFetching || 
-                      (isAnswerChecked && quizData && selectedServantId !== quizData.id)
+                      selectedServantId === null ||
+                      isFetching ||
+                      (isAnswerChecked &&
+                        quizData &&
+                        selectedServantId !== quizData.id)
                     }
                     className={`flex-1 font-semibold py-2 px-4 rounded-lg transition-colors text-sm sm:text-base text-white ${
                       selectedServantId === null || isFetching
                         ? "bg-gray-400 cursor-not-allowed"
-                        : isAnswerChecked && quizData && selectedServantId !== quizData.id
+                        : isAnswerChecked &&
+                          quizData &&
+                          selectedServantId !== quizData.id
                         ? "bg-gray-400 cursor-default"
                         : "bg-blue-600 hover:bg-blue-700"
                     }`}
@@ -182,7 +195,9 @@ export default function SkillQuizPage() {
                     onClick={handleNextQuestion}
                     className="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors text-sm sm:text-base"
                   >
-                    {selectedServantId === quizData.id ? "次の問題" : "この問題をスキップ"}
+                    {selectedServantId === quizData.id
+                      ? "次の問題"
+                      : "この問題をスキップ"}
                   </button>
                 </div>
               )}

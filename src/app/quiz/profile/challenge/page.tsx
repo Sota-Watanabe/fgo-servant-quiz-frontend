@@ -10,13 +10,14 @@ import { getDisplaySkills } from "@/utils/skillUtils";
 export default function ProfileQuizPage() {
   const [showAnswer, setShowAnswer] = useState(false);
   const [questionCount, setQuestionCount] = useState(0);
-  const [selectedServantId, setSelectedServantId] = useState<number | null>(
-    null
-  );
+  const [selectedServantId, setSelectedServantId] = useState<number | null>(null);
   const [isAnswerChecked, setIsAnswerChecked] = useState(false);
 
+  // ページ名（profile-challenge）+クエスチョン番号でキーを生成
+  const pageKey = `profile-challenge-${questionCount}`;
+
   const { data: quizData, isFetching: quizFetching } =
-    useFetchQuizSkill(questionCount);
+    useFetchQuizSkill(pageKey);
 
   const { data: optionData, isFetching: optionFetching } =
     useFetchServantsOptions();
@@ -27,10 +28,12 @@ export default function ProfileQuizPage() {
 
   // 次の問題を取得する関数
   const handleNextQuestion = async () => {
-    setShowAnswer(false); // 答えを非表示にする
-    setSelectedServantId(null); // 選択をリセット
-    setIsAnswerChecked(false); // 答えチェック状態をリセット
-    setQuestionCount((prev) => prev + 1); // questionCountを更新して新しいクエリとして認識させる
+  setShowAnswer(false); // 答えを非表示にする
+  setSelectedServantId(null); // 選択をリセット
+  setIsAnswerChecked(false); // 答えチェック状態をリセット
+  setQuestionCount((prev) => prev + 1); // questionCountを更新して新しいクエリとして認識させる
+  // ページ上部へスクロール
+  window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   // 答えを確認する関数

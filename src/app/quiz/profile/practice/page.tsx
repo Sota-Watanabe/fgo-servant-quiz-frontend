@@ -10,15 +10,20 @@ export default function ProfileQuizPage() {
   const [showAnswer, setShowAnswer] = useState(false);
   const [questionCount, setQuestionCount] = useState(0);
 
+  // ページ名（profile-practice）+クエスチョン番号でキーを生成
+  const pageKey = `profile-practice-${questionCount}`;
+
   const {
     data: quizData,
     isFetching: loading,
-  } = useFetchQuizSkill(questionCount);
+  } = useFetchQuizSkill(pageKey);
 
   // 次の問題を取得する関数
   const handleNextQuestion = async () => {
-    setShowAnswer(false); // 答えを非表示にする
-    setQuestionCount((prev) => prev + 1); // questionCountを更新して新しいクエリとして認識させる
+  setShowAnswer(false); // 答えを非表示にする
+  setQuestionCount((prev) => prev + 1); // questionCountを更新して新しいクエリとして認識させる
+  // ページ上部へスクロール
+  window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   // 表示用のスキルデータを定義

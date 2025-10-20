@@ -11,15 +11,15 @@ type SkillQuizResponse = components["schemas"]["ServantDetailGetResponseDto"];
 
 /**
  * スキルクイズデータを取得するカスタムフック
- * @param questionCount - 質問数（クエリキーに使用）
+ * @param key - クエリキー（ページ名+questionCountなど）
  * @param options - React Queryのオプション
  */
 export const useFetchQuizSkill = (
-  questionCount: number = 0,
+  key: string = "skill-practice-0",
   options?: Omit<UseQueryOptions<SkillQuizResponse, ApiError>, 'queryKey' | 'queryFn'>
 ) => {
   return useQuery({
-    queryKey: [API_ENDPOINTS.QUIZ_SKILL, questionCount],
+    queryKey: [API_ENDPOINTS.QUIZ_SKILL, key],
     queryFn: () => apiClient<SkillQuizResponse>(API_ENDPOINTS.QUIZ_SKILL),
     ...options,
   });
