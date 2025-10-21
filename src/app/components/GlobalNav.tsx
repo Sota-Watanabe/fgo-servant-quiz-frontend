@@ -33,7 +33,7 @@ export default function GlobalNav() {
   ];
 
   return (
-  <nav className="w-full flex justify-center gap-6 pt-6 pb-2">
+  <nav className="w-full flex flex-col items-stretch gap-3 pt-6 pb-2 sm:flex-row sm:items-center sm:justify-center sm:gap-6">
       {navLinks.map((link) => {
         const isActive = pathname === link.href;
         return (
@@ -44,7 +44,7 @@ export default function GlobalNav() {
             className="relative"
           >
             <button
-              className={`relative w-[330px] h-[68px] rounded-[4px] overflow-hidden shadow-[0_3px_6px_rgba(0,0,0,0.25)] border border-[#b3d1ff] bg-[#f9fbfd] flex flex-col justify-center items-center select-none transition-all hover:brightness-105 active:translate-y-[1px] opacity-95 hover:cursor-pointer`}
+              className={`relative w-full min-h-[56px] rounded-[4px] overflow-hidden shadow-[0_3px_6px_rgba(0,0,0,0.25)] border border-[#b3d1ff] bg-[#f9fbfd] flex flex-col justify-center items-center select-none transition-all hover:brightness-105 active:translate-y-[1px] opacity-95 hover:cursor-pointer sm:w-[280px] sm:min-h-[68px] lg:w-[330px]`}
               style={{
                 background:
                   "linear-gradient(180deg, #ffffff 0%, #f5f8fb 60%, #e0e6ef 100%)",
@@ -74,13 +74,13 @@ export default function GlobalNav() {
               </svg>
 
               {/* メインテキスト */}
-              <div className="z-10 text-[20px] font-bold text-[#222] drop-shadow-[0_1px_1px_rgba(255,255,255,0.9)]">
+              <div className="z-10 text-[18px] font-bold text-[#222] drop-shadow-[0_1px_1px_rgba(255,255,255,0.9)] sm:text-[20px]">
                 {link.label}
               </div>
 
               {/* 下部グラデーションバー */}
               <div
-                className="absolute bottom-0 left-0 right-0 h-[8px] flex items-center justify-center text-[8px] font-semibold text-white uppercase tracking-widest shadow-[inset_0_1px_2px_rgba(255,255,255,0.4)]"
+                className="absolute bottom-0 left-0 right-0 h-[8px] flex items-center justify-center text-[7px] font-semibold text-white uppercase tracking-widest shadow-[inset_0_1px_2px_rgba(255,255,255,0.4)] sm:text-[8px]"
                 style={{
                   marginBottom: "8px",
                   background: "linear-gradient(90deg, rgba(60,120,255,0) 0%, rgba(60,120,255,0) 12.5%, #2563eb 37.5%, #2563eb 62.5%, rgba(60,120,255,0) 87.5%, rgba(60,120,255,0) 100%)"
