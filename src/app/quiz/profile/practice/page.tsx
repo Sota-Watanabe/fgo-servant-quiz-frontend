@@ -1,11 +1,15 @@
 "use client";
 
+import { useFetchQuizProfile } from "@/hooks/useApi";
 import { useState } from "react";
 import PageLayout from "@/app/components/PageLayout";
 import { getClassTypeName } from "@/models/classTypes";
-import { useFetchQuizProfile } from "@/hooks/useApi";
+import ProfileSection from "./components/ProfileSection";
+import StatusSection from "./components/StatusSection";
+import RelatedInfoSection from "./components/RelatedInfoSection";
 
 type ProfileStats = Record<string, string | number | null | undefined>;
+type MetadataEntry = { label: string; value: string | number };
 
 const statLabelMap: Record<string, string> = {
   strength: "筋力",
@@ -49,9 +53,12 @@ export default function ProfileQuizPage() {
     .filter(
       ([, value]) => value !== null && value !== undefined && value !== ""
     )
-    .map(
-      ([key, value]) => [key, value as string | number] as const
-    );
+    .map(([key, value]) => [key, value as string | number] as const);
+  const statEntries = filteredStatEntries.map(([key, value]) => ({
+    key,
+    label: formatStatLabel(key),
+    value,
+  }));
 
   const rawBaseProfile = quizData?.baseProfile;
   const baseProfileComment = rawBaseProfile?.comment?.trim();
@@ -65,16 +72,30 @@ export default function ProfileQuizPage() {
         }
       : null;
 
-  const hasProfileContent = !!baseProfile || filteredStatEntries.length > 0;
+  const hasProfileContent =
+    !!baseProfile || statEntries.length > 0 || metadataEntries.length > 0;
 
-  const metadataEntries = quizData
+  const metadataEntries: MetadataEntry[] = quizData
     ? [
-        { label: "CV", value: quizData.cv },
-        { label: "イラストレーター", value: quizData.illustrator },
-      ].filter(
-        ({ value }) =>
-          value !== undefined && value !== null && `${value}`.trim().length > 0
-      )
+        {
+          label: "CV",
+          value: quizData.cv,
+        },
+        {
+          label: "イラストレーター",
+          value: quizData.illustrator,
+        },
+      ]
+        .filter(
+          ({ value }) =>
+            value !== undefined &&
+            value !== null &&
+            `${value}`.trim().length > 0
+        )
+        .map(({ label, value }) => ({
+          label,
+          value: value as string | number,
+        }))
     : [];
 
   const answerHighlightEntries = metadataEntries.filter(
@@ -126,73 +147,15 @@ export default function ProfileQuizPage() {
                 ) : (
                   <div className="space-y-6 sm:space-y-7">
                     {baseProfile && (
-                      <section className="relative overflow-hidden rounded-2xl border border-sky-100 bg-gradient-to-br from-white via-sky-50/70 to-blue-50/60 p-5 sm:p-6 shadow-sm">
-                        <div
-                          aria-hidden="true"
-                          className="absolute inset-y-0 right-0 h-full w-24 bg-sky-100/30 blur-2xl"
-                        />
-                        <div className="relative space-y-3">
-                          <div className="flex flex-wrap items-center gap-2">
-                            <h3 className="text-sm sm:text-base font-semibold text-sky-900">
-                              プロフィール
-                            </h3>
-                            {baseProfile.condMessage && (
-                              <span className="inline-flex items-center rounded-full bg-sky-200 px-3 py-1 text-[11px] font-semibold tracking-wide text-sky-800">
-                                {baseProfile.condMessage}
-                              </span>
-                            )}
-                          </div>
-                          <p className="text-sm sm:text-base leading-relaxed text-gray-800">
-                            {baseProfile.comment}
-                          </p>
-                        </div>
-                      </section>
+                      <ProfileSection baseProfile={baseProfile} />
                     )}
 
-                    {filteredStatEntries.length > 0 && (
-                      <section className="rounded-2xl border border-indigo-100 bg-gradient-to-br from-indigo-50/70 via-white to-sky-50/60 p-4 sm:p-5 shadow-sm">
-                        <h3 className="text-sm sm:text-base font-semibold text-indigo-900">
-                          ステータス
-                        </h3>
-                        <dl className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">
-                          {filteredStatEntries.map(([key, value]) => (
-                            <div
-                              key={key}
-                              className="rounded-xl border border-indigo-100 bg-white/70 px-3 py-3 text-center"
-                            >
-                              <dt className="text-xs font-medium uppercase tracking-wide text-indigo-600">
-                                {formatStatLabel(key)}
-                              </dt>
-                              <dd className="mt-1 text-base font-bold text-gray-900">
-                                {value}
-                              </dd>
-                            </div>
-                          ))}
-                        </dl>
-                      </section>
+                    {statEntries.length > 0 && (
+                      <StatusSection entries={statEntries} />
                     )}
 
                     {metadataEntries.length > 0 && (
-                      <section className="rounded-2xl border border-amber-100 bg-gradient-to-br from-amber-50 via-white to-orange-50/70 p-4 sm:p-5 shadow-sm">
-                        <h3 className="text-sm sm:text-base font-semibold text-amber-900">
-                          関連情報
-                        </h3>
-                        <dl className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
-                          {metadataEntries.map(({ label, value }) => (
-                            <div
-                              key={label}
-                              className="rounded-xl border border-amber-100 bg-white/70 px-3 py-3 text-center"
-                            >
-                              <dt className="text-xs font-medium uppercase tracking-wide text-amber-600">
-                                {label}
-                              </dt>
-                              <dd className="mt-1 text-sm sm:text-base font-semibold text-gray-900">
-                                {value}
-                              </dd>
-                            </div>
-                          ))}
-                        </dl>
-                      </section>
+                      <RelatedInfoSection entries={metadataEntries} />
                     )}
                   </div>
                 )}
