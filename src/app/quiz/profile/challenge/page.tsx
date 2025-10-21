@@ -55,7 +55,7 @@ export default function ProfileQuizPage() {
   };
 
   // 表示用のスキルデータを定義
-  const displaySkills = getDisplaySkills(quizData?.skills);
+  // const displaySkills = getDisplaySkills(quizData?.skills);
 
   return (
     <PageLayout adKeyPrefix={questionCount.toString()} minHeight={1200} showSkillTabs={true}>
@@ -79,7 +79,7 @@ export default function ProfileQuizPage() {
                 このプロフィールを持つサーヴァントは？
               </h2>
               <div className="space-y-3 sm:space-y-4 mb-4 sm:mb-6">
-                {displaySkills.map((skill, index) => (
+                {/* {displaySkills.map((skill, index) => (
                   <div key={index} className="bg-blue-50 rounded-lg p-4 sm:p-6">
                     <h3 className="text-base sm:text-lg font-bold text-blue-800 mb-2 sm:mb-3">
                       スキル{index + 1}: {skill.name}
@@ -93,7 +93,7 @@ export default function ProfileQuizPage() {
                       {skill.detail || "スキル詳細が読み込まれていません"}
                     </p>
                   </div>
-                ))}
+                ))} */}
               </div>
 
               {/* 答え選択セクション */}
