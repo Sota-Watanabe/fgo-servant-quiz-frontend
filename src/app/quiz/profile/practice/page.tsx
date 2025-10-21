@@ -39,7 +39,7 @@ export default function ProfileQuizPage() {
   const pageKey = `profile-practice-${questionCount}`;
 
   const { data: quizData, isFetching: loading } = useFetchQuizProfile(pageKey);
-
+  // if (!quizData) return;
   // 次の問題を取得する関数
   const handleNextQuestion = async () => {
     setShowAnswer(false); // 答えを非表示にする
@@ -72,9 +72,6 @@ export default function ProfileQuizPage() {
         }
       : null;
 
-  const hasProfileContent =
-    !!baseProfile || statEntries.length > 0 || metadataEntries.length > 0;
-
   const metadataEntries: MetadataEntry[] = quizData
     ? [
         {
@@ -97,6 +94,9 @@ export default function ProfileQuizPage() {
           value: value as string | number,
         }))
     : [];
+
+  const hasProfileContent =
+    !!baseProfile || statEntries.length > 0 || metadataEntries.length > 0;
 
   const answerHighlightEntries = metadataEntries.filter(
     ({ label }) => label === "CV" || label === "イラストレーター"

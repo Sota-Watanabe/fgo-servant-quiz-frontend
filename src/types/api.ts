@@ -210,6 +210,53 @@ export interface components {
             /** @description スキル一覧 */
             skills: components["schemas"]["Skill"][];
         };
+        ServantProfileStatsDto: {
+            /**
+             * @description 筋力
+             * @example C
+             */
+            strength: string;
+            /**
+             * @description 耐久
+             * @example C
+             */
+            endurance: string;
+            /**
+             * @description 敏捷
+             * @example B
+             */
+            agility: string;
+            /**
+             * @description 魔力
+             * @example D
+             */
+            magic: string;
+            /**
+             * @description 幸運
+             * @example A-
+             */
+            luck: string;
+            /**
+             * @description 宝具
+             * @example EX
+             */
+            np: string;
+            /**
+             * @description 属性
+             * @example neutral
+             */
+            policy: string;
+            /**
+             * @description 性格
+             * @example balanced
+             */
+            personality: string;
+            /**
+             * @description 神性
+             * @example B-
+             */
+            deity: string;
+        };
         ProfileCommentDto: {
             /**
              * @description コメントID
@@ -283,21 +330,8 @@ export interface components {
              * @example pako
              */
             illustrator: string;
-            /**
-             * @description ステータス情報
-             * @example {
-             *       "strength": "C",
-             *       "endurance": "C",
-             *       "agility": "B",
-             *       "magic": "D",
-             *       "luck": "A-",
-             *       "np": "EX",
-             *       "policy": "neutral",
-             *       "personality": "balanced",
-             *       "deity": "B-"
-             *     }
-             */
-            stats: Record<string, never>;
+            /** @description ステータス情報 */
+            stats: components["schemas"]["ServantProfileStatsDto"];
             /** @description プロフィール基本情報（最初のコメント） */
             baseProfile: components["schemas"]["ProfileCommentDto"] | null;
         };
