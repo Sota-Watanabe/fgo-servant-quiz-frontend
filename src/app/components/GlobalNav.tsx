@@ -17,18 +17,22 @@ export default function GlobalNav() {
     {
       label: "スキル 90+",
       href: "/quiz/skill/practice",
+      subLabel: "PRACTICE",
     },
     {
       label: "スキル 90++",
       href: "/quiz/skill/challenge",
+      subLabel: "CHALLENGE",
     },
     {
-      label: "未実装",
+      label: "プロフィール",
       href: "/quiz/profile/practice",
+      subLabel: "PRACTICE",
     },
     {
       label: "未実装",
       href: "/quiz/profile/challenge",
+      subLabel: "CHALLENGE",
     },
   ];
 
@@ -86,7 +90,7 @@ export default function GlobalNav() {
                   background: "linear-gradient(90deg, rgba(60,120,255,0) 0%, rgba(60,120,255,0) 12.5%, #2563eb 37.5%, #2563eb 62.5%, rgba(60,120,255,0) 87.5%, rgba(60,120,255,0) 100%)"
                 }}
               >
-                {link.label.includes("高難易度") ? "CHALLENGE" : "PRACTICE"}
+                {link.subLabel}
               </div>
             </button>
           </Link>

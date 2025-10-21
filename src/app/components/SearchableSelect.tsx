@@ -27,6 +27,9 @@ export default function SearchableSelect({
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  const toCaseFold = (text: string) =>
+    text.normalize("NFKC").toLocaleLowerCase("en-US");
+
   // 選択されたサーヴァントを取得
   const selectedServant = options.find((option) => option.id === value);
 
@@ -46,11 +49,11 @@ export default function SearchableSelect({
 
   // 検索でフィルタリングされた選択肢
   const filteredOptions = options.filter((option) => {
-    const searchLower = searchTerm.toLowerCase();
+    const searchLower = toCaseFold(searchTerm);
     
     // 検索対象のテキストを正規化（・を含む部分マッチング対応）
     const normalizeText = (text: string) => {
-      return text.toLowerCase()
+      return toCaseFold(text)
         .replace(/・/g, '') // 中黒を削除
         .replace(/\s+/g, ''); // 空白を削除
     };
@@ -71,9 +74,9 @@ export default function SearchableSelect({
     
     return (
       // 元の検索（完全一致優先）
-      option.name.toLowerCase().includes(searchLower) ||
+      toCaseFold(option.name).includes(searchLower) ||
       (option.originalOverwriteName && 
-       option.originalOverwriteName.toLowerCase().includes(searchLower)) ||
+       toCaseFold(option.originalOverwriteName).includes(searchLower)) ||
       // 正規化された検索（・や空白を無視した部分マッチ）
       normalizedName.includes(normalizedSearch) ||
       (normalizedOriginalName && normalizedOriginalName.includes(normalizedSearch)) ||

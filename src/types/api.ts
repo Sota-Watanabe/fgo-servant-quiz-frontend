@@ -259,6 +259,21 @@ export interface components {
              */
             originalName: string;
             /**
+             * @description フリガナ
+             * @example さかもとりょうま
+             */
+            ruby: string;
+            /**
+             * @description クラスID
+             * @example 5
+             */
+            classId: number;
+            /**
+             * @description レアリティ
+             * @example 4
+             */
+            rarity: number;
+            /**
              * @description 声優
              * @example 加瀬康之＆堀江由衣
              */
@@ -283,8 +298,8 @@ export interface components {
              *     }
              */
             stats: Record<string, never>;
-            /** @description プロフィールコメント */
-            comments: components["schemas"]["ProfileCommentDto"][];
+            /** @description プロフィール基本情報（最初のコメント） */
+            baseProfile: components["schemas"]["ProfileCommentDto"] | null;
         };
         ServantsOptions: {
             /**

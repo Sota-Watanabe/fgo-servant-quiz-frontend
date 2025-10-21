@@ -4,7 +4,7 @@ import { useState } from "react";
 import { getClassTypeName } from "@/models/classTypes";
 import PageLayout from "@/app/components/PageLayout";
 import SearchableSelect from "@/app/components/SearchableSelect";
-import { useFetchQuizSkill, useFetchServantsOptions } from "@/hooks/useApi";
+import { useFetchQuizProfile, useFetchServantsOptions } from "@/hooks/useApi";
 import { getDisplaySkills } from "@/utils/skillUtils";
 
 export default function ProfileQuizPage() {
@@ -17,7 +17,7 @@ export default function ProfileQuizPage() {
   const pageKey = `profile-challenge-${questionCount}`;
 
   const { data: quizData, isFetching: quizFetching } =
-    useFetchQuizSkill(pageKey);
+    useFetchQuizProfile(pageKey);
 
   const { data: optionData, isFetching: optionFetching } =
     useFetchServantsOptions();
@@ -76,7 +76,7 @@ export default function ProfileQuizPage() {
           ) : quizData ? (
             <>
               <h2 className="text-lg sm:text-2xl font-semibold text-gray-800 mb-4 sm:mb-6 px-2">
-                このスキルはどのサーヴァントのものでしょう？
+                このプロフィールを持つサーヴァントは？
               </h2>
               <div className="space-y-3 sm:space-y-4 mb-4 sm:mb-6">
                 {displaySkills.map((skill, index) => (

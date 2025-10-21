@@ -8,6 +8,8 @@ import { components } from "@/types/api";
 // 型のエイリアス
 type ServantsOptionsResponse = components["schemas"]["ServantsOptionsGetResponseDto"];
 type SkillQuizResponse = components["schemas"]["ServantDetailGetResponseDto"];
+type ProfileQuizResponse = components["schemas"]["ServantProfileGetResponseDto"] &
+  components["schemas"]["ServantProfileGetResponseDto"];
 
 /**
  * スキルクイズデータを取得するカスタムフック
@@ -21,6 +23,22 @@ export const useFetchQuizSkill = (
   return useQuery({
     queryKey: [API_ENDPOINTS.QUIZ_SKILL, key],
     queryFn: () => apiClient<SkillQuizResponse>(API_ENDPOINTS.QUIZ_SKILL),
+    ...options,
+  });
+};
+
+/**
+ * プロフィールクイズデータを取得するカスタムフック
+ * @param key - クエリキー（ページ名+questionCountなど）
+ * @param options - React Queryのオプション
+ */
+export const useFetchQuizProfile = (
+  key: string = "profile-practice-0",
+  options?: Omit<UseQueryOptions<ProfileQuizResponse, ApiError>, 'queryKey' | 'queryFn'>
+) => {
+  return useQuery({
+    queryKey: [API_ENDPOINTS.QUIZ_PROFILE, key],
+    queryFn: () => apiClient<ProfileQuizResponse>(API_ENDPOINTS.QUIZ_PROFILE),
     ...options,
   });
 };

@@ -82,7 +82,7 @@ export default function SkillQuizPage() {
           ) : quizData ? (
             <>
               <h2 className="text-lg sm:text-2xl font-semibold text-gray-800 mb-4 sm:mb-6 px-2">
-                このスキルはどのサーヴァントのものでしょう？
+                このスキルを持つサーヴァントは？
               </h2>
               <div className="space-y-3 sm:space-y-4 mb-4 sm:mb-6">
                 {displaySkills.map((skill, index) => (

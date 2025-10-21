@@ -1,10 +1,31 @@
 "use client";
 
 import { useState } from "react";
-import { getClassTypeName } from "@/models/classTypes";
 import PageLayout from "@/app/components/PageLayout";
-import { getDisplaySkills } from "@/utils/skillUtils";
-import { useFetchQuizSkill } from "@/hooks/useApi";
+import { getClassTypeName } from "@/models/classTypes";
+import { useFetchQuizProfile } from "@/hooks/useApi";
+
+type ProfileStats = Record<string, string | number | null | undefined>;
+
+const statLabelMap: Record<string, string> = {
+  strength: "筋力",
+  endurance: "耐久",
+  agility: "敏捷",
+  magic: "魔力",
+  luck: "幸運",
+  np: "宝具",
+  policy: "属性",
+  personality: "性格",
+  deity: "神性",
+};
+
+const formatStatLabel = (key: string) =>
+  statLabelMap[key] ??
+  key
+    .replace(/([A-Z])/g, " $1")
+    .replace(/_/g, " ")
+    .trim()
+    .toUpperCase();
 
 export default function ProfileQuizPage() {
   const [showAnswer, setShowAnswer] = useState(false);
@@ -13,114 +34,247 @@ export default function ProfileQuizPage() {
   // ページ名（profile-practice）+クエスチョン番号でキーを生成
   const pageKey = `profile-practice-${questionCount}`;
 
-  const {
-    data: quizData,
-    isFetching: loading,
-  } = useFetchQuizSkill(pageKey);
+  const { data: quizData, isFetching: loading } = useFetchQuizProfile(pageKey);
 
   // 次の問題を取得する関数
   const handleNextQuestion = async () => {
-  setShowAnswer(false); // 答えを非表示にする
-  setQuestionCount((prev) => prev + 1); // questionCountを更新して新しいクエリとして認識させる
-  // ページ上部へスクロール
-  window.scrollTo({ top: 0, behavior: "smooth" });
+    setShowAnswer(false); // 答えを非表示にする
+    setQuestionCount((prev) => prev + 1); // questionCountを更新して新しいクエリとして認識させる
+    // ページ上部へスクロール
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  // 表示用のスキルデータを定義
-  const displaySkills = getDisplaySkills(quizData?.skills);
+  const stats = (quizData?.stats ?? {}) as ProfileStats;
+  const filteredStatEntries = Object.entries(stats)
+    .filter(
+      ([, value]) => value !== null && value !== undefined && value !== ""
+    )
+    .map(
+      ([key, value]) => [key, value as string | number] as const
+    );
+
+  const rawBaseProfile = quizData?.baseProfile;
+  const baseProfileComment = rawBaseProfile?.comment?.trim();
+  const baseProfileCondMessage = rawBaseProfile?.condMessage?.trim();
+  const baseProfile =
+    rawBaseProfile && baseProfileComment
+      ? {
+          ...rawBaseProfile,
+          comment: baseProfileComment,
+          condMessage: baseProfileCondMessage ?? "",
+        }
+      : null;
+
+  const hasProfileContent = !!baseProfile || filteredStatEntries.length > 0;
+
+  const metadataEntries = quizData
+    ? [
+        { label: "CV", value: quizData.cv },
+        { label: "イラストレーター", value: quizData.illustrator },
+      ].filter(
+        ({ value }) =>
+          value !== undefined && value !== null && `${value}`.trim().length > 0
+      )
+    : [];
+
+  const answerHighlightEntries = metadataEntries.filter(
+    ({ label }) => label === "CV" || label === "イラストレーター"
+  );
 
   return (
     <PageLayout adKeyPrefix={questionCount.toString()} showSkillTabs={true}>
       {/* クイズエリア */}
       <main className="bg-white rounded-lg shadow-lg p-4 sm:p-6 mb-6 sm:mb-8">
-          <div className="text-center">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-sky-100/70 to-transparent"
+        />
+        <div className="relative p-5 sm:p-8 space-y-6 sm:space-y-8">
+          <section className="space-y-6">
             {loading ? (
-              <>
-                <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-4 sm:mb-6">
-                  問題準備中...
-                </h2>
-                <div className="bg-gray-100 rounded-lg p-6 sm:p-8 mb-4 sm:mb-6">
-                  <p className="text-gray-500 text-base sm:text-lg">
-                    スキル情報を読み込んでいます
+              <div className="space-y-4">
+                <div className="mx-auto max-w-sm text-center">
+                  <h2 className="text-lg sm:text-xl font-semibold text-gray-800">
+                    問題を準備しています…
+                  </h2>
+                  <p className="mt-2 text-sm text-gray-500">
+                    プロフィール情報を読み込んでいます。少々お待ちください。
                   </p>
                 </div>
-              </>
-            ) : quizData ? (
-              <>
-                <h2 className="text-lg sm:text-2xl font-semibold text-gray-800 mb-4 sm:mb-6 px-2">
-                  このスキルはどのサーヴァントのものでしょう？
-                </h2>
-                <div className="space-y-3 sm:space-y-4 mb-4 sm:mb-6">
-                  {displaySkills.map((skill, index) => (
-                    <div key={index} className="bg-blue-50 rounded-lg p-4 sm:p-6">
-                      <h3 className="text-base sm:text-lg font-bold text-blue-800 mb-2 sm:mb-3">
-                        スキル{index + 1}: {skill.name}
-                        {skill.ruby && (
-                          <span className="ml-1 sm:ml-2 text-xs sm:text-sm font-normal text-blue-600">
-                            ({skill.ruby})
-                          </span>
-                        )}
-                      </h3>
-                      <p className="text-gray-700 text-xs sm:text-sm leading-relaxed">
-                        {skill.detail ||
-                          "スキル詳細が読み込まれていません"}
-                      </p>
+                <div className="grid gap-3 sm:gap-4">
+                  {[...Array(3)].map((_, index) => (
+                    <div
+                      key={index}
+                      className="animate-pulse rounded-xl border border-sky-50 bg-sky-50/40 p-4 sm:p-6"
+                    >
+                      <div className="h-4 w-1/3 rounded bg-sky-100" />
+                      <div className="mt-3 h-3 w-full rounded bg-sky-100" />
+                      <div className="mt-2 h-3 w-4/5 rounded bg-sky-100" />
                     </div>
                   ))}
                 </div>
+              </div>
+            ) : quizData ? (
+              <>
+                <h2 className="text-lg sm:text-2xl font-semibold text-gray-900 text-center">
+                  このプロフィールを持つサーヴァントは？
+                </h2>
+                {!hasProfileContent ? (
+                  <p className="rounded-xl border border-dashed border-gray-200 bg-gray-50 p-6 text-center text-sm text-gray-500">
+                    プロフィール情報が見つかりませんでした。他の問題で再挑戦してみましょう。
+                  </p>
+                ) : (
+                  <div className="space-y-6 sm:space-y-7">
+                    {baseProfile && (
+                      <section className="relative overflow-hidden rounded-2xl border border-sky-100 bg-gradient-to-br from-white via-sky-50/70 to-blue-50/60 p-5 sm:p-6 shadow-sm">
+                        <div
+                          aria-hidden="true"
+                          className="absolute inset-y-0 right-0 h-full w-24 bg-sky-100/30 blur-2xl"
+                        />
+                        <div className="relative space-y-3">
+                          <div className="flex flex-wrap items-center gap-2">
+                            <h3 className="text-sm sm:text-base font-semibold text-sky-900">
+                              プロフィール
+                            </h3>
+                            {baseProfile.condMessage && (
+                              <span className="inline-flex items-center rounded-full bg-sky-200 px-3 py-1 text-[11px] font-semibold tracking-wide text-sky-800">
+                                {baseProfile.condMessage}
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-sm sm:text-base leading-relaxed text-gray-800">
+                            {baseProfile.comment}
+                          </p>
+                        </div>
+                      </section>
+                    )}
+
+                    {filteredStatEntries.length > 0 && (
+                      <section className="rounded-2xl border border-indigo-100 bg-gradient-to-br from-indigo-50/70 via-white to-sky-50/60 p-4 sm:p-5 shadow-sm">
+                        <h3 className="text-sm sm:text-base font-semibold text-indigo-900">
+                          ステータス
+                        </h3>
+                        <dl className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">
+                          {filteredStatEntries.map(([key, value]) => (
+                            <div
+                              key={key}
+                              className="rounded-xl border border-indigo-100 bg-white/70 px-3 py-3 text-center"
+                            >
+                              <dt className="text-xs font-medium uppercase tracking-wide text-indigo-600">
+                                {formatStatLabel(key)}
+                              </dt>
+                              <dd className="mt-1 text-base font-bold text-gray-900">
+                                {value}
+                              </dd>
+                            </div>
+                          ))}
+                        </dl>
+                      </section>
+                    )}
+
+                    {metadataEntries.length > 0 && (
+                      <section className="rounded-2xl border border-amber-100 bg-gradient-to-br from-amber-50 via-white to-orange-50/70 p-4 sm:p-5 shadow-sm">
+                        <h3 className="text-sm sm:text-base font-semibold text-amber-900">
+                          関連情報
+                        </h3>
+                        <dl className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                          {metadataEntries.map(({ label, value }) => (
+                            <div
+                              key={label}
+                              className="rounded-xl border border-amber-100 bg-white/70 px-3 py-3 text-center"
+                            >
+                              <dt className="text-xs font-medium uppercase tracking-wide text-amber-600">
+                                {label}
+                              </dt>
+                              <dd className="mt-1 text-sm sm:text-base font-semibold text-gray-900">
+                                {value}
+                              </dd>
+                            </div>
+                          ))}
+                        </dl>
+                      </section>
+                    )}
+                  </div>
+                )}
               </>
             ) : (
-              <>
-                <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-4 sm:mb-6">
+              <div className="mx-auto max-w-sm text-center">
+                <h2 className="text-lg sm:text-xl font-semibold text-gray-900">
                   データが見つかりません
                 </h2>
-                <div className="bg-gray-100 rounded-lg p-6 sm:p-8 mb-4 sm:mb-6">
-                  <p className="text-gray-500 text-base sm:text-lg">
-                    クイズデータを取得できませんでした
-                  </p>
-                </div>
-              </>
+                <p className="mt-2 text-sm text-gray-500">
+                  クイズデータを取得できませんでした。時間を置いて再試行してください。
+                </p>
+              </div>
             )}
+          </section>
 
-            {/* 答えボタン */}
-            <div className="flex justify-center px-2">
+          <footer className="space-y-4 sm:space-y-5">
+            <div className="flex justify-center">
               <button
                 onClick={() => setShowAnswer(!showAnswer)}
-                className="bg-gray-500 hover:bg-gray-600 text-white font-medium py-3 sm:py-2 px-8 sm:px-6 rounded-lg transition-colors duration-200 text-base sm:text-sm w-full sm:w-auto max-w-xs"
+                className="inline-flex w-full max-w-xs items-center justify-center rounded-full bg-gray-900 px-8 py-3 text-base font-semibold text-white shadow-lg transition duration-200 hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900 sm:text-sm"
               >
-                {showAnswer ? "答えを隠す" : "答え"}
+                {showAnswer ? "答えを隠す" : "答えを見る"}
               </button>
             </div>
 
-            {/* 答えの表示 */}
             {showAnswer && quizData && (
-              <div className="mt-4 sm:mt-6 bg-yellow-50 border border-yellow-200 rounded-lg p-3 sm:p-4 mx-2 sm:mx-0">
-                <h3 className="text-base sm:text-lg font-bold text-yellow-800 mb-2">正解</h3>
-                <p className="text-lg sm:text-xl font-bold text-yellow-900">
-                  {quizData.name}
-                  {quizData.ruby && (
-                    <span className="ml-1 sm:ml-2 text-sm sm:text-base font-normal text-yellow-700">
-                      ({quizData.ruby})
-                    </span>
+              <div className="space-y-5 rounded-2xl border border-amber-200 bg-amber-50/80 p-5 sm:p-6 text-center shadow-inner">
+                <div className="space-y-2">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-amber-700">
+                    正解
+                  </p>
+                  <p className="mt-1 text-xl sm:text-2xl font-bold text-amber-900">
+                    {quizData.name}
+                    {quizData.ruby && (
+                      <span className="ml-2 text-sm sm:text-base font-semibold text-amber-700">
+                        ({quizData.ruby})
+                      </span>
+                    )}
+                  </p>
+                  {quizData.originalName && (
+                    <p className="text-xs sm:text-sm text-amber-700">
+                      {quizData.originalName}
+                    </p>
                   )}
-                  <span className="ml-1 sm:ml-2 text-sm sm:text-base font-normal text-yellow-700">
-                    - {getClassTypeName(quizData.classId)}
-                  </span>
-                </p>
-                {/* 次の問題ボタン */}
-                <div className="mt-3 sm:mt-4 text-center">
+                  <p className="text-sm sm:text-base text-amber-800">
+                    {getClassTypeName(quizData.classId)}
+                  </p>
+                </div>
+
+                {answerHighlightEntries.length > 0 && (
+                  <dl className="grid gap-3 sm:grid-cols-2">
+                    {answerHighlightEntries.map(({ label, value }) => (
+                      <div
+                        key={label}
+                        className="rounded-xl border border-amber-100 bg-white/70 px-3 py-3"
+                      >
+                        <dt className="text-xs font-medium uppercase tracking-wide text-amber-600">
+                          {label}
+                        </dt>
+                        <dd className="mt-1 text-sm sm:text-base font-semibold text-gray-900">
+                          {value}
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
+                )}
+
+                <div className="flex justify-center">
                   <button
                     onClick={handleNextQuestion}
                     disabled={loading}
-                    className="bg-green-500 hover:bg-green-600 disabled:bg-gray-400 text-white font-medium py-3 sm:py-2 px-8 sm:px-6 rounded-lg transition-colors duration-200 text-base sm:text-sm w-full sm:w-auto max-w-xs"
+                    className="inline-flex w-full max-w-xs items-center justify-center rounded-full bg-emerald-500 px-8 py-3 text-base font-semibold text-white shadow-lg transition duration-200 hover:bg-emerald-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-500 disabled:cursor-not-allowed disabled:bg-gray-400 sm:text-sm"
                   >
-                    {loading ? "読み込み中..." : "次の問題"}
+                    {loading ? "読み込み中..." : "次の問題へ"}
                   </button>
                 </div>
               </div>
             )}
-          </div>
-        </main>
+          </footer>
+        </div>
+      </main>
     </PageLayout>
   );
 }
