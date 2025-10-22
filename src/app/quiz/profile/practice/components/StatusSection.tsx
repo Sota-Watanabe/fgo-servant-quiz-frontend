@@ -19,7 +19,7 @@ export default function StatusSection({ stats }: StatusSectionProps) {
     np,
     policy,
     personality,
-    deity,
+    // deity,
   } = stats;
 
   return (
