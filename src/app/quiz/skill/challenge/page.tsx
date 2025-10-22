@@ -14,7 +14,7 @@ type SkillQuizResponse = components["schemas"]["ServantSkillGetResponseDto"];
 
 type SkillQuizProps = {
   quizData: SkillQuizResponse;
-  options: ServantsOptions | undefined;
+  options: ServantsOptions;
   onNextQuestion: () => void;
 };
 
@@ -25,7 +25,10 @@ const SkillQuiz = ({ quizData, options, onNextQuestion }: SkillQuizProps) => {
   );
   const [isAnswerChecked, setIsAnswerChecked] = useState(false);
 
-  console.log("optionData:", options?.length ?? 0);
+  const handleRevealTrueName = () => {
+    if (!quizData?.id) return;
+    setSelectedServantId(quizData.id);
+  };
 
   // 次の問題を取得する関数
   const handleNextQuestion = async () => {
@@ -57,8 +60,7 @@ const SkillQuiz = ({ quizData, options, onNextQuestion }: SkillQuizProps) => {
 
   // 表示用のスキルデータを定義
   const displaySkills = getDisplaySkills(quizData.skills);
-  const isInteractionDisabled = !options || options.length === 0;
-
+  const imageUrl = quizData.imageUrl;
   return (
     <>
       <h2 className="text-lg sm:text-2xl font-semibold text-gray-800 mb-4 sm:mb-6 px-2">
@@ -92,7 +94,6 @@ const SkillQuiz = ({ quizData, options, onNextQuestion }: SkillQuizProps) => {
           value={selectedServantId}
           onChange={handleServantChange}
           placeholder="サーヴァントを選択してください"
-          disabled={isInteractionDisabled}
         />
 
         <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-4">
@@ -100,11 +101,10 @@ const SkillQuiz = ({ quizData, options, onNextQuestion }: SkillQuizProps) => {
             onClick={handleCheckAnswer}
             disabled={
               selectedServantId === null ||
-              isInteractionDisabled ||
               (isAnswerChecked && selectedServantId !== quizData.id)
             }
             className={`flex-1 font-semibold py-2 px-4 rounded-lg transition-colors text-sm sm:text-base text-white ${
-              selectedServantId === null || isInteractionDisabled
+              selectedServantId === null
                 ? "bg-gray-400 cursor-not-allowed"
                 : isAnswerChecked && selectedServantId !== quizData.id
                 ? "bg-gray-400 cursor-default"
@@ -135,6 +135,17 @@ const SkillQuiz = ({ quizData, options, onNextQuestion }: SkillQuizProps) => {
                   真名、解き明かされた。
                 </p>
 
+                <div className="mt-4 sm:mt-5">
+                  <div className="mx-auto w-full max-w-xs sm:max-w-sm overflow-hidden rounded-lg border bg-white shadow-sm">
+                    <img
+                      src={imageUrl}
+                      alt={`${quizData.name}のイラスト`}
+                      className="w-full h-auto object-cover"
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+
                 <div className="mt-3 sm:mt-4 p-3 sm:p-4 bg-white rounded-lg border">
                   <h4 className="text-base sm:text-lg font-bold text-gray-800 mb-1">
                     {quizData.name}
@@ -142,11 +153,9 @@ const SkillQuiz = ({ quizData, options, onNextQuestion }: SkillQuizProps) => {
                   <p className="text-xs sm:text-sm text-gray-600">
                     {getClassTypeName(quizData.classId)} / ★{quizData.rarity}
                   </p>
-                  {quizData.originalName && (
-                    <p className="text-xs sm:text-sm text-gray-500 mt-1">
-                      {quizData.originalName}
-                    </p>
-                  )}
+                  <p className="text-xs sm:text-sm text-gray-500 mt-1">
+                    {quizData.originalName}
+                  </p>
                 </div>
               </>
             ) : (
@@ -165,10 +174,17 @@ const SkillQuiz = ({ quizData, options, onNextQuestion }: SkillQuizProps) => {
 
       {/* 次の問題ボタン - 答えが表示された後に表示 */}
       {showAnswer && (
-        <div className="flex justify-center mt-4 sm:mt-6">
+        <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 mt-4 sm:mt-6">
+          <button
+            type="button"
+            onClick={handleRevealTrueName}
+            className="w-full sm:w-auto sm:min-w-[160px] font-semibold py-3 px-6 rounded-lg transition-colors text-sm sm:text-base border border-gray-300 bg-white text-gray-700 hover:bg-gray-100"
+          >
+            真名開帳
+          </button>
           <button
             onClick={handleNextQuestion}
-            className="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors text-sm sm:text-base"
+            className="w-full sm:w-auto sm:min-w-[160px] bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors text-sm sm:text-base"
           >
             {selectedServantId === quizData.id
               ? "次の問題"
@@ -214,10 +230,10 @@ export default function SkillQuizPage() {
                 </p>
               </div>
             </>
-          ) : quizData ? (
+          ) : quizData && optionData ? (
             <SkillQuiz
               quizData={quizData}
-              options={optionData?.options}
+              options={optionData.options}
               onNextQuestion={() => setQuestionCount((prev) => prev + 1)}
             />
           ) : (
