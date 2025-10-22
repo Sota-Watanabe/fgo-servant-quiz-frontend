@@ -14,7 +14,7 @@ export const ClassType = {
   Beast: 33,
   Foreigner: 25,
   MoonCancer: 23,
-  Pretender: 29,
+  Pretender: 28,
 } as const;
 
 // サーヴァントクラスの型定義
