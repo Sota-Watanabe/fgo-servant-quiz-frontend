@@ -45,12 +45,13 @@ export default function StatusSection({ stats }: StatusSectionProps) {
 }
 
 const StatusBlock = (statusKey: string, statusValue: string) => {
+  const displayValue = statusValue === "None" ? "-" : statusValue;
   return (
     <div className="rounded-xl border border-indigo-100 bg-white/70 px-3 py-3 text-center">
       <dt className="text-xs font-medium uppercase tracking-wide text-indigo-600">
         {statusKey}
       </dt>
-      <dd className="mt-1 text-base font-bold text-gray-900">{statusValue}</dd>
+      <dd className="mt-1 text-base font-bold text-gray-900">{displayValue}</dd>
     </div>
   );
 };

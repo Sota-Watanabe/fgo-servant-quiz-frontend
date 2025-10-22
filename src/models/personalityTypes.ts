@@ -4,6 +4,7 @@ export const PersonalityType = {
   Good: "good",
   Neutral: "neutral",
   Evil: "evil",
+  Summer: "summer",
 } as const;
 
 export type PersonalityTypeValue =
@@ -13,6 +14,7 @@ export const personalityLabels: Record<PersonalityTypeValue, string> = {
   [PersonalityType.Good]: "善",
   [PersonalityType.Neutral]: "中庸",
   [PersonalityType.Evil]: "悪",
+  [PersonalityType.Summer]: "夏",
 };
 
 export const getPersonalityLabel = (personality?: string | null): string => {
