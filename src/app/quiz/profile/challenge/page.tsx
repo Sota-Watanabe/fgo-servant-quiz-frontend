@@ -53,9 +53,6 @@ const ProfileQuiz = ({ quizData, options, onNextQuestion }: ProfileQuizProps) =>
     }
   };
 
-  // 表示用のスキルデータを定義
-  // const displaySkills = getDisplaySkills(quizData?.skills);
-
   const isInteractionDisabled = !options || options.length === 0;
 
   return (
@@ -63,23 +60,6 @@ const ProfileQuiz = ({ quizData, options, onNextQuestion }: ProfileQuizProps) =>
       <h2 className="text-lg sm:text-2xl font-semibold text-gray-800 mb-4 sm:mb-6 px-2">
         このプロフィールを持つサーヴァントは？
       </h2>
-      <div className="space-y-3 sm:space-y-4 mb-4 sm:mb-6">
-        {/* {displaySkills.map((skill, index) => (
-                  <div key={index} className="bg-blue-50 rounded-lg p-4 sm:p-6">
-                    <h3 className="text-base sm:text-lg font-bold text-blue-800 mb-2 sm:mb-3">
-                      スキル{index + 1}: {skill.name}
-                      {skill.ruby && (
-                        <span className="ml-1 sm:ml-2 text-xs sm:text-sm font-normal text-blue-600">
-                          ({skill.ruby})
-                        </span>
-                      )}
-                    </h3>
-                    <p className="text-gray-700 text-xs sm:text-sm leading-relaxed">
-                      {skill.detail || "スキル詳細が読み込まれていません"}
-                    </p>
-                  </div>
-                ))} */}
-      </div>
 
       {/* 答え選択セクション */}
       <div className="bg-gray-50 rounded-lg p-4 sm:p-6 mb-4 sm:mb-6">

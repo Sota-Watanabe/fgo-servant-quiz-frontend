@@ -9,29 +9,8 @@ import StatusSection from "./components/StatusSection";
 import RelatedInfoSection from "./components/RelatedInfoSection";
 import { components } from "@/types/api";
 
-type ProfileQuizResponse = components["schemas"]["ServantProfileGetResponseDto"];
-type ProfileStats = Record<string, string | number | null | undefined>;
-type MetadataEntry = { label: string; value: string | number };
-
-const statLabelMap: Record<string, string> = {
-  strength: "筋力",
-  endurance: "耐久",
-  agility: "敏捷",
-  magic: "魔力",
-  luck: "幸運",
-  np: "宝具",
-  policy: "属性",
-  personality: "性格",
-  deity: "神性",
-};
-
-const formatStatLabel = (key: string) =>
-  statLabelMap[key] ??
-  key
-    .replace(/([A-Z])/g, " $1")
-    .replace(/_/g, " ")
-    .trim()
-    .toUpperCase();
+type ProfileQuizResponse =
+  components["schemas"]["ServantProfileGetResponseDto"];
 
 type ProfilePracticeProps = {
   quizData: ProfileQuizResponse;
@@ -43,18 +22,6 @@ const ProfilePracticeQuiz = ({
   onNextQuestion,
 }: ProfilePracticeProps) => {
   const [showAnswer, setShowAnswer] = useState(false);
-
-  const stats = (quizData.stats ?? {}) as ProfileStats;
-  const filteredStatEntries = Object.entries(stats)
-    .filter(
-      ([, value]) => value !== null && value !== undefined && value !== ""
-    )
-    .map(([key, value]) => [key, value as string | number] as const);
-  const statEntries = filteredStatEntries.map(([key, value]) => ({
-    key,
-    label: formatStatLabel(key),
-    value,
-  }));
 
   const rawBaseProfile = quizData.baseProfile;
   const baseProfileComment = rawBaseProfile?.comment?.trim();
@@ -68,32 +35,6 @@ const ProfilePracticeQuiz = ({
         }
       : null;
 
-  const metadataEntries: MetadataEntry[] = [
-    {
-      label: "CV",
-      value: quizData.cv,
-    },
-    {
-      label: "イラストレーター",
-      value: quizData.illustrator,
-    },
-  ]
-    .filter(
-      ({ value }) =>
-        value !== undefined && value !== null && `${value}`.trim().length > 0
-    )
-    .map(({ label, value }) => ({
-      label,
-      value: value as string | number,
-    }));
-
-  const hasProfileContent =
-    !!baseProfile || statEntries.length > 0 || metadataEntries.length > 0;
-
-  const answerHighlightEntries = metadataEntries.filter(
-    ({ label }) => label === "CV" || label === "イラストレーター"
-  );
-
   const handleToggleAnswer = () => {
     setShowAnswer((prev) => !prev);
   };
@@ -104,6 +45,11 @@ const ProfilePracticeQuiz = ({
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const relatedInfo = {
+    cv: quizData.cv,
+    illustrator: quizData.illustrator,
+  };
+
   return (
     <div className="relative p-5 sm:p-8 space-y-6 sm:space-y-8">
       <section className="space-y-6">
@@ -111,23 +57,11 @@ const ProfilePracticeQuiz = ({
           <h2 className="text-lg sm:text-2xl font-semibold text-gray-900 text-center">
             このプロフィールを持つサーヴァントは？
           </h2>
-          {!hasProfileContent ? (
-            <p className="rounded-xl border border-dashed border-gray-200 bg-gray-50 p-6 text-center text-sm text-gray-500">
-              プロフィール情報が見つかりませんでした。他の問題で再挑戦してみましょう。
-            </p>
-          ) : (
-            <div className="space-y-6 sm:space-y-7">
-              {baseProfile && <ProfileSection baseProfile={baseProfile} />}
-
-              {statEntries.length > 0 && (
-                <StatusSection entries={statEntries} />
-              )}
-
-              {metadataEntries.length > 0 && (
-                <RelatedInfoSection entries={metadataEntries} />
-              )}
-            </div>
-          )}
+          <div className="space-y-6 sm:space-y-7">
+            {baseProfile && <ProfileSection baseProfile={baseProfile} />}
+            <StatusSection stats={quizData.stats} />
+            <RelatedInfoSection relatedInfo={relatedInfo} />
+          </div>
         </>
       </section>
 
@@ -165,7 +99,7 @@ const ProfilePracticeQuiz = ({
               </p>
             </div>
 
-            {answerHighlightEntries.length > 0 && (
+            {/* {answerHighlightEntries.length > 0 && (
               <dl className="grid gap-3 sm:grid-cols-2">
                 {answerHighlightEntries.map(({ label, value }) => (
                   <div
@@ -181,7 +115,7 @@ const ProfilePracticeQuiz = ({
                   </div>
                 ))}
               </dl>
-            )}
+            )} */}
 
             <div className="flex justify-center">
               <button

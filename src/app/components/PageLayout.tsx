@@ -25,7 +25,7 @@ export default function PageLayout({
     display: "block",
     minHeight: "800px",
     width: "100%",
-    border: "2px dashed #a5b4fc",
+    border: isDev ? "2px dashed #a5b4fc" : undefined,
     background: isDev ? "#eef2ff" : undefined,
     borderRadius: "0.5rem",
   };
@@ -56,7 +56,10 @@ export default function PageLayout({
             <div className="lg:w-64 flex-shrink-0 order-1 lg:order-1">
               <div className="lg:sticky lg:top-4">
                 {isDev ? (
-                  <div style={adStyle} className="flex items-center justify-center text-indigo-400 text-xs h-[200px]">
+                  <div
+                    style={adStyle}
+                    className="flex items-center justify-center text-indigo-400 text-xs h-[200px]"
+                  >
                     広告枠（開発環境）
                   </div>
                 ) : (
@@ -78,7 +81,10 @@ export default function PageLayout({
             <div className="lg:w-64 flex-shrink-0 order-3 lg:order-3">
               <div className="lg:sticky lg:top-4">
                 {isDev ? (
-                  <div style={adStyle} className="flex items-center justify-center text-indigo-400 text-xs h-[200px]">
+                  <div
+                    style={adStyle}
+                    className="flex items-center justify-center text-indigo-400 text-xs h-[200px]"
+                  >
                     広告枠（開発環境）
                   </div>
                 ) : (
