@@ -172,7 +172,7 @@ export interface components {
             /** @description アイコンURL */
             icon: string;
         };
-        ServantDetailGetResponseDto: {
+        ServantSkillGetResponseDto: {
             /**
              * @description サーヴァントID
              * @example 1
@@ -205,6 +205,11 @@ export interface components {
              * @example 5
              */
             rarity: number;
+            /**
+             * @description サーヴァント画像URL
+             * @example https://example.com/images/servants/102600.png
+             */
+            imageUrl: string;
             /** @description ノーブルファンタズム一覧 */
             noblePhantasms: components["schemas"]["NoblePhantasm"][];
             /** @description スキル一覧 */
@@ -334,6 +339,11 @@ export interface components {
             stats: components["schemas"]["ServantProfileStatsDto"];
             /** @description プロフィール基本情報（最初のコメント） */
             baseProfile: components["schemas"]["ProfileCommentDto"] | null;
+            /**
+             * @description サーヴァント画像URL
+             * @example https://example.com/images/servants/102600.png
+             */
+            imageUrl: string;
         };
         ServantsOptions: {
             /**
@@ -405,7 +415,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ServantDetailGetResponseDto"];
+                    "application/json": components["schemas"]["ServantSkillGetResponseDto"];
                 };
             };
         };

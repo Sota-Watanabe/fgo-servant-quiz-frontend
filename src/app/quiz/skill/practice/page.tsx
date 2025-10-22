@@ -7,7 +7,7 @@ import { getDisplaySkills } from "@/utils/skillUtils";
 import { useFetchQuizSkill } from "@/hooks/useApi";
 import { components } from "@/types/api";
 
-type SkillQuizResponse = components["schemas"]["ServantDetailGetResponseDto"];
+type SkillQuizResponse = components["schemas"]["ServantSkillGetResponseDto"];
 
 type SkillPracticeProps = {
   quizData: SkillQuizResponse;

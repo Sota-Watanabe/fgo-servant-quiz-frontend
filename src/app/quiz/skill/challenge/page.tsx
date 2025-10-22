@@ -10,7 +10,7 @@ import { components } from "@/types/api";
 
 type ServantsOptions =
   components["schemas"]["ServantsOptionsGetResponseDto"]["options"];
-type SkillQuizResponse = components["schemas"]["ServantDetailGetResponseDto"];
+type SkillQuizResponse = components["schemas"]["ServantSkillGetResponseDto"];
 
 type SkillQuizProps = {
   quizData: SkillQuizResponse;
@@ -85,7 +85,7 @@ const SkillQuiz = ({ quizData, options, onNextQuestion }: SkillQuizProps) => {
       {/* 答え選択セクション */}
       <div className="bg-gray-50 rounded-lg p-4 sm:p-6 mb-4 sm:mb-6">
         <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-3 sm:mb-4">
-          答えを選択してください
+          真名解析：対象を選択
         </h3>
         <SearchableSelect
           options={options || []}
@@ -111,7 +111,7 @@ const SkillQuiz = ({ quizData, options, onNextQuestion }: SkillQuizProps) => {
                 : "bg-blue-600 hover:bg-blue-700"
             }`}
           >
-            答えを確認
+            真名判定
           </button>
         </div>
       </div>
@@ -129,10 +129,10 @@ const SkillQuiz = ({ quizData, options, onNextQuestion }: SkillQuizProps) => {
             {selectedServantId === quizData.id ? (
               <>
                 <h3 className="text-lg sm:text-xl font-bold text-green-700 mb-2">
-                  正解！
+                  正解
                 </h3>
                 <p className="text-green-600 text-sm sm:text-base">
-                  おめでとうございます！正しい答えです。
+                  真名、解き明かされた。
                 </p>
 
                 <div className="mt-3 sm:mt-4 p-3 sm:p-4 bg-white rounded-lg border">
@@ -140,8 +140,7 @@ const SkillQuiz = ({ quizData, options, onNextQuestion }: SkillQuizProps) => {
                     {quizData.name}
                   </h4>
                   <p className="text-xs sm:text-sm text-gray-600">
-                    {getClassTypeName(quizData.classId)} / ★
-                    {quizData.rarity}
+                    {getClassTypeName(quizData.classId)} / ★{quizData.rarity}
                   </p>
                   {quizData.originalName && (
                     <p className="text-xs sm:text-sm text-gray-500 mt-1">
@@ -156,7 +155,7 @@ const SkillQuiz = ({ quizData, options, onNextQuestion }: SkillQuizProps) => {
                   不正解
                 </h3>
                 <p className="text-red-600 text-sm sm:text-base">
-                  残念！もう一度挑戦してみてください。
+                  ──真名、看破できず……
                 </p>
               </>
             )}
@@ -171,7 +170,9 @@ const SkillQuiz = ({ quizData, options, onNextQuestion }: SkillQuizProps) => {
             onClick={handleNextQuestion}
             className="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors text-sm sm:text-base"
           >
-            {selectedServantId === quizData.id ? "次の問題" : "この問題をスキップ"}
+            {selectedServantId === quizData.id
+              ? "次の問題"
+              : "この問題をスキップ"}
           </button>
         </div>
       )}

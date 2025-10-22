@@ -23,17 +23,13 @@ const ProfilePracticeQuiz = ({
 }: ProfilePracticeProps) => {
   const [showAnswer, setShowAnswer] = useState(false);
 
-  const rawBaseProfile = quizData.baseProfile;
-  const baseProfileComment = rawBaseProfile?.comment?.trim();
-  const baseProfileCondMessage = rawBaseProfile?.condMessage?.trim();
-  const baseProfile =
-    rawBaseProfile && baseProfileComment
-      ? {
-          ...rawBaseProfile,
-          comment: baseProfileComment,
-          condMessage: baseProfileCondMessage ?? "",
-        }
-      : null;
+  const profile = quizData.baseProfile;
+  if (!profile) return;
+
+  const relatedInfo = {
+    cv: quizData.cv,
+    illustrator: quizData.illustrator,
+  };
 
   const handleToggleAnswer = () => {
     setShowAnswer((prev) => !prev);
@@ -45,11 +41,6 @@ const ProfilePracticeQuiz = ({
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const relatedInfo = {
-    cv: quizData.cv,
-    illustrator: quizData.illustrator,
-  };
-
   return (
     <div className="relative p-5 sm:p-8 space-y-6 sm:space-y-8">
       <section className="space-y-6">
@@ -58,7 +49,7 @@ const ProfilePracticeQuiz = ({
             このプロフィールを持つサーヴァントは？
           </h2>
           <div className="space-y-6 sm:space-y-7">
-            {baseProfile && <ProfileSection baseProfile={baseProfile} />}
+            <ProfileSection baseProfile={profile} />
             <StatusSection stats={quizData.stats} />
             <RelatedInfoSection relatedInfo={relatedInfo} />
           </div>

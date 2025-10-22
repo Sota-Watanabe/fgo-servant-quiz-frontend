@@ -90,7 +90,7 @@ const ProfileQuiz = ({ quizData, options, onNextQuestion }: ProfileQuizProps) =>
                 : "bg-blue-600 hover:bg-blue-700"
             }`}
           >
-            答えを確認
+            真名判定
           </button>
         </div>
       </div>
