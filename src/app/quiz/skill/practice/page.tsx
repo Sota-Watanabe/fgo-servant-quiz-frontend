@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { getClassTypeName } from "@/models/classTypes";
 import PageLayout from "@/app/components/PageLayout";
+import QuizAnswerSection from "@/app/quiz/components/QuizAnswerSection";
 import { getDisplaySkills } from "@/utils/skillUtils";
 import { useFetchQuizSkill } from "@/hooks/useApi";
 import { components } from "@/types/api";
@@ -54,44 +54,13 @@ const SkillPracticeQuiz = ({
         ))}
       </div>
 
-      {/* 答えボタン */}
-      <div className="flex justify-center px-2">
-        <button
-          onClick={handleToggleAnswer}
-          className="bg-gray-500 hover:bg-gray-600 text-white font-medium py-3 sm:py-2 px-8 sm:px-6 rounded-lg transition-colors duration-200 text-base sm:text-sm w-full sm:w-auto max-w-xs"
-        >
-          {showAnswer ? "答えを隠す" : "答え"}
-        </button>
-      </div>
-
-      {/* 答えの表示 */}
-      {showAnswer && (
-        <div className="mt-4 sm:mt-6 bg-yellow-50 border border-yellow-200 rounded-lg p-3 sm:p-4 mx-2 sm:mx-0">
-          <h3 className="text-base sm:text-lg font-bold text-yellow-800 mb-2">
-            正解
-          </h3>
-          <p className="text-lg sm:text-xl font-bold text-yellow-900">
-            {quizData.name}
-            {quizData.ruby && (
-              <span className="ml-1 sm:ml-2 text-sm sm:text-base font-normal text-yellow-700">
-                ({quizData.ruby})
-              </span>
-            )}
-            <span className="ml-1 sm:ml-2 text-sm sm:text-base font-normal text-yellow-700">
-              - {getClassTypeName(quizData.classId)}
-            </span>
-          </p>
-          {/* 次の問題ボタン */}
-          <div className="mt-3 sm:mt-4 text-center">
-            <button
-              onClick={handleNextQuestion}
-              className="bg-green-500 hover:bg-green-600 text-white font-medium py-3 sm:py-2 px-8 sm:px-6 rounded-lg transition-colors duration-200 text-base sm:text-sm w-full sm:w-auto max-w-xs"
-            >
-              次の問題
-            </button>
-          </div>
-        </div>
-      )}
+      <QuizAnswerSection
+        quizData={quizData}
+        showAnswer={showAnswer}
+        onToggleAnswer={handleToggleAnswer}
+        onNextQuestion={handleNextQuestion}
+        nextButtonLabel="次の問題へ"
+      />
     </>
   );
 };
