@@ -2,40 +2,34 @@
 
 import { useState } from "react";
 import { useFetchQuizProfile } from "@/hooks/useFetchQuizProfile";
+import { useFetchServantsOption } from "@/hooks/useFetchServantsOption";
 import PageLayout from "@/app/components/PageLayout";
 import QuizAnswerSection from "@/app/quiz/components/QuizAnswerSection";
 import ProfileSection from "./components/ProfileSection";
 import StatusSection from "./components/StatusSection";
 import RelatedInfoSection from "./components/RelatedInfoSection";
 import type { ProfileQuizResponse } from "@/hooks/useFetchQuizProfile";
+import type { ServantsOptionsResponse } from "@/hooks/useFetchServantsOption";
+
+type ServantOption = ServantsOptionsResponse["options"][number];
 
 type ProfilePracticeProps = {
   quizData: ProfileQuizResponse;
+  options: ServantOption[];
   onNextQuestion: () => void;
 };
 
 const ProfilePracticeQuiz = ({
   quizData,
+  options,
   onNextQuestion,
 }: ProfilePracticeProps) => {
-  const [showAnswer, setShowAnswer] = useState(false);
-
   const profile = quizData.baseProfile;
-  if (!profile) return;
+  if (!profile) return null;
 
   const relatedInfo = {
     cv: quizData.cv,
     illustrator: quizData.illustrator,
-  };
-
-  const handleToggleAnswer = () => {
-    setShowAnswer((prev) => !prev);
-  };
-
-  const handleNextQuestion = () => {
-    setShowAnswer(false);
-    onNextQuestion();
-    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
@@ -55,9 +49,8 @@ const ProfilePracticeQuiz = ({
 
       <QuizAnswerSection
         quizData={quizData}
-        showAnswer={showAnswer}
-        onToggleAnswer={handleToggleAnswer}
-        onNextQuestion={handleNextQuestion}
+        options={options}
+        onNextQuestion={onNextQuestion}
       />
     </div>
   );
@@ -69,7 +62,12 @@ export default function ProfileQuizPage() {
   // ページ名（profile-practice）+クエスチョン番号でキーを生成
   const pageKey = `profile-practice-${questionCount}`;
 
-  const { data: quizData, isFetching: loading } = useFetchQuizProfile(pageKey);
+  const { data: quizData, isFetching: quizFetching } =
+    useFetchQuizProfile(pageKey);
+  const { data: optionData, isFetching: optionFetching } =
+    useFetchServantsOption();
+
+  const isFetching = quizFetching || optionFetching;
 
   return (
     <PageLayout adKeyPrefix={questionCount.toString()}>
@@ -79,7 +77,7 @@ export default function ProfileQuizPage() {
           aria-hidden="true"
           className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-sky-100/70 to-transparent"
         />
-        {loading ? (
+        {isFetching ? (
           <div className="relative p-5 sm:p-8 space-y-6 sm:space-y-8">
             <section className="space-y-6">
               <div className="space-y-4">
@@ -106,9 +104,10 @@ export default function ProfileQuizPage() {
               </div>
             </section>
           </div>
-        ) : quizData ? (
+        ) : quizData && optionData ? (
           <ProfilePracticeQuiz
             quizData={quizData}
+            options={optionData.options}
             onNextQuestion={() => setQuestionCount((prev) => prev + 1)}
           />
         ) : (

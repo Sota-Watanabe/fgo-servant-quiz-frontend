@@ -1,9 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { getClassTypeName } from "@/models/classTypes";
 import PageLayout from "@/app/components/PageLayout";
-import SearchableSelect from "@/app/components/SearchableSelect";
+import QuizAnswerSection from "@/app/quiz/components/QuizAnswerSection";
 import { useFetchQuizSkill } from "@/hooks/useFetchQuizSkill";
 import { useFetchServantsOption } from "@/hooks/useFetchServantsOption";
 import type { SkillQuizResponse } from "@/hooks/useFetchQuizSkill";
@@ -19,47 +18,8 @@ type SkillQuizProps = {
 };
 
 const SkillQuiz = ({ quizData, options, onNextQuestion }: SkillQuizProps) => {
-  const [selectedServantId, setSelectedServantId] = useState<number | null>(
-    null
-  );
-  const [resultStatus, setResultStatus] = useState<
-    "correct" | "incorrect" | "waiting" | "revealed"
-  >("waiting");
-
-  const handleRevealTrueName = () => {
-    if (!quizData?.id) return;
-    setResultStatus("revealed");
-  };
-
-  // 次の問題を取得する関数
-  const handleNextQuestion = async () => {
-    setSelectedServantId(null); // 選択をリセット
-    setResultStatus("waiting");
-    onNextQuestion();
-    // ページ上部へスクロール
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  // 答えを確認する関数
-  const handleCheckAnswer = () => {
-    if (selectedServantId !== null) {
-      if (selectedServantId === quizData.id) {
-        setResultStatus("correct");
-      } else {
-        setResultStatus("incorrect");
-      }
-    }
-  };
-
-  // セレクト変更時の処理
-  const handleServantChange = (servantId: number | null) => {
-    setSelectedServantId(servantId);
-    setResultStatus("waiting");
-  };
-
-  // 表示用のスキルデータを定義
   const displaySkills = getDisplaySkills(quizData.skills);
-  const imageUrl = quizData.imageUrl;
+
   return (
     <>
       <h2 className="text-lg sm:text-2xl font-semibold text-gray-800 mb-4 sm:mb-6 px-2">
@@ -83,126 +43,11 @@ const SkillQuiz = ({ quizData, options, onNextQuestion }: SkillQuizProps) => {
         ))}
       </div>
 
-      {/* 答え選択セクション */}
-      <div className="bg-gray-50 rounded-lg p-4 sm:p-6 mb-4 sm:mb-6">
-        <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-3 sm:mb-4">
-          真名解析：対象を選択
-        </h3>
-        <SearchableSelect
-          options={options || []}
-          value={selectedServantId}
-          onChange={handleServantChange}
-          placeholder="サーヴァントを選択してください"
-        />
-        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-4">
-          <button
-            onClick={handleCheckAnswer}
-            disabled={selectedServantId === null || resultStatus !== "waiting"}
-            className={`flex-1 font-semibold py-2 px-4 rounded-lg transition-colors text-sm sm:text-base text-white ${
-              selectedServantId === null
-                ? "bg-gray-400 cursor-not-allowed"
-                : resultStatus !== "waiting"
-                ? "bg-gray-400 cursor-default"
-                : "bg-blue-600 hover:bg-blue-700"
-            }`}
-          >
-            真名判定
-          </button>
-        </div>
-      </div>
-
-      {/* 答え表示セクション */}
-      {resultStatus !== "waiting" && (
-        <div
-          className={`rounded-lg p-4 sm:p-6 mb-4 sm:mb-6 ${
-            resultStatus === "correct"
-              ? "bg-green-50 border-2 border-green-300"
-              : "bg-red-50 border-2 border-red-300"
-          }`}
-        >
-          <div className="text-center">
-            {resultStatus === "correct" && (
-              <>
-                <h3 className="text-lg sm:text-xl font-bold text-green-700 mb-2">
-                  正解
-                </h3>
-                <p className="text-green-600 text-sm sm:text-base">
-                  真名、解き明かされた。
-                </p>
-
-                <div className="mt-4 sm:mt-5">
-                  <div className="mx-auto w-full max-w-xs sm:max-w-sm overflow-hidden rounded-lg border bg-white shadow-sm">
-                    <img
-                      src={imageUrl}
-                      alt={`${quizData.name}のイラスト`}
-                      className="w-full h-auto object-cover"
-                      loading="lazy"
-                    />
-                  </div>
-                </div>
-
-                <div className="mt-3 sm:mt-4 p-3 sm:p-4 bg-white rounded-lg border">
-                  <h4 className="text-base sm:text-lg font-bold text-gray-800 mb-1">
-                    {quizData.name}
-                  </h4>
-                  <p className="text-xs sm:text-sm text-gray-600">
-                    {getClassTypeName(quizData.classId)} / ★{quizData.rarity}
-                  </p>
-                  <p className="text-xs sm:text-sm text-gray-500 mt-1">
-                    {quizData.originalName}
-                  </p>
-                </div>
-              </>
-            )}
-            {(resultStatus === "incorrect" || resultStatus === "revealed") && (
-              <>
-                <h3 className="text-lg sm:text-xl font-bold text-red-700 mb-2">
-                  不正解
-                </h3>
-                <p className="text-red-600 text-sm sm:text-base">
-                  ──真名、看破できず……
-                </p>
-              </>
-            )}
-            {resultStatus === "revealed" && (
-              <div className="mt-3 sm:mt-4 p-3 sm:p-4 bg-white rounded-lg border">
-                <h4 className="text-base sm:text-lg font-bold text-gray-800 mb-1">
-                  {quizData.name}
-                </h4>
-                <p className="text-xs sm:text-sm text-gray-600">
-                  {getClassTypeName(quizData.classId)} / ★{quizData.rarity}
-                </p>
-                <p className="text-xs sm:text-sm text-gray-500 mt-1">
-                  {quizData.originalName}
-                </p>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* 次の問題ボタン - 答えが表示された後に表示 */}
-      {resultStatus !== "waiting" && (
-        <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 mt-4 sm:mt-6">
-          {resultStatus === "incorrect" && (
-            <button
-              type="button"
-              onClick={handleRevealTrueName}
-              className="w-full sm:w-auto sm:min-w-[160px] font-semibold py-3 px-6 rounded-lg transition-colors text-sm sm:text-base border border-gray-300 bg-white text-gray-700 hover:bg-gray-100"
-            >
-              真名開帳
-            </button>
-          )}
-          <button
-            onClick={handleNextQuestion}
-            className="w-full sm:w-auto sm:min-w-[160px] bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors text-sm sm:text-base"
-          >
-            {resultStatus === "correct" || resultStatus === "revealed"
-              ? "次の問題"
-              : "この問題をスキップ"}
-          </button>
-        </div>
-      )}
+      <QuizAnswerSection
+        quizData={quizData}
+        options={options}
+        onNextQuestion={onNextQuestion}
+      />
     </>
   );
 };
