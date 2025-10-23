@@ -40,70 +40,60 @@ const NoblePhantasmQuiz = ({
       </h2>
 
       {noblePhantasm ? (
-        <section className="space-y-4 sm:space-y-5 mb-4 sm:mb-6 bg-gradient-to-br from-purple-50 via-violet-50 to-indigo-50 rounded-xl p-5 sm:p-7 border border-violet-100 shadow-sm">
-          <header>
-            <p className="text-xs sm:text-sm text-violet-500 font-semibold uppercase tracking-wide">
+        <section className="space-y-5 sm:space-y-6 mb-4 sm:mb-6 rounded-2xl border border-sky-100 bg-white p-5 sm:p-7 shadow-sm">
+          <header className="space-y-3 text-center sm:text-left">
+            <span className="inline-flex items-center justify-center rounded-full bg-sky-100 px-3 py-1 text-xs sm:text-sm font-semibold uppercase tracking-wide text-sky-700">
               Noble Phantasm
-            </p>
-            <h3 className="text-lg sm:text-xl font-bold text-violet-900 mt-1">
+            </span>
+            <h3 className="text-3xl sm:text-4xl font-extrabold leading-tight text-gray-900">
               {noblePhantasm.name}
-              {noblePhantasm.ruby && (
-                <span className="ml-2 text-xs sm:text-sm font-normal text-violet-600">
-                  ({noblePhantasm.ruby})
-                </span>
-              )}
             </h3>
-            {noblePhantasm.originalName && (
-              <p className="text-xs sm:text-sm text-violet-700 mt-1">
-                {noblePhantasm.originalName}
+            {noblePhantasm.ruby && (
+              <p className="text-sm sm:text-base font-semibold text-sky-600">
+                {noblePhantasm.ruby}
               </p>
             )}
           </header>
 
-          <div className="flex flex-wrap gap-2 sm:gap-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
             {noblePhantasm.rank && (
-              <span className="inline-flex items-center rounded-full border border-violet-200 bg-white px-3 py-1 text-xs sm:text-sm font-medium text-violet-700">
-                ランク: {noblePhantasm.rank}
-              </span>
+              <div className="rounded-xl border border-sky-100 bg-sky-50 p-3 sm:p-4 text-sky-800 shadow-sm">
+                <p className="text-[11px] uppercase tracking-[0.2em] text-sky-500">
+                  ランク
+                </p>
+                <p className="mt-2 text-xl sm:text-2xl font-bold">
+                  {noblePhantasm.rank}
+                </p>
+              </div>
             )}
             {noblePhantasm.type && (
-              <span className="inline-flex items-center rounded-full border border-violet-200 bg-white px-3 py-1 text-xs sm:text-sm font-medium text-violet-700">
-                種別: {noblePhantasm.type}
-              </span>
+              <div className="rounded-xl border border-sky-100 bg-sky-50 p-3 sm:p-4 text-sky-800 shadow-sm">
+                <p className="text-[11px] uppercase tracking-[0.2em] text-sky-500">
+                  種別
+                </p>
+                <p className="mt-2 text-xl sm:text-2xl font-bold">
+                  {noblePhantasm.type}
+                </p>
+              </div>
             )}
             {cardLabel && (
-              <span className="inline-flex items-center rounded-full border border-violet-200 bg-white px-3 py-1 text-xs sm:text-sm font-medium text-violet-700">
-                カード: {cardLabel}
-              </span>
+              <div className="rounded-xl border border-sky-100 bg-sky-50 p-3 sm:p-4 text-sky-800 shadow-sm">
+                <p className="text-[11px] uppercase tracking-[0.2em] text-sky-500">
+                  カード
+                </p>
+                <p className="mt-2 text-xl sm:text-2xl font-bold">{cardLabel}</p>
+              </div>
             )}
           </div>
 
           {noblePhantasm.detail && (
-            <p className="text-sm sm:text-base leading-relaxed text-gray-700 bg-white rounded-lg border border-violet-100 p-4">
+            <p className="text-sm sm:text-base leading-relaxed text-gray-700 rounded-xl border border-sky-100 bg-sky-50 p-4">
               {noblePhantasm.detail}
             </p>
           )}
-
-          {noblePhantasm.effectFlags?.length ? (
-            <div>
-              <h4 className="text-sm font-semibold text-violet-900 mb-2">
-                追加効果
-              </h4>
-              <ul className="flex flex-wrap gap-2">
-                {noblePhantasm.effectFlags.map((flag, index) => (
-                  <li
-                    key={`${flag}-${index}`}
-                    className="inline-flex items-center rounded-md bg-white px-3 py-1 text-xs sm:text-sm font-medium text-violet-700 border border-violet-200 shadow-sm"
-                  >
-                    {flag}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ) : null}
         </section>
       ) : (
-        <section className="mb-4 sm:mb-6 rounded-xl border border-violet-100 bg-white p-5 sm:p-7 text-center text-sm sm:text-base text-gray-600">
+        <section className="mb-4 sm:mb-6 rounded-xl border border-sky-100 bg-white p-5 sm:p-7 text-center text-sm sm:text-base text-gray-600">
           宝具情報を取得できませんでした。
         </section>
       )}
