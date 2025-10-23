@@ -6,10 +6,12 @@ import { apiClient, API_ENDPOINTS, ApiError } from "@/utils/apiClient";
 import { components } from "@/types/api";
 
 // 型のエイリアス
-type ServantsOptionsResponse = components["schemas"]["ServantsOptionsGetResponseDto"];
-type SkillQuizResponse = components["schemas"]["ServantDetailGetResponseDto"];
-type ProfileQuizResponse = components["schemas"]["ServantProfileGetResponseDto"] &
-  components["schemas"]["ServantProfileGetResponseDto"];
+type ServantsOptionsResponse =
+  components["schemas"]["ServantsOptionsGetResponseDto"];
+type SkillQuizResponse = components["schemas"]["ServantSkillGetResponseDto"];
+type ProfileQuizResponse =
+  components["schemas"]["ServantProfileGetResponseDto"] &
+    components["schemas"]["ServantProfileGetResponseDto"];
 
 /**
  * スキルクイズデータを取得するカスタムフック
@@ -18,7 +20,10 @@ type ProfileQuizResponse = components["schemas"]["ServantProfileGetResponseDto"]
  */
 export const useFetchQuizSkill = (
   key: string = "skill-practice-0",
-  options?: Omit<UseQueryOptions<SkillQuizResponse, ApiError>, 'queryKey' | 'queryFn'>
+  options?: Omit<
+    UseQueryOptions<SkillQuizResponse, ApiError>,
+    "queryKey" | "queryFn"
+  >
 ) => {
   return useQuery({
     queryKey: [API_ENDPOINTS.QUIZ_SKILL, key],
@@ -34,7 +39,10 @@ export const useFetchQuizSkill = (
  */
 export const useFetchQuizProfile = (
   key: string = "profile-practice-0",
-  options?: Omit<UseQueryOptions<ProfileQuizResponse, ApiError>, 'queryKey' | 'queryFn'>
+  options?: Omit<
+    UseQueryOptions<ProfileQuizResponse, ApiError>,
+    "queryKey" | "queryFn"
+  >
 ) => {
   return useQuery({
     queryKey: [API_ENDPOINTS.QUIZ_PROFILE, key],
@@ -48,11 +56,15 @@ export const useFetchQuizProfile = (
  * @param options - React Queryのオプション
  */
 export const useFetchServantsOptions = (
-  options?: Omit<UseQueryOptions<ServantsOptionsResponse, ApiError>, 'queryKey' | 'queryFn'>
+  options?: Omit<
+    UseQueryOptions<ServantsOptionsResponse, ApiError>,
+    "queryKey" | "queryFn"
+  >
 ) => {
   return useQuery({
     queryKey: [API_ENDPOINTS.SERVANTS_OPTIONS],
-    queryFn: () => apiClient<ServantsOptionsResponse>(API_ENDPOINTS.SERVANTS_OPTIONS),
+    queryFn: () =>
+      apiClient<ServantsOptionsResponse>(API_ENDPOINTS.SERVANTS_OPTIONS),
     ...options,
   });
 };

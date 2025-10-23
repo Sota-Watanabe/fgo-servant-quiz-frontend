@@ -7,32 +7,23 @@ import { usePathname } from "next/navigation";
  * 4つのクイズページへのリンク
  */
 
-/**
- * グローバルナビゲーション
- * 4つのクイズページへのリンク
- */
 export default function GlobalNav() {
   const pathname = usePathname();
   const navLinks = [
     {
-      label: "スキル 90+",
-      href: "/quiz/skill/practice",
-      subLabel: "PRACTICE",
-    },
-    {
-      label: "スキル 90++",
-      href: "/quiz/skill/challenge",
-      subLabel: "CHALLENGE",
+      label: "スキル",
+      href: "/quiz/skill",
+      subLabel: "Skill Quiz",
     },
     {
       label: "プロフィール",
-      href: "/quiz/profile/practice",
-      subLabel: "PRACTICE",
+      href: "/quiz/profile",
+      subLabel: "Profile Quiz",
     },
     {
-      label: "未実装",
-      href: "/quiz/profile/challenge",
-      subLabel: "CHALLENGE",
+      label: "宝具",
+      href: "/quiz/noble-phantasm",
+      subLabel: "Noble Phantasm Quiz",
     },
   ];
 
@@ -84,7 +75,7 @@ export default function GlobalNav() {
 
               {/* 下部グラデーションバー */}
               <div
-                className="absolute bottom-0 left-0 right-0 h-[8px] flex items-center justify-center text-[7px] font-semibold text-white uppercase tracking-widest shadow-[inset_0_1px_2px_rgba(255,255,255,0.4)] sm:text-[8px]"
+                className="absolute bottom-0 left-0 right-0 h-[8px] flex items-center justify-center text-[7px] font-semibold text-white tracking-widest shadow-[inset_0_1px_2px_rgba(255,255,255,0.4)] sm:text-[8px]"
                 style={{
                   marginBottom: "8px",
                   background: "linear-gradient(90deg, rgba(60,120,255,0) 0%, rgba(60,120,255,0) 12.5%, #2563eb 37.5%, #2563eb 62.5%, rgba(60,120,255,0) 87.5%, rgba(60,120,255,0) 100%)"

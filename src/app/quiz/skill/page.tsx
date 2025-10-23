@@ -19,22 +19,22 @@ type SkillQuizProps = {
 };
 
 const SkillQuiz = ({ quizData, options, onNextQuestion }: SkillQuizProps) => {
-  const [showAnswer, setShowAnswer] = useState(false);
   const [selectedServantId, setSelectedServantId] = useState<number | null>(
     null
   );
-  const [isAnswerChecked, setIsAnswerChecked] = useState(false);
+  const [resultStatus, setResultStatus] = useState<
+    "correct" | "incorrect" | "waiting" | "revealed"
+  >("waiting");
 
   const handleRevealTrueName = () => {
     if (!quizData?.id) return;
-    setSelectedServantId(quizData.id);
+    setResultStatus("revealed");
   };
 
   // 次の問題を取得する関数
   const handleNextQuestion = async () => {
-    setShowAnswer(false); // 答えを非表示にする
     setSelectedServantId(null); // 選択をリセット
-    setIsAnswerChecked(false); // 答えチェック状態をリセット
+    setResultStatus("waiting");
     onNextQuestion();
     // ページ上部へスクロール
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -43,19 +43,18 @@ const SkillQuiz = ({ quizData, options, onNextQuestion }: SkillQuizProps) => {
   // 答えを確認する関数
   const handleCheckAnswer = () => {
     if (selectedServantId !== null) {
-      setShowAnswer(true);
-      setIsAnswerChecked(true);
+      if (selectedServantId === quizData.id) {
+        setResultStatus("correct");
+      } else {
+        setResultStatus("incorrect");
+      }
     }
   };
 
   // セレクト変更時の処理
   const handleServantChange = (servantId: number | null) => {
     setSelectedServantId(servantId);
-    // セレクトが変更されたら答えチェック状態をリセット
-    if (isAnswerChecked) {
-      setIsAnswerChecked(false);
-      setShowAnswer(false);
-    }
+    setResultStatus("waiting");
   };
 
   // 表示用のスキルデータを定義
@@ -95,18 +94,14 @@ const SkillQuiz = ({ quizData, options, onNextQuestion }: SkillQuizProps) => {
           onChange={handleServantChange}
           placeholder="サーヴァントを選択してください"
         />
-
         <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-4">
           <button
             onClick={handleCheckAnswer}
-            disabled={
-              selectedServantId === null ||
-              (isAnswerChecked && selectedServantId !== quizData.id)
-            }
+            disabled={selectedServantId === null || resultStatus !== "waiting"}
             className={`flex-1 font-semibold py-2 px-4 rounded-lg transition-colors text-sm sm:text-base text-white ${
               selectedServantId === null
                 ? "bg-gray-400 cursor-not-allowed"
-                : isAnswerChecked && selectedServantId !== quizData.id
+                : resultStatus !== "waiting"
                 ? "bg-gray-400 cursor-default"
                 : "bg-blue-600 hover:bg-blue-700"
             }`}
@@ -117,16 +112,16 @@ const SkillQuiz = ({ quizData, options, onNextQuestion }: SkillQuizProps) => {
       </div>
 
       {/* 答え表示セクション */}
-      {showAnswer && (
+      {resultStatus !== "waiting" && (
         <div
           className={`rounded-lg p-4 sm:p-6 mb-4 sm:mb-6 ${
-            selectedServantId === quizData.id
+            resultStatus === "correct"
               ? "bg-green-50 border-2 border-green-300"
               : "bg-red-50 border-2 border-red-300"
           }`}
         >
           <div className="text-center">
-            {selectedServantId === quizData.id ? (
+            {resultStatus === "correct" && (
               <>
                 <h3 className="text-lg sm:text-xl font-bold text-green-700 mb-2">
                   正解
@@ -158,7 +153,8 @@ const SkillQuiz = ({ quizData, options, onNextQuestion }: SkillQuizProps) => {
                   </p>
                 </div>
               </>
-            ) : (
+            )}
+            {(resultStatus === "incorrect" || resultStatus === "revealed") && (
               <>
                 <h3 className="text-lg sm:text-xl font-bold text-red-700 mb-2">
                   不正解
@@ -168,12 +164,25 @@ const SkillQuiz = ({ quizData, options, onNextQuestion }: SkillQuizProps) => {
                 </p>
               </>
             )}
+            {resultStatus === "revealed" && (
+              <div className="mt-3 sm:mt-4 p-3 sm:p-4 bg-white rounded-lg border">
+                <h4 className="text-base sm:text-lg font-bold text-gray-800 mb-1">
+                  {quizData.name}
+                </h4>
+                <p className="text-xs sm:text-sm text-gray-600">
+                  {getClassTypeName(quizData.classId)} / ★{quizData.rarity}
+                </p>
+                <p className="text-xs sm:text-sm text-gray-500 mt-1">
+                  {quizData.originalName}
+                </p>
+              </div>
+            )}
           </div>
         </div>
       )}
 
       {/* 次の問題ボタン - 答えが表示された後に表示 */}
-      {showAnswer && (
+      {resultStatus !== "waiting" && (
         <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 mt-4 sm:mt-6">
           <button
             type="button"
@@ -186,9 +195,7 @@ const SkillQuiz = ({ quizData, options, onNextQuestion }: SkillQuizProps) => {
             onClick={handleNextQuestion}
             className="w-full sm:w-auto sm:min-w-[160px] bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors text-sm sm:text-base"
           >
-            {selectedServantId === quizData.id
-              ? "次の問題"
-              : "この問題をスキップ"}
+            {resultStatus === "correct" ? "次の問題" : "この問題をスキップ"}
           </button>
         </div>
       )}
