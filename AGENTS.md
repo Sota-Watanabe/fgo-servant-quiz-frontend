@@ -12,7 +12,7 @@
 - `src/app` — App Router のページと共通 UI。
   - `components/`：`PageLayout`（広告付き3カラム）、`GlobalNav`、`AdSense` 系、`SearchableSelect` など。
   - `quiz/skill/**`・`quiz/profile/**`：PRACTICE/CHALLENGE それぞれのページ。
-- `src/hooks` — React Query を使った API 呼び出し。`useApi.ts` に統合版があり、旧構造 (`useFetchQuizSkill.ts` など) も残存。
+- `src/hooks` — React Query を使った API 呼び出し。`useFetchQuizSkill.ts`、`useFetchQuizProfile.ts`、`useFetchServantsOption.ts` など個別フックで構成。
 - `src/utils` — API クライアント (`apiClient.ts`)、スキル整形 (`skillUtils.ts`)。
 - `src/models` — サーヴァントのクラス／カード種別を ID ↔ 日本語名でマッピング。
 - `src/types` — OpenAPI から生成された `api.ts`（`npm run generate:types`）、`gtag.d.ts`。
@@ -31,9 +31,12 @@
 - `src/utils/apiClient.ts`
   - `NEXT_PUBLIC_API_URL` をベースとしたフェッチ。失敗時は `ApiError` をスロー。
   - `API_ENDPOINTS` でバックエンドのパスを管理。
-- `src/hooks/useApi.ts`
-  - React Query の `useQuery` を使った共通フック。`queryKey` にページ固有キーを渡して問題を更新。
-  - `useFetchServantsOptions` は回答セレクト用の選択肢一覧を取得。
+- `src/hooks/useFetchQuizSkill.ts`
+  - React Query の `useQuery` を使ったスキル問題取得フック。`queryKey` にページ固有キーを渡して問題を更新。
+- `src/hooks/useFetchQuizProfile.ts`
+  - プロフィール問題取得用の React Query フック。
+- `src/hooks/useFetchServantsOption.ts`
+  - 回答セレクト用のサーヴァント選択肢一覧を取得。
 - `QueryProvider` はクエリのデフォルト（staleTime 5 分 / retry 1 回）を設定。
 
 ## 共通 UI とスタイリング
