@@ -1,9 +1,8 @@
 import { getPolicyLabel } from "@/models/policyTypes";
 import { getPersonalityLabel } from "@/models/personalityTypes";
-import { components } from "@/types/api";
+import type { ProfileQuizResponse } from "@/hooks/useFetchQuizProfile";
 
-type ProfileStats =
-  components["schemas"]["ServantProfileGetResponseDto"]["stats"];
+type ProfileStats = ProfileQuizResponse["stats"];
 
 type StatusSectionProps = {
   stats: ProfileStats;

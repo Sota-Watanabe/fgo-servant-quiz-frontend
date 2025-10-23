@@ -2,12 +2,12 @@
 
 import { useState, useRef, useEffect } from "react";
 import { getClassTypeName } from "@/models/classTypes";
-import { components } from "@/types/api";
+import type { ServantsOptionsResponse } from "@/hooks/useFetchServantsOption";
 
-type ServantsOptions = components["schemas"]["ServantsOptions"];
+type ServantOption = ServantsOptionsResponse["options"][number];
 
 interface SearchableSelectProps {
-  options: ServantsOptions[];
+  options: ServantOption[];
   value: number | null;
   onChange: (value: number | null) => void;
   placeholder?: string;
@@ -109,7 +109,7 @@ export default function SearchableSelect({
   };
 
   // 選択肢を選択
-  const selectOption = (option: ServantsOptions) => {
+  const selectOption = (option: ServantOption) => {
     onChange(option.id);
     closeDropdown();
   };

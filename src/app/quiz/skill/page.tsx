@@ -4,17 +4,17 @@ import { useState } from "react";
 import { getClassTypeName } from "@/models/classTypes";
 import PageLayout from "@/app/components/PageLayout";
 import SearchableSelect from "@/app/components/SearchableSelect";
-import { useFetchQuizSkill, useFetchServantsOptions } from "@/hooks/useApi";
+import { useFetchQuizSkill } from "@/hooks/useFetchQuizSkill";
+import { useFetchServantsOption } from "@/hooks/useFetchServantsOption";
+import type { SkillQuizResponse } from "@/hooks/useFetchQuizSkill";
+import type { ServantsOptionsResponse } from "@/hooks/useFetchServantsOption";
 import { getDisplaySkills } from "@/utils/skillUtils";
-import { components } from "@/types/api";
 
-type ServantsOptions =
-  components["schemas"]["ServantsOptionsGetResponseDto"]["options"];
-type SkillQuizResponse = components["schemas"]["ServantSkillGetResponseDto"];
+type ServantOption = ServantsOptionsResponse["options"][number];
 
 type SkillQuizProps = {
   quizData: SkillQuizResponse;
-  options: ServantsOptions;
+  options: ServantOption[];
   onNextQuestion: () => void;
 };
 
@@ -184,18 +184,22 @@ const SkillQuiz = ({ quizData, options, onNextQuestion }: SkillQuizProps) => {
       {/* 次の問題ボタン - 答えが表示された後に表示 */}
       {resultStatus !== "waiting" && (
         <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 mt-4 sm:mt-6">
-          <button
-            type="button"
-            onClick={handleRevealTrueName}
-            className="w-full sm:w-auto sm:min-w-[160px] font-semibold py-3 px-6 rounded-lg transition-colors text-sm sm:text-base border border-gray-300 bg-white text-gray-700 hover:bg-gray-100"
-          >
-            真名開帳
-          </button>
+          {resultStatus === "incorrect" && (
+            <button
+              type="button"
+              onClick={handleRevealTrueName}
+              className="w-full sm:w-auto sm:min-w-[160px] font-semibold py-3 px-6 rounded-lg transition-colors text-sm sm:text-base border border-gray-300 bg-white text-gray-700 hover:bg-gray-100"
+            >
+              真名開帳
+            </button>
+          )}
           <button
             onClick={handleNextQuestion}
             className="w-full sm:w-auto sm:min-w-[160px] bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors text-sm sm:text-base"
           >
-            {resultStatus === "correct" ? "次の問題" : "この問題をスキップ"}
+            {resultStatus === "correct" || resultStatus === "revealed"
+              ? "次の問題"
+              : "この問題をスキップ"}
           </button>
         </div>
       )}
@@ -213,7 +217,7 @@ export default function SkillQuizPage() {
     useFetchQuizSkill(pageKey);
 
   const { data: optionData, isFetching: optionFetching } =
-    useFetchServantsOptions();
+    useFetchServantsOption();
 
   const isFetching = quizFetching || optionFetching;
 

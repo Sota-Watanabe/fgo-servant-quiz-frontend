@@ -1,13 +1,12 @@
 "use client";
 
 import { getClassTypeName } from "@/models/classTypes";
+import type { ProfileQuizResponse } from "@/hooks/useFetchQuizProfile";
 
-type QuizAnswerData = {
-  name: string;
-  ruby?: string | null;
-  originalName?: string | null;
-  classId: number;
-};
+type QuizAnswerData = Pick<
+  ProfileQuizResponse,
+  "name" | "ruby" | "originalName" | "classId"
+>;
 
 type QuizAnswerSectionProps = {
   quizData: QuizAnswerData;

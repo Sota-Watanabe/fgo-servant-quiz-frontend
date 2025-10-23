@@ -1,70 +1,19 @@
 /**
- * React Query用のカスタムフック群
+ * 旧来の `useApi` エントリポイント。
+ * 個別フックへリファクタリング後も既存コードから移行しやすいよう、
+ * 同名エクスポートをまとめて再公開する。
  */
-import { useQuery, UseQueryOptions } from "@tanstack/react-query";
-import { apiClient, API_ENDPOINTS, ApiError } from "@/utils/apiClient";
-import { components } from "@/types/api";
+export {
+  useFetchQuizSkill,
+  type SkillQuizResponse,
+} from "./useFetchQuizSkill";
 
-// 型のエイリアス
-type ServantsOptionsResponse =
-  components["schemas"]["ServantsOptionsGetResponseDto"];
-type SkillQuizResponse = components["schemas"]["ServantSkillGetResponseDto"];
-type ProfileQuizResponse =
-  components["schemas"]["ServantProfileGetResponseDto"] &
-    components["schemas"]["ServantProfileGetResponseDto"];
+export {
+  useFetchQuizProfile,
+  type ProfileQuizResponse,
+} from "./useFetchQuizProfile";
 
-/**
- * スキルクイズデータを取得するカスタムフック
- * @param key - クエリキー（ページ名+questionCountなど）
- * @param options - React Queryのオプション
- */
-export const useFetchQuizSkill = (
-  key: string = "skill-practice-0",
-  options?: Omit<
-    UseQueryOptions<SkillQuizResponse, ApiError>,
-    "queryKey" | "queryFn"
-  >
-) => {
-  return useQuery({
-    queryKey: [API_ENDPOINTS.QUIZ_SKILL, key],
-    queryFn: () => apiClient<SkillQuizResponse>(API_ENDPOINTS.QUIZ_SKILL),
-    ...options,
-  });
-};
-
-/**
- * プロフィールクイズデータを取得するカスタムフック
- * @param key - クエリキー（ページ名+questionCountなど）
- * @param options - React Queryのオプション
- */
-export const useFetchQuizProfile = (
-  key: string = "profile-practice-0",
-  options?: Omit<
-    UseQueryOptions<ProfileQuizResponse, ApiError>,
-    "queryKey" | "queryFn"
-  >
-) => {
-  return useQuery({
-    queryKey: [API_ENDPOINTS.QUIZ_PROFILE, key],
-    queryFn: () => apiClient<ProfileQuizResponse>(API_ENDPOINTS.QUIZ_PROFILE),
-    ...options,
-  });
-};
-
-/**
- * サーヴァント選択肢データを取得するカスタムフック
- * @param options - React Queryのオプション
- */
-export const useFetchServantsOptions = (
-  options?: Omit<
-    UseQueryOptions<ServantsOptionsResponse, ApiError>,
-    "queryKey" | "queryFn"
-  >
-) => {
-  return useQuery({
-    queryKey: [API_ENDPOINTS.SERVANTS_OPTIONS],
-    queryFn: () =>
-      apiClient<ServantsOptionsResponse>(API_ENDPOINTS.SERVANTS_OPTIONS),
-    ...options,
-  });
-};
+export {
+  useFetchServantsOption as useFetchServantsOptions,
+  type ServantsOptionsResponse,
+} from "./useFetchServantsOption";

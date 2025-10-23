@@ -1,9 +1,6 @@
-import { components } from "@/types/api";
+import type { ProfileQuizResponse } from "@/hooks/useFetchQuizProfile";
 
-type ProfileStats = Pick<
-  components["schemas"]["ServantProfileGetResponseDto"],
-  "cv" | "illustrator"
->;
+type ProfileStats = Pick<ProfileQuizResponse, "cv" | "illustrator">;
 
 type RelatedInfoSectionProps = {
   relatedInfo: ProfileStats;

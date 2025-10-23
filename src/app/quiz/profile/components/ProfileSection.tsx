@@ -1,8 +1,7 @@
+import type { ProfileQuizResponse } from "@/hooks/useFetchQuizProfile";
+
 type ProfileSectionProps = {
-  baseProfile: {
-    comment: string;
-    condMessage?: string;
-  };
+  baseProfile: NonNullable<ProfileQuizResponse["baseProfile"]>;
 };
 
 export default function ProfileSection({ baseProfile }: ProfileSectionProps) {

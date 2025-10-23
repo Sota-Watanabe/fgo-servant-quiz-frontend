@@ -1,16 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { useFetchQuizProfile } from "@/hooks/useApi";
+import { useFetchQuizProfile } from "@/hooks/useFetchQuizProfile";
 import PageLayout from "@/app/components/PageLayout";
 import QuizAnswerSection from "@/app/quiz/components/QuizAnswerSection";
 import ProfileSection from "./components/ProfileSection";
 import StatusSection from "./components/StatusSection";
 import RelatedInfoSection from "./components/RelatedInfoSection";
-import { components } from "@/types/api";
-
-type ProfileQuizResponse =
-  components["schemas"]["ServantProfileGetResponseDto"];
+import type { ProfileQuizResponse } from "@/hooks/useFetchQuizProfile";
 
 type ProfilePracticeProps = {
   quizData: ProfileQuizResponse;
