@@ -1,15 +1,35 @@
 "use client";
 
-import AdBanner from "./AdBanner";
-import GlobalNav from "./GlobalNav";
-import Footer from "./Footer";
+import type { CSSProperties, ReactNode } from "react";
+
+import AdBanner from "@/app/components/AdBanner";
+import Footer from "@/app/components/Footer";
+import GlobalNav from "@/app/components/GlobalNav";
 
 interface PageLayoutProps {
-  children: React.ReactNode;
+  children: ReactNode;
   adKeyPrefix?: string;
   minHeight?: number;
-  showSkillTabs?: boolean;
 }
+
+type AdPosition = "left" | "right";
+
+const AD_SLOT_ID = "2934488082";
+
+const AD_COLUMN_CLASS: Record<AdPosition, string> = {
+  left: "lg:w-64 flex-shrink-0 order-1 lg:order-1",
+  right: "lg:w-64 flex-shrink-0 order-3 lg:order-3",
+};
+
+const getAdStyle = (isDev: boolean): CSSProperties => ({
+  display: "block",
+  minHeight: "800px",
+  width: "100%",
+  borderRadius: "0.5rem",
+  ...(isDev
+    ? { border: "2px dashed #a5b4fc", background: "#eef2ff" }
+    : undefined),
+});
 
 /**
  * クイズページ用の3カラムレイアウトコンポーネント
@@ -21,14 +41,8 @@ export default function PageLayout({
   minHeight,
 }: PageLayoutProps) {
   const isDev = process.env.NODE_ENV !== "production";
-  const adStyle = {
-    display: "block",
-    minHeight: "800px",
-    width: "100%",
-    border: isDev ? "2px dashed #a5b4fc" : undefined,
-    background: isDev ? "#eef2ff" : undefined,
-    borderRadius: "0.5rem",
-  };
+  const adStyle = getAdStyle(isDev);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex flex-col">
       <div className="max-w-7xl mx-auto w-full">
@@ -53,24 +67,12 @@ export default function PageLayout({
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col lg:flex-row gap-4 lg:gap-6">
             {/* 左側の広告（デスクトップ） / 上部広告（モバイル） */}
-            <div className="lg:w-64 flex-shrink-0 order-1 lg:order-1">
-              <div className="lg:sticky lg:top-4">
-                {isDev ? (
-                  <div
-                    style={adStyle}
-                    className="flex items-center justify-center text-indigo-400 text-xs h-[200px]"
-                  >
-                    広告枠（開発環境）
-                  </div>
-                ) : (
-                  <AdBanner
-                    adKey={`ad-left-${adKeyPrefix}`}
-                    adSlot="2934488082"
-                    style={adStyle}
-                  />
-                )}
-              </div>
-            </div>
+            <AdColumn
+              position="left"
+              isDev={isDev}
+              adKeyPrefix={adKeyPrefix}
+              adStyle={adStyle}
+            />
 
             {/* メインコンテンツ */}
             <div className="flex-1 max-w-4xl order-2 lg:order-2">
@@ -78,30 +80,54 @@ export default function PageLayout({
             </div>
 
             {/* 右側の広告（デスクトップ） / 下部広告（モバイル） */}
-            <div className="lg:w-64 flex-shrink-0 order-3 lg:order-3">
-              <div className="lg:sticky lg:top-4">
-                {isDev ? (
-                  <div
-                    style={adStyle}
-                    className="flex items-center justify-center text-indigo-400 text-xs h-[200px]"
-                  >
-                    広告枠（開発環境）
-                  </div>
-                ) : (
-                  <AdBanner
-                    adKey={`ad-right-${adKeyPrefix}`}
-                    adSlot="2934488082"
-                    style={adStyle}
-                  />
-                )}
-              </div>
-            </div>
+            <AdColumn
+              position="right"
+              isDev={isDev}
+              adKeyPrefix={adKeyPrefix}
+              adStyle={adStyle}
+            />
           </div>
         </div>
       </div>
 
       {/* フッター */}
       <Footer />
+    </div>
+  );
+}
+
+interface AdColumnProps {
+  position: AdPosition;
+  adKeyPrefix: string;
+  isDev: boolean;
+  adStyle: CSSProperties;
+}
+
+function AdColumn({ position, adKeyPrefix, isDev, adStyle }: AdColumnProps) {
+  return (
+    <aside className={AD_COLUMN_CLASS[position]}>
+      <div className="lg:sticky lg:top-4">
+        {isDev ? (
+          <DevAdPlaceholder style={adStyle} />
+        ) : (
+          <AdBanner
+            adKey={`ad-${position}-${adKeyPrefix}`}
+            adSlot={AD_SLOT_ID}
+            style={adStyle}
+          />
+        )}
+      </div>
+    </aside>
+  );
+}
+
+function DevAdPlaceholder({ style }: { style: CSSProperties }) {
+  return (
+    <div
+      style={style}
+      className="flex items-center justify-center text-indigo-400 text-xs h-[200px]"
+    >
+      広告枠（開発環境）
     </div>
   );
 }

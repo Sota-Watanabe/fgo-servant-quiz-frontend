@@ -72,7 +72,7 @@ export default function ProfileQuizPage() {
   const { data: quizData, isFetching: loading } = useFetchQuizProfile(pageKey);
 
   return (
-    <PageLayout adKeyPrefix={questionCount.toString()} showSkillTabs={true}>
+    <PageLayout adKeyPrefix={questionCount.toString()}>
       {/* クイズエリア */}
       <main className="bg-white rounded-lg shadow-lg p-4 sm:p-6 mb-6 sm:mb-8">
         <div

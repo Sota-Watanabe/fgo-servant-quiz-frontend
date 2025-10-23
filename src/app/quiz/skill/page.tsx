@@ -225,7 +225,6 @@ export default function SkillQuizPage() {
     <PageLayout
       adKeyPrefix={questionCount.toString()}
       minHeight={1200}
-      showSkillTabs={true}
     >
       {/* クイズエリア */}
       <main className="bg-white rounded-lg shadow-lg p-4 sm:p-6 mb-6 sm:mb-8">
