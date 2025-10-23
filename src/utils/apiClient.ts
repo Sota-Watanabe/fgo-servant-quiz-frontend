@@ -64,6 +64,7 @@ export const apiClient = async <T>(endpoint: string): Promise<T> => {
  */
 export const API_ENDPOINTS = {
   QUIZ_SKILL: '/quiz/skill',
+  QUIZ_NP: '/quiz/np',
   QUIZ_PROFILE: '/quiz/profile',
   SERVANTS_OPTIONS: '/servants/options',
 } as const;

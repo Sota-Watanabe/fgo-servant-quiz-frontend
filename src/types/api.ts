@@ -61,6 +61,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/quiz/np": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * 宝具クイズの取得
+         * @description ランダムなサーヴァントの宝具情報を返します
+         */
+        get: operations["QuizController_getNpQuiz"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/servants/options": {
         parameters: {
             query?: never;
@@ -345,6 +365,109 @@ export interface components {
              */
             imageUrl: string;
         };
+        NoblePhantasmDto: {
+            /**
+             * @description 宝具ID
+             * @example 100010
+             */
+            id: number;
+            /**
+             * @description 宝具番号
+             * @example 1
+             */
+            num: number;
+            /**
+             * @description 強化段階番号
+             * @example 1
+             */
+            npNum: number;
+            /**
+             * @description カード種別
+             * @example 2
+             */
+            card: string;
+            /**
+             * @description 宝具名
+             * @example 約束された勝利の剣
+             */
+            name: string;
+            /**
+             * @description オリジナル名
+             * @example Excalibur
+             */
+            originalName: string;
+            /**
+             * @description ルビ
+             * @example エクスカリバー
+             */
+            ruby: string;
+            /**
+             * @description アイコンURL
+             * @example https://example.com/images/noble-phantasm/icon.png
+             */
+            icon: string;
+            /**
+             * @description ランク
+             * @example A++
+             */
+            rank: string;
+            /**
+             * @description タイプ
+             * @example 対城宝具
+             */
+            type: string;
+            /** @description 効果フラグ一覧 */
+            effectFlags: string[];
+            /**
+             * @description 詳細説明
+             * @example 敵全体に強力な攻撃
+             */
+            detail: string;
+        };
+        ServantNpGetResponseDto: {
+            /**
+             * @description サーヴァントID
+             * @example 102600
+             */
+            id: number;
+            /**
+             * @description コレクション番号
+             * @example 100
+             */
+            collectionNo: number;
+            /**
+             * @description サーヴァント名
+             * @example 坂本龍馬
+             */
+            name: string;
+            /**
+             * @description オリジナル名
+             * @example 坂本龍馬
+             */
+            originalName: string;
+            /**
+             * @description フリガナ
+             * @example さかもとりょうま
+             */
+            ruby: string;
+            /**
+             * @description クラスID
+             * @example 5
+             */
+            classId: number;
+            /**
+             * @description レアリティ
+             * @example 4
+             */
+            rarity: number;
+            /** @description 宝具詳細 */
+            noblePhantasm: components["schemas"]["NoblePhantasmDto"] | null;
+            /**
+             * @description サーヴァント画像URL
+             * @example https://example.com/images/servants/102600.png
+             */
+            imageUrl: string;
+        };
         ServantsOptions: {
             /**
              * @description サーヴァントID
@@ -436,6 +559,26 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ServantProfileGetResponseDto"];
+                };
+            };
+        };
+    };
+    QuizController_getNpQuiz: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description 宝具クイズデータ */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServantNpGetResponseDto"];
                 };
             };
         };

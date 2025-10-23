@@ -22,7 +22,7 @@ export default function GlobalNav() {
     },
     {
       label: "宝具",
-      href: "/quiz/noble-phantasm",
+      href: "/quiz/np",
       subLabel: "Noble Phantasm Quiz",
     },
   ];
