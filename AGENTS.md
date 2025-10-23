@@ -9,6 +9,7 @@
 - Google Analytics (Gタグ) と Google AdSense をクライアントコンポーネントで読み込む。
 
 ## ディレクトリ構成の要点
+- インポート時はルートエイリアス `@` から記述する。
 - `src/app` — App Router のページと共通 UI。
   - `components/`：`PageLayout`（広告付き3カラム）、`GlobalNav`、`AdSense` 系、`SearchableSelect` など。
   - `quiz/skill/**`・`quiz/profile/**`：PRACTICE/CHALLENGE それぞれのページ。
