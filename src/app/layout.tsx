@@ -15,6 +15,8 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const adSenseClientId = process.env.NEXT_PUBLIC_GOOGLE_ADSENSE_CLIENT_ID || "";
+
 export const metadata: Metadata = {
   title: "Fate/Grand Quiz",
   description: "Fate/Grand Order に関するクイズを出すWebサイトです。",
@@ -38,12 +40,14 @@ export default function RootLayout({
         <link rel="shortcut icon" href="/icon.png?v=1" />
         <link rel="apple-touch-icon" href="/icon.png?v=1" />
         <GoogleAnalytics measurementId="G-R5XW321DL4" />
-        <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6714287536670840"
-          crossOrigin="anonymous"
-          strategy="afterInteractive"
-        />
+        {adSenseClientId ? (
+          <Script
+            async
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adSenseClientId}`}
+            crossOrigin="anonymous"
+            strategy="afterInteractive"
+          />
+        ) : null}
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
