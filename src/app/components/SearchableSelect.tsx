@@ -294,6 +294,7 @@ export default function SearchableSelect({
                 </div>
                 <div className="ml-6 min-w-0">
                   <div className="truncate font-medium">{option.name}</div>
+                  <div className="truncate font-medium">{option.face}</div>
                 </div>
               </div>
             ))
