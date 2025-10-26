@@ -289,7 +289,6 @@ export default function SearchableSelect({
                     src={option.face}
                     alt={`${option.name}のアイコン`}
                     className="h-full w-full object-cover"
-                    loading="lazy"
                   />
                 </div>
                 <div className="ml-6 min-w-0">
