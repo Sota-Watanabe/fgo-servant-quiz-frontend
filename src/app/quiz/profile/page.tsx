@@ -72,7 +72,7 @@ export default function ProfileQuizPage() {
   return (
     <PageLayout adKeyPrefix={questionCount.toString()}>
       {/* クイズエリア */}
-      <main className="bg-white rounded-lg shadow-lg p-4 sm:p-6 mb-6 sm:mb-8">
+      <main className="relative bg-white rounded-lg shadow-lg p-4 sm:p-6 mb-6 sm:mb-8">
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-sky-100/70 to-transparent"
@@ -86,7 +86,7 @@ export default function ProfileQuizPage() {
                     問題を準備しています…
                   </h2>
                   <p className="mt-2 text-sm text-gray-500">
-                    プロフィール情報を読み込んでいます。少々お待ちください。
+                    AIによる霊基再構成を開始します。十数秒の刻を要します——
                   </p>
                 </div>
                 <div className="grid gap-3 sm:gap-4">
