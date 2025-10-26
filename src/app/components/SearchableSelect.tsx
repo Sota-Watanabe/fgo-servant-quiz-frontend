@@ -35,14 +35,14 @@ export default function SearchableSelect({
 
   // ひらがなをカタカナに変換する関数
   const hiraganaToKatakana = (str: string) => {
-    return str.replace(/[\u3041-\u3096]/g, (ch) => 
+    return str.replace(/[\u3041-\u3096]/g, (ch) =>
       String.fromCharCode(ch.charCodeAt(0) + 0x60)
     );
   };
 
   // カタカナをひらがなに変換する関数
   const katakanaToHiragana = (str: string) => {
-    return str.replace(/[\u30a1-\u30f6]/g, (ch) => 
+    return str.replace(/[\u30a1-\u30f6]/g, (ch) =>
       String.fromCharCode(ch.charCodeAt(0) - 0x60)
     );
   };
@@ -50,36 +50,41 @@ export default function SearchableSelect({
   // 検索でフィルタリングされた選択肢
   const filteredOptions = options.filter((option) => {
     const searchLower = toCaseFold(searchTerm);
-    
+
     // 検索対象のテキストを正規化（・を含む部分マッチング対応）
     const normalizeText = (text: string) => {
       return toCaseFold(text)
-        .replace(/・/g, '') // 中黒を削除
-        .replace(/\s+/g, ''); // 空白を削除
+        .replace(/・/g, "") // 中黒を削除
+        .replace(/\s+/g, ""); // 空白を削除
     };
-    
+
     const normalizedSearch = normalizeText(searchLower);
     const normalizedName = normalizeText(option.name);
-    const normalizedOriginalName = option.originalOverwriteName 
-      ? normalizeText(option.originalOverwriteName) 
-      : '';
-    
+    const normalizedOriginalName = option.originalOverwriteName
+      ? normalizeText(option.originalOverwriteName)
+      : "";
+
     // ひらがな・カタカナ相互変換した検索文字列
     const searchHiragana = katakanaToHiragana(normalizedSearch);
     const searchKatakana = hiraganaToKatakana(normalizedSearch);
     const nameHiragana = katakanaToHiragana(normalizedName);
     const nameKatakana = hiraganaToKatakana(normalizedName);
-    const originalNameHiragana = normalizedOriginalName ? katakanaToHiragana(normalizedOriginalName) : '';
-    const originalNameKatakana = normalizedOriginalName ? hiraganaToKatakana(normalizedOriginalName) : '';
-    
+    const originalNameHiragana = normalizedOriginalName
+      ? katakanaToHiragana(normalizedOriginalName)
+      : "";
+    const originalNameKatakana = normalizedOriginalName
+      ? hiraganaToKatakana(normalizedOriginalName)
+      : "";
+
     return (
       // 元の検索（完全一致優先）
       toCaseFold(option.name).includes(searchLower) ||
-      (option.originalOverwriteName && 
-       toCaseFold(option.originalOverwriteName).includes(searchLower)) ||
+      (option.originalOverwriteName &&
+        toCaseFold(option.originalOverwriteName).includes(searchLower)) ||
       // 正規化された検索（・や空白を無視した部分マッチ）
       normalizedName.includes(normalizedSearch) ||
-      (normalizedOriginalName && normalizedOriginalName.includes(normalizedSearch)) ||
+      (normalizedOriginalName &&
+        normalizedOriginalName.includes(normalizedSearch)) ||
       // ひらがな・カタカナ相互変換検索
       nameHiragana.includes(searchHiragana) ||
       nameKatakana.includes(searchKatakana) ||
@@ -143,7 +148,10 @@ export default function SearchableSelect({
         break;
       case "Enter":
         e.preventDefault();
-        if (highlightedIndex >= 0 && highlightedIndex < filteredOptions.length) {
+        if (
+          highlightedIndex >= 0 &&
+          highlightedIndex < filteredOptions.length
+        ) {
           selectOption(filteredOptions[highlightedIndex]);
         }
         break;
@@ -173,7 +181,9 @@ export default function SearchableSelect({
   // ハイライトされた選択肢をスクロールして表示
   useEffect(() => {
     if (isOpen && highlightedIndex >= 0) {
-      const highlightedElement = dropdownRef.current?.children[highlightedIndex + 1] as HTMLElement;
+      const highlightedElement = dropdownRef.current?.children[
+        highlightedIndex + 1
+      ] as HTMLElement;
       if (highlightedElement) {
         highlightedElement.scrollIntoView({
           block: "nearest",
@@ -215,13 +225,17 @@ export default function SearchableSelect({
             disabled={disabled}
           />
         ) : (
-          <div className={`${selectedServant ? "text-gray-900" : "text-gray-500"}`}>
+          <div
+            className={`${selectedServant ? "text-gray-900" : "text-gray-500"}`}
+          >
             {selectedServant
-              ? `${selectedServant.name} (${getClassTypeName(selectedServant.classId)})`
+              ? `${selectedServant.name} (${getClassTypeName(
+                  selectedServant.classId
+                )})`
               : placeholder}
           </div>
         )}
-        
+
         {/* ドロップダウン矢印 */}
         <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
           <svg
@@ -249,7 +263,7 @@ export default function SearchableSelect({
           <div className="px-3 py-2 text-xs text-gray-500 border-b border-gray-200 bg-gray-50">
             {filteredOptions.length} 件の候補
           </div>
-          
+
           {filteredOptions.length === 0 ? (
             <div className="px-3 py-4 text-gray-500 text-center">
               該当するサーヴァントが見つかりません
@@ -258,20 +272,28 @@ export default function SearchableSelect({
             filteredOptions.map((option, index) => (
               <div
                 key={option.id}
-                className={`px-3 py-3 cursor-pointer transition-colors border-b border-gray-100 last:border-b-0 ${
+                className={`group flex items-center px-8 py-3 cursor-pointer transition-colors border-b border-gray-100 last:border-b-0 ${
                   index === highlightedIndex
                     ? "bg-blue-50 text-blue-700"
                     : "hover:bg-gray-50 text-gray-900"
-                } ${value === option.id ? "bg-blue-100 text-blue-800 font-medium" : ""}`}
+                } ${
+                  value === option.id
+                    ? "bg-blue-100 text-blue-800 font-medium"
+                    : ""
+                }`}
                 onClick={() => selectOption(option)}
                 onMouseEnter={() => setHighlightedIndex(index)}
               >
-                <div className="font-medium">{option.name}</div>
-                <div className="text-xs text-gray-500 mt-1">
-                  {getClassTypeName(option.classId)}
-                  {option.originalOverwriteName && (
-                    <span className="ml-2">({option.originalOverwriteName})</span>
-                  )}
+                <div className="flex h-12 w-12 flex-none items-center justify-center overflow-hidden rounded-full border border-gray-200 bg-gray-50 group-hover:border-gray-300">
+                  <img
+                    src={option.face}
+                    alt={`${option.name}のアイコン`}
+                    className="h-full w-full object-cover"
+                    loading="lazy"
+                  />
+                </div>
+                <div className="ml-6 min-w-0">
+                  <div className="truncate font-medium">{option.name}</div>
                 </div>
               </div>
             ))

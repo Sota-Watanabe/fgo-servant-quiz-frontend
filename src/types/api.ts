@@ -489,6 +489,11 @@ export interface components {
              * @example 1
              */
             classId: number;
+            /**
+             * @description 顔画像URL
+             * @example https://example.com/face.jpg
+             */
+            face: string;
         };
         ServantsOptionsGetResponseDto: {
             /** @description サーヴァント選択肢の配列 */
