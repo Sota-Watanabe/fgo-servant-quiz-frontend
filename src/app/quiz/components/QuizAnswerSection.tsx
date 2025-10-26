@@ -91,7 +91,7 @@ export default function QuizAnswerSection<T extends BaseQuizData>({
             className={`flex-1 font-semibold py-2 px-4 rounded-lg transition-colors text-sm sm:text-base text-white ${
               selectedServantId === null || !isWaiting
                 ? "bg-gray-400 cursor-not-allowed"
-                : "bg-blue-600 hover:bg-blue-700"
+                : "bg-blue-600 hover:bg-blue-700 hover:cursor-pointer"
             }`}
           >
             真名判定
@@ -192,14 +192,14 @@ export default function QuizAnswerSection<T extends BaseQuizData>({
             <button
               type="button"
               onClick={handleRevealTrueName}
-              className="w-full sm:w-auto sm:min-w-[160px] font-semibold py-3 px-6 rounded-lg transition-colors text-sm sm:text-base border border-gray-300 bg-white text-gray-700 hover:bg-gray-100"
+              className="w-full sm:w-auto sm:min-w-[160px] font-semibold py-3 px-6 rounded-lg transition-colors text-sm sm:text-base border border-gray-300 bg-white text-gray-700 hover:bg-gray-100 hover:cursor-pointer"
             >
               真名開帳
             </button>
           )}
           <button
             onClick={handleNextQuestion}
-            className="w-full sm:w-auto sm:min-w-[160px] bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors text-sm sm:text-base"
+            className="w-full sm:w-auto sm:min-w-[160px] bg-green-600 hover:bg-green-700 hover:cursor-pointer text-white font-semibold py-3 px-6 rounded-lg transition-colors text-sm sm:text-base"
           >
             {nextButtonText}
           </button>
