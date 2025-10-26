@@ -69,6 +69,12 @@ jobs:
           NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
         run: npm run build
 
+      - name: Debug which SA is being impersonated
+        run: |
+          gcloud --verbosity=debug auth print-access-token 2>&1 | tee debug-log.txt | grep "serviceAccounts"
+        env:
+          CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE: ${{ steps.auth.outputs.credentials_file_path }}
+
       # ------------------------------------
       # Artifact Registry 認証設定
       # ------------------------------------
