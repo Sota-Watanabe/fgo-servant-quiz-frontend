@@ -60,7 +60,7 @@ export default function PageLayout({
           <GlobalNav />
         </div>
       </div>
-      <div
+      <main
         className="flex-1 py-4 sm:py-8 px-2 sm:px-4"
         style={{ minHeight: minHeight ? `${minHeight}px` : "auto" }}
       >
@@ -75,9 +75,12 @@ export default function PageLayout({
             />
 
             {/* メインコンテンツ */}
-            <div className="flex-1 max-w-4xl order-2 lg:order-2">
+            <section
+              className="flex-1 max-w-4xl order-2 lg:order-2"
+              aria-label="Fate/Grand Order クイズ"
+            >
               {children}
-            </div>
+            </section>
 
             {/* 右側の広告（デスクトップ） / 下部広告（モバイル） */}
             <AdColumn
@@ -88,7 +91,7 @@ export default function PageLayout({
             />
           </div>
         </div>
-      </div>
+      </main>
 
       {/* フッター */}
       <Footer />
