@@ -9,7 +9,6 @@ import GlobalNav from "@/app/components/GlobalNav";
 interface PageLayoutProps {
   children: ReactNode;
   adKeyPrefix?: string;
-  minHeight?: number;
 }
 
 type AdPosition = "left" | "right";
@@ -38,7 +37,6 @@ const getAdStyle = (isDev: boolean): CSSProperties => ({
 export default function PageLayout({
   children,
   adKeyPrefix = "quiz",
-  minHeight,
 }: PageLayoutProps) {
   const isDev = process.env.NODE_ENV !== "production";
   const adStyle = getAdStyle(isDev);
@@ -61,8 +59,7 @@ export default function PageLayout({
         </div>
       </div>
       <main
-        className="flex-1 py-4 sm:py-8 px-2 sm:px-4"
-        style={{ minHeight: minHeight ? `${minHeight}px` : "auto" }}
+        className="flex-1 py-4 sm:py-8 px-2 sm:px-4 min-h-[400px] sm:min-h-[800px]"
       >
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col lg:flex-row gap-4 lg:gap-6">
