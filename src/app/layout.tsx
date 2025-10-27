@@ -64,6 +64,8 @@ export const metadata: Metadata = {
     "FGO 上級者",
     "FGO ランダム出題",
     "FGO マスター向け クイズ",
+    "FGQ クイズ",
+    "Fate/Grand Quiz",
   ],
   alternates: {
     canonical: siteUrl,
