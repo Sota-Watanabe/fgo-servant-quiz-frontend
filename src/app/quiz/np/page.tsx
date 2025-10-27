@@ -112,7 +112,7 @@ export default function NoblePhantasmQuizPage() {
   const isFetching = quizFetching || optionFetching;
 
   return (
-    <PageLayout adKeyPrefix={questionCount.toString()} minHeight={1200}>
+    <PageLayout adKeyPrefix={questionCount.toString()}>
       <main className="bg-white rounded-lg shadow-lg p-4 sm:p-6 mb-6 sm:mb-8">
         <div className="text-center">
           {isFetching ? (
