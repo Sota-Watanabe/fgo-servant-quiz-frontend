@@ -81,7 +81,7 @@ export default function QuizAnswerSection<T extends BaseQuizData>({
           options={options}
           value={selectedServantId}
           onChange={handleServantChange}
-          placeholder="サーヴァントを選択してください"
+          placeholder="サーヴァント名（第一再臨）"
           disabled={!options.length}
         />
         <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-4">

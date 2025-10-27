@@ -18,7 +18,7 @@ export default function SearchableSelect({
   options,
   value,
   onChange,
-  placeholder = "サーヴァントを選択してください",
+  placeholder = "サーヴァント名（第一再臨）",
   disabled = false,
 }: SearchableSelectProps) {
   const [isOpen, setIsOpen] = useState(false);
