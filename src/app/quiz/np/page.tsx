@@ -55,35 +55,29 @@ const NoblePhantasmQuiz = ({
             )}
           </header>
 
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-            {noblePhantasm.rank && (
-              <div className="rounded-xl border border-sky-100 bg-sky-50 p-3 sm:p-4 text-sky-800 shadow-sm">
-                <p className="text-[11px] uppercase tracking-[0.2em] text-sky-500">
-                  ランク
-                </p>
-                <p className="mt-2 text-xl sm:text-2xl font-bold">
-                  {noblePhantasm.rank}
-                </p>
-              </div>
-            )}
-            {noblePhantasm.type && (
-              <div className="rounded-xl border border-sky-100 bg-sky-50 p-3 sm:p-4 text-sky-800 shadow-sm">
-                <p className="text-[11px] uppercase tracking-[0.2em] text-sky-500">
-                  種別
-                </p>
-                <p className="mt-2 text-xl sm:text-2xl font-bold">
-                  {noblePhantasm.type}
-                </p>
-              </div>
-            )}
-            {cardLabel && (
-              <div className="rounded-xl border border-sky-100 bg-sky-50 p-3 sm:p-4 text-sky-800 shadow-sm">
-                <p className="text-[11px] uppercase tracking-[0.2em] text-sky-500">
-                  カード
-                </p>
-                <p className="mt-2 text-xl sm:text-2xl font-bold">{cardLabel}</p>
-              </div>
-            )}
+          <div className="sm:flex sm:items-stretch">
+            <div className="mb-3 last:mb-0 sm:mb-0 sm:mr-4 last:sm:mr-0 sm:flex-1 sm:min-w-[160px] rounded-xl border border-sky-100 bg-sky-50 p-3 sm:p-4 text-sky-800 shadow-sm">
+              <p className="text-[11px] uppercase tracking-[0.2em] text-sky-500">
+                ランク
+              </p>
+              <p className="mt-2 text-xl sm:text-2xl font-bold">
+                {noblePhantasm.rank}
+              </p>
+            </div>
+            <div className="mb-3 last:mb-0 sm:mb-0 sm:mr-4 last:sm:mr-0 sm:flex-[1.5] sm:min-w-[220px] rounded-xl border border-sky-100 bg-sky-50 p-3 sm:p-4 text-sky-800 shadow-sm">
+              <p className="text-[11px] uppercase tracking-[0.2em] text-sky-500">
+                種別
+              </p>
+              <p className="mt-2 text-xl sm:text-2xl font-bold sm:whitespace-nowrap">
+                {noblePhantasm.type}
+              </p>
+            </div>
+            <div className="mb-3 last:mb-0 sm:mb-0 sm:flex-1 sm:min-w-[160px] rounded-xl border border-sky-100 bg-sky-50 p-3 sm:p-4 text-sky-800 shadow-sm">
+              <p className="text-[11px] uppercase tracking-[0.2em] text-sky-500">
+                カード
+              </p>
+              <p className="mt-2 text-xl sm:text-2xl font-bold">{cardLabel}</p>
+            </div>
           </div>
 
           {noblePhantasm.detail && (
