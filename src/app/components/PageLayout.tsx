@@ -22,7 +22,7 @@ const AD_COLUMN_CLASS: Record<AdPosition, string> = {
 
 const getAdStyle = (isDev: boolean): CSSProperties => ({
   display: "block",
-  minHeight: "800px",
+  minHeight: "400px",
   width: "100%",
   borderRadius: "0.5rem",
   ...(isDev
@@ -59,7 +59,7 @@ export default function PageLayout({
         </div>
       </div>
       <main
-        className="flex-1 py-4 sm:py-8 px-2 sm:px-4 min-h-[400px] sm:min-h-[800px]"
+        className="flex-1 py-4 sm:py-8 px-2 sm:px-4 h-[400px] sm:h-[800px]"
       >
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col lg:flex-row gap-4 lg:gap-6">
