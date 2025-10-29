@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import AdBanner from "@/app/components/AdBanner";
 import Footer from "@/app/components/Footer";
 import GlobalNav from "@/app/components/GlobalNav";
+import Header from "@/app/components/Header";
 
 interface PageLayoutProps {
   children: ReactNode;
@@ -57,20 +58,16 @@ export default function PageLayout({
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex flex-col">
-      <div className="max-w-7xl mx-auto w-full">
-        {/* ヘッダー（タイトル） */}
-        <header className="text-center pt-6 sm:pt-10 mb-2 sm:mb-4">
-          <h1 className="text-2xl sm:text-4xl font-bold text-gray-800 mb-2 sm:mb-4">
-            Fate/Grand Quiz
-          </h1>
-          <p className="text-base sm:text-lg text-gray-600">
-            記憶に刻まれし英霊たちの軌跡を辿れ
-          </p>
-        </header>
-        {/* ナビゲーション */}
-        <div className="mb-4 sm:mb-6">
-          <GlobalNav />
+      <Header />
+      <div className="mx-auto mt-4 mb-4 w-full max-w-7xl px-2 sm:mt-6 sm:mb-6 sm:px-4">
+        <div className="mb-4 flex justify-center sm:mb-6">
+          <img
+            src="/images/%20da-vinci.png"
+            alt="レオナルド・ダ・ヴィンチ"
+            // className="h0 w-auto sm:h-40"
+          />
         </div>
+        <GlobalNav />
       </div>
       <main
         className="flex-1 py-4 sm:py-8 px-2 sm:px-4 h-[400px] sm:h-[800px]"
