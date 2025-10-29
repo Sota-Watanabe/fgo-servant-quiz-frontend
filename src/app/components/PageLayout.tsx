@@ -1,6 +1,7 @@
 "use client";
 
 import type { CSSProperties, ReactNode } from "react";
+import { useEffect, useState } from "react";
 
 import AdBanner from "@/app/components/AdBanner";
 import Footer from "@/app/components/Footer";
@@ -20,10 +21,10 @@ const AD_COLUMN_CLASS: Record<AdPosition, string> = {
   right: "lg:w-64 flex-shrink-0 order-3 lg:order-3",
 };
 
-const getAdStyle = (isDev: boolean): CSSProperties => ({
+const getAdStyle = (isDev: boolean, height: string): CSSProperties => ({
   display: "block",
-  minHeight: "400px",
   width: "100%",
+  height,
   borderRadius: "0.5rem",
   ...(isDev
     ? { border: "2px dashed #a5b4fc", background: "#eef2ff" }
@@ -39,7 +40,20 @@ export default function PageLayout({
   adKeyPrefix = "quiz",
 }: PageLayoutProps) {
   const isDev = process.env.NODE_ENV !== "production";
-  const adStyle = getAdStyle(isDev);
+  const [adHeight, setAdHeight] = useState("400px");
+  useEffect(() => {
+    const updateHeight = () => {
+      if (window.matchMedia("(min-width: 640px)").matches) {
+        setAdHeight("800px");
+      } else {
+        setAdHeight("400px");
+      }
+    };
+    updateHeight();
+    window.addEventListener("resize", updateHeight);
+    return () => window.removeEventListener("resize", updateHeight);
+  }, []);
+  const adStyle = getAdStyle(isDev, adHeight);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex flex-col">
@@ -125,7 +139,7 @@ function DevAdPlaceholder({ style }: { style: CSSProperties }) {
   return (
     <div
       style={style}
-      className="flex items-center justify-center text-indigo-400 text-xs h-[200px]"
+      className="flex items-center justify-center text-indigo-400 text-xs"
     >
       広告枠（開発環境）
     </div>
