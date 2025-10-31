@@ -61,11 +61,11 @@ export default function PageLayout({
       <Header />
       <div className="mx-auto mt-4 mb-4 w-full max-w-7xl px-2 sm:mt-6 sm:mb-6 sm:px-4">
         <div className="mb-4 flex justify-center sm:mb-6">
-          <img
+          {/* <img
             src="/images/%20da-vinci.png"
             alt="レオナルド・ダ・ヴィンチ"
             // className="h0 w-auto sm:h-40"
-          />
+          /> */}
         </div>
         <GlobalNav />
       </div>
@@ -73,14 +73,14 @@ export default function PageLayout({
         className="flex-1 py-4 sm:py-8 px-2 sm:px-4 h-[400px] sm:h-[800px]"
       >
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col lg:flex-row gap-4 lg:gap-6">
+          <div className="flex flex-col lg:flex-row gap-4 lg:gap-6 justify-center">
             {/* 左側の広告（デスクトップ） / 上部広告（モバイル） */}
-            <AdColumn
+            {/* <AdColumn
               position="left"
               isDev={isDev}
               adKeyPrefix={adKeyPrefix}
               adStyle={adStyle}
-            />
+            /> */}
 
             {/* メインコンテンツ */}
             <section
@@ -91,12 +91,12 @@ export default function PageLayout({
             </section>
 
             {/* 右側の広告（デスクトップ） / 下部広告（モバイル） */}
-            <AdColumn
+            {/* <AdColumn
               position="right"
               isDev={isDev}
               adKeyPrefix={adKeyPrefix}
               adStyle={adStyle}
-            />
+            /> */}
           </div>
         </div>
       </main>
