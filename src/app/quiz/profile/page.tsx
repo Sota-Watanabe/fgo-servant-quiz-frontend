@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { useFetchQuizProfile } from "@/hooks/useFetchQuizProfile";
 import { useFetchServantsOption } from "@/hooks/useFetchServantsOption";
 import PageLayout from "@/app/components/PageLayout";
@@ -10,7 +11,6 @@ import StatusSection from "./components/StatusSection";
 import RelatedInfoSection from "./components/RelatedInfoSection";
 import type { ProfileQuizResponse } from "@/hooks/useFetchQuizProfile";
 import type { ServantsOptionsResponse } from "@/hooks/useFetchServantsOption";
-import { useLatchedQueryParam } from "@/hooks/useLatchedQueryParam";
 
 type ServantOption = ServantsOptionsResponse["options"][number];
 
@@ -58,23 +58,22 @@ const ProfilePracticeQuiz = ({
 };
 
 export default function ProfileQuizPage() {
+  const searchParams = useSearchParams();
   const [questionCount, setQuestionCount] = useState(0);
-  const servantId = useLatchedQueryParam("servantId");
-
-  // ページ名（profile-practice）+クエスチョン番号（+サーヴァントID）でキーを生成
-  const pageKey = servantId
-    ? `profile-practice-${questionCount}-${servantId}`
-    : `profile-practice-${questionCount}`;
+  const [initialServantId] = useState<string | undefined>(() => {
+    return searchParams.get("servantId") ?? undefined;
+  });
+  const servantId = questionCount === 0 ? initialServantId : undefined;
 
   const { data: quizData, isFetching: quizFetching } =
-    useFetchQuizProfile(pageKey, servantId);
+    useFetchQuizProfile(questionCount, servantId);
   const { data: optionData, isFetching: optionFetching } =
     useFetchServantsOption();
 
   const isFetching = quizFetching || optionFetching;
 
   return (
-    <PageLayout adKeyPrefix={questionCount.toString()}>
+    <PageLayout>
       {/* クイズエリア */}
       <main className="relative bg-white rounded-lg shadow-lg p-4 sm:p-6 mb-6 sm:mb-8">
         <div

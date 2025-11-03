@@ -15,7 +15,7 @@
 - `src/app` — App Router のページと共通 UI。
   - `components/`：`PageLayout`（広告付き 3 カラム）、`GlobalNav`、`AdSense` 系、`SearchableSelect` など。
   - `quiz/skill/**`・`quiz/profile/**`：PRACTICE/CHALLENGE それぞれのページ。
-- `src/hooks` — React Query を使った API 呼び出し。`useFetchQuizSkill.ts`、`useFetchQuizProfile.ts`、`useFetchServantsOption.ts` など個別フックで構成。クエリパラメータを一度保持して URL から取り除く `useLatchedQueryParam.ts` もここに配置。
+- `src/hooks` — React Query を使った API 呼び出し。`useFetchQuizSkill.ts`、`useFetchQuizProfile.ts`、`useFetchServantsOption.ts` など個別フックで構成。
 - `src/utils` — API クライアント (`apiClient.ts`)、スキル整形 (`skillUtils.ts`)。
 - `src/models` — サーヴァントのクラス／カード種別を ID ↔ 日本語名でマッピング。
 - `src/types` — OpenAPI から生成された `api.ts`（`npm run generate:types`）、`gtag.d.ts`。

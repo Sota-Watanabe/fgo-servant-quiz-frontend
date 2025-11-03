@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import PageLayout from "@/app/components/PageLayout";
 import QuizAnswerSection from "@/app/quiz/components/QuizAnswerSection";
 import { useFetchQuizNp } from "@/hooks/useFetchQuizNp";
@@ -8,7 +9,6 @@ import { useFetchServantsOption } from "@/hooks/useFetchServantsOption";
 import type { NoblePhantasmQuizResponse } from "@/hooks/useFetchQuizNp";
 import type { ServantsOptionsResponse } from "@/hooks/useFetchServantsOption";
 import { getCardTypeName } from "@/models/cardTypes";
-import { useLatchedQueryParam } from "@/hooks/useLatchedQueryParam";
 
 type ServantOption = ServantsOptionsResponse["options"][number];
 
@@ -103,23 +103,22 @@ const NoblePhantasmQuiz = ({
 };
 
 export default function NoblePhantasmQuizPage() {
+  const searchParams = useSearchParams();
   const [questionCount, setQuestionCount] = useState(0);
-  const servantId = useLatchedQueryParam("servantId");
+  const [initialServantId] = useState<string | undefined>(() => {
+    return searchParams.get("servantId") ?? undefined;
+  });
+  const servantId = questionCount === 0 ? initialServantId : undefined;
 
-  const pageKey = servantId
-    ? `np-quiz-${questionCount}-${servantId}`
-    : `np-quiz-${questionCount}`;
-  const { data: quizData, isFetching: quizFetching } = useFetchQuizNp(
-    pageKey,
-    servantId
-  );
+  const { data: quizData, isFetching: quizFetching } =
+    useFetchQuizNp(questionCount, servantId);
   const { data: optionData, isFetching: optionFetching } =
     useFetchServantsOption();
 
   const isFetching = quizFetching || optionFetching;
 
   return (
-    <PageLayout adKeyPrefix={questionCount.toString()}>
+    <PageLayout>
       <main className="bg-white rounded-lg shadow-lg p-4 sm:p-6 mb-6 sm:mb-8">
         <div className="text-center">
           {isFetching ? (
@@ -137,7 +136,9 @@ export default function NoblePhantasmQuizPage() {
             <NoblePhantasmQuiz
               quizData={quizData}
               options={optionData.options}
-              onNextQuestion={() => setQuestionCount((prev) => prev + 1)}
+              onNextQuestion={() => {
+                setQuestionCount((prev) => prev + 1);
+              }}
             />
           ) : (
             <>
