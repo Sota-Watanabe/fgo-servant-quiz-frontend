@@ -5,19 +5,31 @@ import { apiClient, API_ENDPOINTS, ApiError } from "@/utils/apiClient";
 export type ProfileQuizResponse =
   components["schemas"]["ServantProfileGetResponseDto"];
 
-const fetchQuizProfile = async (): Promise<ProfileQuizResponse> => {
-  return apiClient<ProfileQuizResponse>(API_ENDPOINTS.QUIZ_PROFILE);
+const buildProfileEndpoint = (servantId?: string) => {
+  if (servantId) {
+    return `${API_ENDPOINTS.QUIZ_PROFILE}?servantId=${encodeURIComponent(
+      servantId
+    )}`;
+  }
+  return API_ENDPOINTS.QUIZ_PROFILE;
+};
+
+const fetchQuizProfile = async (
+  servantId?: string
+): Promise<ProfileQuizResponse> => {
+  return apiClient<ProfileQuizResponse>(buildProfileEndpoint(servantId));
 };
 
 export const useFetchQuizProfile = (
   key: string | number = 0,
+  servantId?: string,
   options?: Omit<
     UseQueryOptions<ProfileQuizResponse, ApiError>,
     "queryKey" | "queryFn"
   >
 ) =>
   useQuery({
-    queryKey: [API_ENDPOINTS.QUIZ_PROFILE, key],
-    queryFn: fetchQuizProfile,
+    queryKey: [API_ENDPOINTS.QUIZ_PROFILE, key, servantId ?? null],
+    queryFn: () => fetchQuizProfile(servantId),
     ...options,
   });

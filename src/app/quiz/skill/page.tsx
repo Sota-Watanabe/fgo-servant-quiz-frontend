@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useSearchParams } from "next/navigation";
 import PageLayout from "@/app/components/PageLayout";
 import QuizAnswerSection from "@/app/quiz/components/QuizAnswerSection";
 import { useFetchQuizSkill } from "@/hooks/useFetchQuizSkill";
@@ -9,6 +8,7 @@ import { useFetchServantsOption } from "@/hooks/useFetchServantsOption";
 import type { SkillQuizResponse } from "@/hooks/useFetchQuizSkill";
 import type { ServantsOptionsResponse } from "@/hooks/useFetchServantsOption";
 import { getDisplaySkills } from "@/utils/skillUtils";
+import { useLatchedQueryParam } from "@/hooks/useLatchedQueryParam";
 
 type ServantOption = ServantsOptionsResponse["options"][number];
 
@@ -55,8 +55,7 @@ const SkillQuiz = ({ quizData, options, onNextQuestion }: SkillQuizProps) => {
 
 export default function SkillQuizPage() {
   const [questionCount, setQuestionCount] = useState(0);
-  const searchParams = useSearchParams();
-  const servantId = searchParams.get("servantId") ?? undefined;
+  const servantId = useLatchedQueryParam("servantId");
 
   // ページ名（skill-challenge）+クエスチョン番号（+サーヴァントID）でキーを生成
   const pageKey = servantId

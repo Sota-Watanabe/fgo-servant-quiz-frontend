@@ -8,6 +8,7 @@ import { useFetchServantsOption } from "@/hooks/useFetchServantsOption";
 import type { NoblePhantasmQuizResponse } from "@/hooks/useFetchQuizNp";
 import type { ServantsOptionsResponse } from "@/hooks/useFetchServantsOption";
 import { getCardTypeName } from "@/models/cardTypes";
+import { useLatchedQueryParam } from "@/hooks/useLatchedQueryParam";
 
 type ServantOption = ServantsOptionsResponse["options"][number];
 
@@ -103,9 +104,15 @@ const NoblePhantasmQuiz = ({
 
 export default function NoblePhantasmQuizPage() {
   const [questionCount, setQuestionCount] = useState(0);
+  const servantId = useLatchedQueryParam("servantId");
 
-  const pageKey = `np-quiz-${questionCount}`;
-  const { data: quizData, isFetching: quizFetching } = useFetchQuizNp(pageKey);
+  const pageKey = servantId
+    ? `np-quiz-${questionCount}-${servantId}`
+    : `np-quiz-${questionCount}`;
+  const { data: quizData, isFetching: quizFetching } = useFetchQuizNp(
+    pageKey,
+    servantId
+  );
   const { data: optionData, isFetching: optionFetching } =
     useFetchServantsOption();
 

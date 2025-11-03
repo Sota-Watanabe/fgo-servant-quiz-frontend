@@ -10,6 +10,7 @@ import StatusSection from "./components/StatusSection";
 import RelatedInfoSection from "./components/RelatedInfoSection";
 import type { ProfileQuizResponse } from "@/hooks/useFetchQuizProfile";
 import type { ServantsOptionsResponse } from "@/hooks/useFetchServantsOption";
+import { useLatchedQueryParam } from "@/hooks/useLatchedQueryParam";
 
 type ServantOption = ServantsOptionsResponse["options"][number];
 
@@ -58,12 +59,15 @@ const ProfilePracticeQuiz = ({
 
 export default function ProfileQuizPage() {
   const [questionCount, setQuestionCount] = useState(0);
+  const servantId = useLatchedQueryParam("servantId");
 
-  // ページ名（profile-practice）+クエスチョン番号でキーを生成
-  const pageKey = `profile-practice-${questionCount}`;
+  // ページ名（profile-practice）+クエスチョン番号（+サーヴァントID）でキーを生成
+  const pageKey = servantId
+    ? `profile-practice-${questionCount}-${servantId}`
+    : `profile-practice-${questionCount}`;
 
   const { data: quizData, isFetching: quizFetching } =
-    useFetchQuizProfile(pageKey);
+    useFetchQuizProfile(pageKey, servantId);
   const { data: optionData, isFetching: optionFetching } =
     useFetchServantsOption();
 
