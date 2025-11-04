@@ -4,8 +4,8 @@
 
 ## リポジトリ概要
 
-- Next.js App Router 構成のフロントエンド。トップ (`src/app/page.tsx`) は `/quiz/skill/challenge` へリダイレクト。
-- React Query（`QueryProvider`）で API フェッチを集約し、FGO クイズ（スキル／プロフィール）の問題を表示。
+- Next.js App Router 構成のフロントエンド。トップ (`src/app/page.tsx`) はクイズ概要と `/quiz/skill`・`/quiz/profile`・`/quiz/np` への導線を提供。
+- React Query（`QueryProvider`）で API フェッチを集約し、FGO クイズ（スキル／プロフィール／宝具）の問題を表示。
 - Tailwind CSS を `globals.css` からインライン @import し、独自のフォントと装飾を適用。
 - Google Analytics (G タグ) と Google AdSense をクライアントコンポーネントで読み込む。
 
@@ -14,7 +14,7 @@
 - インポート時はルートエイリアス `@` から記述する。
 - `src/app` — App Router のページと共通 UI。
   - `components/`：`PageLayout`（広告付き 3 カラム）、`GlobalNav`、`AdSense` 系、`SearchableSelect` など。
-  - `quiz/skill/**`・`quiz/profile/**`：PRACTICE/CHALLENGE それぞれのページ。
+  - `quiz/skill/**`・`quiz/profile/**`・`quiz/np/**`：各クイズページと関連コンポーネント。
 - `src/hooks` — React Query を使った API 呼び出し。`useFetchQuizSkill.ts`、`useFetchQuizProfile.ts`、`useFetchServantsOption.ts` など個別フックで構成。
 - `src/utils` — API クライアント (`apiClient.ts`)、スキル整形 (`skillUtils.ts`)。
 - `src/models` — サーヴァントのクラス／カード種別を ID ↔ 日本語名でマッピング。
@@ -23,13 +23,16 @@
 
 ## クイズページの流れ
 
-- Practice ページ（`skill/practice/page.tsx`、`profile/practice/page.tsx`）
-  - `useFetchQuizSkill` / `useFetchQuizProfile` で問題を取得し、`questionCount` に連動したクエリキーで再フェッチ。
-  - `getDisplaySkills` やプロフィール情報を整形して表示、回答ボタンで正解をトグル表示。
-- Challenge ページ（`skill/challenge/page.tsx`、`profile/challenge/page.tsx`）
-  - Practice と同じ表示に加えて `SearchableSelect` でサーヴァントを検索・回答。
-  - 回答確認後に正解／不正解の UI を出し、次の問題ボタンで再フェッチ。
-- いずれも `PageLayout` を経由して広告枠と共通ヘッダーを提供。
+- スキルクイズページ（`quiz/skill/page.tsx`）
+  - `useFetchQuizSkill` で問題を取得し、`questionCount` に連動したクエリキーで再フェッチ。
+  - `getDisplaySkills` でスキル情報を整形し、`QuizAnswerSection` で回答と結果確認を行う。
+- プロフィールクイズページ（`quiz/profile/page.tsx`）
+  - `useFetchQuizProfile` と `useFetchServantsOption` を利用し、プロフィール本文・ステータス・関連情報を表示。
+  - `QuizAnswerSection` に加え、`ProfileSection` `StatusSection` `RelatedInfoSection` で詳細を提示。
+- 宝具クイズページ（`quiz/np/page.tsx`）
+  - `useFetchQuizNp` で宝具情報を取得し、ランク・種別・カード属性と詳細説明を表示。
+  - カード種別は `getCardTypeName` で ID を日本語名へ変換し、`QuizAnswerSection` で回答と採点を行う。
+- すべてのクイズページで `PageLayout` を経由し、共通ヘッダー・ナビゲーション・広告枠を提供。
 
 ## データ取得と状態管理
 
@@ -40,6 +43,8 @@
   - React Query の `useQuery` を使ったスキル問題取得フック。`queryKey` にページ固有キーを渡して問題を更新。
 - `src/hooks/useFetchQuizProfile.ts`
   - プロフィール問題取得用の React Query フック。
+- `src/hooks/useFetchQuizNp.ts`
+  - 宝具問題取得用の React Query フック。カード種別 ID を数値変換して利用する実装が含まれる。
 - `src/hooks/useFetchServantsOption.ts`
   - 回答セレクト用のサーヴァント選択肢一覧を取得。
 - `QueryProvider` はクエリのデフォルト（staleTime 5 分 / retry 1 回）を設定。
@@ -47,7 +52,7 @@
 ## 共通 UI とスタイリング
 
 - `PageLayout`：ヘッダー・ナビ・広告枠・フッターを含む。開発環境では広告枠をダミー表示。
-- `GlobalNav`：4 つのクイズページへのリンクをカード状に表示。`usePathname` でアクティブ判定。
+- `GlobalNav`：スキル／プロフィール／宝具の 3 つのクイズページへのリンクをカード状に表示。`usePathname` でアクティブ判定。
 - `SearchableSelect`：サーヴァントを日本語のひらがな／カタカナ変換まで考慮して検索。キーボード操作・外部クリックをサポート。
 - `globals.css`：テキスト選択禁止、背景グラデーション、Tailwind テーマ変数、外部フォントなどを設定。
 
@@ -73,5 +78,5 @@
 
 - `src/hooks` に旧カスタムフック (`useFetchQuizSkill.ts` など) が残っている。重複を整理すると参照ミスを防げる。
 - `PageLayout` の `showSkillTabs` プロップは現状未使用。必要に応じてタブ UI を実装、不要なら削除。
-- `profile/practice/page.tsx` では `metadataEntries` を使用するセクションがあり、空判定に依存した UI があるため null/undefined チェックのロジック調整時は注意。
+- `quiz/profile/page.tsx` では `baseProfile` が欠けていると UI 全体が描画されないため、API 側のスキーマ変更時は必ず null チェックの想定を確認。
 - テキスト選択を全体で無効化しているため、コピーが必要な運用ケースがあれば再検討が必要。
