@@ -77,6 +77,9 @@ export default function QuizAnswerSection<T extends BaseQuizData>({
         <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-3 sm:mb-4">
           真名解析：対象を選択
         </h3>
+        <p className="text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4 leading-relaxed">
+          選択肢を選んで「判定」すると、答えが表示されます。
+        </p>
         <SearchableSelect
           options={options}
           value={selectedServantId}
