@@ -1,5 +1,6 @@
 "use client";
 
+import type { Metadata } from "next";
 import { Suspense, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import PageLayout from "@/app/components/PageLayout";
@@ -9,6 +10,12 @@ import { useFetchServantsOption } from "@/hooks/useFetchServantsOption";
 import type { NoblePhantasmQuizResponse } from "@/hooks/useFetchQuizNp";
 import type { ServantsOptionsResponse } from "@/hooks/useFetchServantsOption";
 import { getCardTypeName } from "@/models/cardTypes";
+
+export const metadata: Metadata = {
+  title: "宝具クイズ",
+  description:
+    "宝具名・ランク・種別・カード属性・解説文を手掛かりに持ち主を当てる王道モード。偽名宝具も含めて理解度をチェックしよう。",
+};
 
 type ServantOption = ServantsOptionsResponse["options"][number];
 

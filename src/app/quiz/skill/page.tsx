@@ -1,5 +1,6 @@
 "use client";
 
+import type { Metadata } from "next";
 import { Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import PageLayout from "@/app/components/PageLayout";
@@ -9,6 +10,12 @@ import { useFetchServantsOption } from "@/hooks/useFetchServantsOption";
 import type { SkillQuizResponse } from "@/hooks/useFetchQuizSkill";
 import type { ServantsOptionsResponse } from "@/hooks/useFetchServantsOption";
 import { getDisplaySkills } from "@/utils/skillUtils";
+
+export const metadata: Metadata = {
+  title: "スキルクイズ",
+  description:
+    "スキル効果テキストだけをヒントにサーヴァントの真名を推理するモード。最大3つのスキルを読み解いて記憶力を試そう。",
+};
 
 type ServantOption = ServantsOptionsResponse["options"][number];
 

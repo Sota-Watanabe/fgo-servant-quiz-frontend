@@ -1,5 +1,6 @@
 "use client";
 
+import type { Metadata } from "next";
 import { Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useFetchQuizProfile } from "@/hooks/useFetchQuizProfile";
@@ -11,6 +12,12 @@ import StatusSection from "./components/StatusSection";
 import RelatedInfoSection from "./components/RelatedInfoSection";
 import type { ProfileQuizResponse } from "@/hooks/useFetchQuizProfile";
 import type { ServantsOptionsResponse } from "@/hooks/useFetchServantsOption";
+
+export const metadata: Metadata = {
+  title: "プロフィールクイズ",
+  description:
+    "プロフィール本文やステータス、関連情報からサーヴァントを推理する設定重視のモード。マテリアル好きのマスター向けチャレンジです。",
+};
 
 type ServantOption = ServantsOptionsResponse["options"][number];
 
