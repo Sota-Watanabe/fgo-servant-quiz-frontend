@@ -20,7 +20,7 @@ type ProfilePracticeProps = {
   onNextQuestion: () => void;
 };
 
-const ProfilePracticeQuiz = ({
+const ProfileQuiz = ({
   quizData,
   options,
   onNextQuestion,
@@ -145,7 +145,7 @@ function ProfileQuizPageBody() {
             </section>
           </div>
         ) : quizData && optionData ? (
-          <ProfilePracticeQuiz
+          <ProfileQuiz
             quizData={quizData}
             options={optionData.options}
             onNextQuestion={() => setQuestionCount((prev) => prev + 1)}

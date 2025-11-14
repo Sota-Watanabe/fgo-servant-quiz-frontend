@@ -72,7 +72,7 @@ export default function QuizAnswerSection<T extends BaseQuizData>({
       : "この問題をスキップ";
 
   return (
-    <>
+    <div className="text-center">
       <div className="bg-gray-50 rounded-lg p-4 sm:p-6 mb-4 sm:mb-6">
         <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-3 sm:mb-4">
           真名解析：対象を選択
@@ -208,6 +208,6 @@ export default function QuizAnswerSection<T extends BaseQuizData>({
           </button>
         </div>
       )}
-    </>
+    </div>
   );
 }
