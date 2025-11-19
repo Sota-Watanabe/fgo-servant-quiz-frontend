@@ -52,6 +52,7 @@ const ProfileQuiz = ({
         quizData={quizData}
         options={options}
         onNextQuestion={onNextQuestion}
+        shareType="profile"
       />
     </div>
   );

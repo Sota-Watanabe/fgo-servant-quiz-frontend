@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import SearchableSelect from "@/app/components/SearchableSelect";
+import { shareQuizResultOnTwitter, type QuizShareType } from "@/app/quiz/utils/share";
 import { getClassTypeName } from "@/models/classTypes";
 import type { ServantsOptionsResponse } from "@/hooks/useFetchServantsOption";
 
@@ -23,12 +24,14 @@ type QuizAnswerSectionProps<T extends BaseQuizData> = {
   quizData: T;
   options: ServantOption[];
   onNextQuestion: () => void;
+  shareType?: QuizShareType;
 };
 
 export default function QuizAnswerSection<T extends BaseQuizData>({
   quizData,
   options,
   onNextQuestion,
+  shareType = "skill",
 }: QuizAnswerSectionProps<T>) {
   const [selectedServantId, setSelectedServantId] = useState<number | null>(
     null
@@ -64,16 +67,11 @@ export default function QuizAnswerSection<T extends BaseQuizData>({
   };
 
   const handleShareOnTwitter = () => {
-    if (typeof window === "undefined") return;
-    const tweetText = `FGOサーヴァントクイズに見事正解しました！`;
-    const currentUrl = window.location.href;
-    const shareUrl = new URL("https://twitter.com/intent/tweet");
-    shareUrl.searchParams.set("text", tweetText);
-    if (currentUrl) {
-      shareUrl.searchParams.set("url", currentUrl);
-    }
-    shareUrl.searchParams.set("hashtags", "FGO,真名解析");
-    window.open(shareUrl.toString(), "_blank", "noopener,noreferrer");
+    shareQuizResultOnTwitter({
+      servantName: quizData.name,
+      servantId: quizData.id,
+      shareType,
+    });
   };
 
   const isWaiting = resultStatus === "waiting";

@@ -97,6 +97,7 @@ const NoblePhantasmQuiz = ({
         quizData={quizData}
         options={options}
         onNextQuestion={onNextQuestion}
+        shareType="np"
       />
     </>
   );

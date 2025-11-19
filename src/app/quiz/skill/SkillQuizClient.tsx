@@ -48,6 +48,7 @@ const SkillQuiz = ({ quizData, options, onNextQuestion }: SkillQuizProps) => {
         quizData={quizData}
         options={options}
         onNextQuestion={onNextQuestion}
+        shareType="skill"
       />
     </>
   );
