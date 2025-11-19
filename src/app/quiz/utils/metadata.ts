@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { buildPageMetadata } from "@/utils/seo";
+import { getApiBaseUrl } from "@/utils/apiClient";
 import type { QuizShareType } from "./share";
 
 export type QuizMetadataSearchParams = {
@@ -30,6 +31,22 @@ type BuildQuizMetadataArgs = {
   searchParams?: QuizMetadataSearchParams;
 };
 
+const buildDynamicOgpUrl = (
+  quizType: QuizShareType,
+  servantId: string
+): string => {
+  const apiBaseUrl = getApiBaseUrl();
+
+  try {
+    const ogpUrl = new URL("/ogp", apiBaseUrl);
+    ogpUrl.searchParams.set("type", quizType);
+    ogpUrl.searchParams.set("servantId", servantId);
+    return ogpUrl.toString();
+  } catch {
+    return `/ogp?type=${quizType}&servantId=${servantId}`;
+  }
+};
+
 export const buildQuizMetadataWithDynamicOgp = ({
   title,
   description,
@@ -40,7 +57,7 @@ export const buildQuizMetadataWithDynamicOgp = ({
 }: BuildQuizMetadataArgs): Metadata => {
   const servantId = extractServantId(searchParams);
   const ogImagePath = servantId
-    ? `/ogp?type=${quizType}&servantId=${encodeURIComponent(servantId)}`
+    ? buildDynamicOgpUrl(quizType, servantId)
     : defaultOgImagePath;
 
   return buildPageMetadata({
