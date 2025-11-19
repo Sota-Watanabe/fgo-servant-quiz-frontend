@@ -63,6 +63,19 @@ export default function QuizAnswerSection<T extends BaseQuizData>({
     }
   };
 
+  const handleShareOnTwitter = () => {
+    if (typeof window === "undefined") return;
+    const tweetText = `FGOサーヴァントクイズに見事正解しました！`;
+    const currentUrl = window.location.href;
+    const shareUrl = new URL("https://twitter.com/intent/tweet");
+    shareUrl.searchParams.set("text", tweetText);
+    if (currentUrl) {
+      shareUrl.searchParams.set("url", currentUrl);
+    }
+    shareUrl.searchParams.set("hashtags", "FGO,真名解析");
+    window.open(shareUrl.toString(), "_blank", "noopener,noreferrer");
+  };
+
   const isWaiting = resultStatus === "waiting";
   const showResult = resultStatus !== "waiting";
   const showRevealButton = resultStatus === "incorrect";
@@ -198,6 +211,15 @@ export default function QuizAnswerSection<T extends BaseQuizData>({
               className="w-full sm:w-auto sm:min-w-[160px] font-semibold py-3 px-6 rounded-lg transition-colors text-sm sm:text-base border border-gray-300 bg-white text-gray-700 hover:bg-gray-100 hover:cursor-pointer"
             >
               真名開帳
+            </button>
+          )}
+          {resultStatus === "correct" && (
+            <button
+              type="button"
+              onClick={handleShareOnTwitter}
+              className="w-full sm:w-auto sm:min-w-[160px] bg-blue-500 hover:bg-blue-600 hover:cursor-pointer text-white font-semibold py-3 px-6 rounded-lg transition-colors text-sm sm:text-base"
+            >
+              Twitterで共有
             </button>
           )}
           <button
