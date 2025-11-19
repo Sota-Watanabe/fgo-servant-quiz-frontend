@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+
 export const SITE_URL = "https://fate-grand-quiz.com";
 export const SITE_NAME = "Fate/Grand Quiz";
 export const SITE_DESCRIPTION =
@@ -7,20 +9,6 @@ export const DEFAULT_SOCIAL_IMAGE_PATH = "/title-logo.png";
 export const SOCIAL_IMAGE_WIDTH = 1200;
 export const SOCIAL_IMAGE_HEIGHT = 630;
 export const TWITTER_CARD_TYPE = "summary_large_image";
-export const DEFAULT_ROBOTS = "index, follow";
-export const DEFAULT_KEYWORDS = [
-  "FGO クイズ",
-  "FGO サーヴァント クイズ",
-  "Fate/Grand Order クイズ",
-  "FGO キャラ 当てクイズ",
-  "FGO 知識 クイズ",
-  "FGO 初心者",
-  "FGO 上級者",
-  "FGO ランダム出題",
-  "FGO マスター向け クイズ",
-  "FGQ クイズ",
-  "Fate/Grand Quiz",
-];
 
 const ensureLeadingSlash = (value: string) =>
   value.startsWith("/") ? value : `/${value}`;
@@ -42,59 +30,47 @@ type BuildMetadataArgs = {
   ogImagePath?: string;
 };
 
-export type PageSeo = {
-  title: string;
-  description: string;
-  canonicalUrl: string;
-  og: {
-    type: string;
-    url: string;
-    siteName: string;
-    title: string;
-    description: string;
-    locale: string;
-    imageUrl: string;
-    imageWidth: number;
-    imageHeight: number;
-  };
-  twitter: {
-    card: string;
-    title: string;
-    description: string;
-    imageUrl: string;
-  };
-};
-
-export const buildPageSeo = ({
+export const buildPageMetadata = ({
   title,
   description,
   path,
   ogImagePath = DEFAULT_SOCIAL_IMAGE_PATH,
-}: BuildMetadataArgs): PageSeo => {
+}: BuildMetadataArgs): Metadata => {
   const canonicalUrl = absoluteUrl(path);
   const imageUrl = absoluteUrl(ogImagePath);
   const socialTitle = `${title} | ${SITE_NAME}`;
 
   return {
-    title: socialTitle,
+    title,
     description,
-    canonicalUrl,
-    og: {
+    alternates: {
+      canonical: canonicalUrl,
+    },
+    openGraph: {
       type: "website",
       url: canonicalUrl,
       siteName: SITE_NAME,
       title: socialTitle,
       description,
       locale: "ja_JP",
-      imageUrl,
-      imageWidth: SOCIAL_IMAGE_WIDTH,
-      imageHeight: SOCIAL_IMAGE_HEIGHT,
+      images: [
+        {
+          url: imageUrl,
+          width: SOCIAL_IMAGE_WIDTH,
+          height: SOCIAL_IMAGE_HEIGHT,
+          alt: socialTitle,
+        },
+      ],
     },
     twitter: {
       card: TWITTER_CARD_TYPE,
       title: socialTitle,
       description,
-      imageUrl,
+      images: [imageUrl],
+    },
+    other: {
+      "og:site_name": SITE_NAME,
+      "twitter:card": TWITTER_CARD_TYPE,
     },
   };
 };

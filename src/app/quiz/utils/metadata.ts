@@ -1,4 +1,5 @@
-import { buildPageSeo, type PageSeo } from "@/utils/seo";
+import type { Metadata } from "next";
+import { buildPageMetadata } from "@/utils/seo";
 import { getApiBaseUrl } from "@/utils/apiClient";
 import type { QuizShareType } from "./share";
 
@@ -46,20 +47,20 @@ const buildDynamicOgpUrl = (
   }
 };
 
-export const buildQuizSeoWithDynamicOgp = ({
+export const buildQuizMetadataWithDynamicOgp = ({
   title,
   description,
   path,
   defaultOgImagePath,
   quizType,
   searchParams,
-}: BuildQuizMetadataArgs): PageSeo => {
+}: BuildQuizMetadataArgs): Metadata => {
   const servantId = extractServantId(searchParams);
   const ogImagePath = servantId
     ? buildDynamicOgpUrl(quizType, servantId)
     : defaultOgImagePath;
 
-  return buildPageSeo({
+  return buildPageMetadata({
     title,
     description,
     path,

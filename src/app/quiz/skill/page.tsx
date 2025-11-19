@@ -1,14 +1,10 @@
+import type { Metadata } from "next";
 import {
-  buildQuizSeoWithDynamicOgp,
+  buildQuizMetadataWithDynamicOgp,
   type QuizMetadataSearchParams,
 } from "@/app/quiz/utils/metadata";
 import SkillQuizClient from "./SkillQuizClient";
-import {
-  DEFAULT_KEYWORDS,
-  DEFAULT_ROBOTS,
-  DEFAULT_SOCIAL_IMAGE_PATH,
-} from "@/utils/seo";
-import SeoHead from "@/app/components/SeoHead";
+import { DEFAULT_SOCIAL_IMAGE_PATH } from "@/utils/seo";
 
 const pageTitle = "スキルクイズ";
 const pageDescription =
@@ -16,31 +12,21 @@ const pageDescription =
 
 export const dynamic = "force-dynamic";
 
-type SkillQuizPageProps = {
-  searchParams?: QuizMetadataSearchParams | Promise<QuizMetadataSearchParams>;
-};
-
-export default async function SkillQuizPage({
+export function generateMetadata({
   searchParams,
-}: SkillQuizPageProps) {
-  const resolvedSearchParams = await Promise.resolve(searchParams);
-  const seo = buildQuizSeoWithDynamicOgp({
+}: {
+  searchParams?: QuizMetadataSearchParams;
+}): Metadata {
+  return buildQuizMetadataWithDynamicOgp({
     title: pageTitle,
     description: pageDescription,
     path: "/quiz/skill",
     defaultOgImagePath: DEFAULT_SOCIAL_IMAGE_PATH,
     quizType: "skill",
-    searchParams: resolvedSearchParams,
+    searchParams,
   });
+}
 
-  return (
-    <>
-      <SeoHead
-        {...seo}
-        keywords={DEFAULT_KEYWORDS}
-        robots={DEFAULT_ROBOTS}
-      />
-      <SkillQuizClient />
-    </>
-  );
+export default function SkillQuizPage() {
+  return <SkillQuizClient />;
 }
