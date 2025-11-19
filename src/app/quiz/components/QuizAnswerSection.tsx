@@ -2,7 +2,10 @@
 
 import { useState } from "react";
 import SearchableSelect from "@/app/components/SearchableSelect";
-import { shareQuizResultOnTwitter, type QuizShareType } from "@/app/quiz/utils/share";
+import {
+  shareQuizResultOnTwitter,
+  type QuizShareType,
+} from "@/app/quiz/utils/share";
 import { getClassTypeName } from "@/models/classTypes";
 import type { ServantsOptionsResponse } from "@/hooks/useFetchServantsOption";
 
@@ -68,7 +71,6 @@ export default function QuizAnswerSection<T extends BaseQuizData>({
 
   const handleShareOnTwitter = () => {
     shareQuizResultOnTwitter({
-      servantName: quizData.name,
       servantId: quizData.id,
       shareType,
     });

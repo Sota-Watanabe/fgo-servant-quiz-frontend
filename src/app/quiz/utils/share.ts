@@ -1,48 +1,60 @@
 export type QuizShareType = "skill" | "profile" | "np";
 
 type ShareOptions = {
-  servantName: string;
   servantId: number;
   shareType: QuizShareType;
 };
 
-const DEFAULT_OGP_URL = "http://localhost:8888/ogp";
+const DEFAULT_SHARE_BASE_URL = "http://localhost:8888";
 
-const buildOgpUrl = (origin: string, shareType: QuizShareType, id: number) => {
+const SHARE_PATHS: Record<QuizShareType, string> = {
+  skill: "/quiz/skill",
+  profile: "/quiz/profile",
+  np: "/quiz/np",
+};
+
+const buildShareUrl = (
+  origin: string,
+  shareType: QuizShareType,
+  id: number
+) => {
   const baseUrl =
-    process.env.NEXT_PUBLIC_OGP_BASE_URL && process.env.NEXT_PUBLIC_OGP_BASE_URL.length > 0
+    process.env.NEXT_PUBLIC_OGP_BASE_URL &&
+    process.env.NEXT_PUBLIC_OGP_BASE_URL.length > 0
       ? process.env.NEXT_PUBLIC_OGP_BASE_URL
-      : DEFAULT_OGP_URL;
+      : DEFAULT_SHARE_BASE_URL;
 
-  const resolvedUrl = (() => {
+  const resolvedBase = (() => {
     try {
       if (baseUrl.startsWith("http")) {
         return new URL(baseUrl);
       }
       return new URL(baseUrl, origin);
     } catch {
-      return new URL(DEFAULT_OGP_URL);
+      return new URL(DEFAULT_SHARE_BASE_URL);
     }
   })();
 
-  resolvedUrl.searchParams.set("type", shareType);
-  resolvedUrl.searchParams.set("servantId", String(id));
-  return resolvedUrl;
+  const shareUrl = new URL(SHARE_PATHS[shareType], resolvedBase);
+  shareUrl.searchParams.set("servantId", String(id));
+  return shareUrl;
 };
 
 export const shareQuizResultOnTwitter = ({
-  servantName,
   servantId,
   shareType,
 }: ShareOptions) => {
   if (typeof window === "undefined") return;
+  const quizUrl = buildShareUrl(window.location.origin, shareType, servantId);
 
-  const tweetText = `FGOサーヴァントクイズで「${servantName}」に正解しました！`;
-  const ogpUrl = buildOgpUrl(window.location.origin, shareType, servantId);
+  const tweetText = `「真名看破」、成功！
+  FGOサーヴァントクイズに挑戦して正解しました！
+  
+  ${quizUrl.toString()}
+  `;
 
   const shareUrl = new URL("https://twitter.com/intent/tweet");
   shareUrl.searchParams.set("text", tweetText);
-  shareUrl.searchParams.set("url", ogpUrl.toString());
   shareUrl.searchParams.set("hashtags", "FGO,FateGrandQuiz");
 
   window.open(shareUrl.toString(), "_blank", "noopener,noreferrer");
