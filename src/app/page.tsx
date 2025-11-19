@@ -1,6 +1,21 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+import { OG_IMAGE_PATHS, buildPageMetadata } from "@/utils/seo";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+
+export const dynamic = "force-static";
+
+const pageTitle = "FGOサーヴァント愛を試すクイズプラットフォーム";
+const pageDescription =
+  "Fate/Grand Order をもっと楽しむための非公式クイズサイト。スキル・プロフィール・宝具の問題に挑戦して、推しサーヴァントの知識を磨こう。";
+
+export const metadata: Metadata = buildPageMetadata({
+  title: pageTitle,
+  description: pageDescription,
+  path: "/",
+  ogImagePath: OG_IMAGE_PATHS.home,
+});
 
 const quizRoutes = [
   {

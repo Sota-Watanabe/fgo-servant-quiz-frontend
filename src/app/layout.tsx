@@ -4,6 +4,13 @@ import "./globals.css";
 import QueryProvider from "./components/QueryProvider";
 import GoogleAnalytics from "./components/GoogleAnalytics";
 import Script from "next/script";
+import {
+  DEFAULT_SOCIAL_IMAGE_PATH,
+  SITE_DESCRIPTION,
+  SITE_NAME,
+  SITE_URL,
+  absoluteUrl,
+} from "@/utils/seo";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,44 +23,41 @@ const geistMono = Geist_Mono({
 });
 
 const adSenseClientId = process.env.NEXT_PUBLIC_GOOGLE_ADSENSE_CLIENT_ID || "";
-const siteUrl = "https://fate-grand-quiz.com";
-const siteName = "Fate/Grand Quiz";
-const siteDescription =
-  "「Fate/Grand Order」ファン必見！サーヴァントのプロフィールや宝具からキャラ名を当てるFGOクイズ。あなたの知識と愛で、真のマスター度を試そう！";
+const defaultSocialImage = absoluteUrl(DEFAULT_SOCIAL_IMAGE_PATH);
 const websiteJsonLd = {
   "@context": "https://schema.org",
   "@type": ["WebSite", "Game"],
-  name: siteName,
-  url: siteUrl,
-  description: siteDescription,
+  name: SITE_NAME,
+  url: SITE_URL,
+  description: SITE_DESCRIPTION,
   inLanguage: "ja-JP",
   genre: ["クイズ", "トリビア", "ゲーム"],
   isFamilyFriendly: true,
   publisher: {
     "@type": "Organization",
-    name: siteName,
+    name: SITE_NAME,
   },
   potentialAction: [
     {
       "@type": "PlayAction",
       name: "FGOスキルクイズに挑戦",
-      target: `${siteUrl}/quiz/skill`,
+      target: `${SITE_URL}/quiz/skill`,
     },
     {
       "@type": "PlayAction",
       name: "FGOプロフィールクイズに挑戦",
-      target: `${siteUrl}/quiz/profile`,
+      target: `${SITE_URL}/quiz/profile`,
     },
   ],
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: `${siteName} | FGOサーヴァント当てクイズ`,
-    template: `%s | ${siteName}`,
+    default: `${SITE_NAME} | FGOサーヴァント当てクイズ`,
+    template: `%s | ${SITE_NAME}`,
   },
-  description: siteDescription,
+  description: SITE_DESCRIPTION,
   keywords: [
     "FGO クイズ",
     "FGO サーヴァント クイズ",
@@ -68,30 +72,30 @@ export const metadata: Metadata = {
     "Fate/Grand Quiz",
   ],
   alternates: {
-    canonical: siteUrl,
+    canonical: SITE_URL,
   },
   viewport: "width=device-width, initial-scale=1",
   openGraph: {
     type: "website",
-    url: siteUrl,
-    siteName,
-    title: `${siteName} | FGOサーヴァント当てクイズ`,
-    description: siteDescription,
+    url: SITE_URL,
+    siteName: SITE_NAME,
+    title: `${SITE_NAME} | FGOサーヴァント当てクイズ`,
+    description: SITE_DESCRIPTION,
     locale: "ja_JP",
     images: [
       {
-        url: `${siteUrl}/icon.png`,
-        width: 512,
-        height: 512,
-        alt: `${siteName} ロゴ`,
+        url: defaultSocialImage,
+        width: 1200,
+        height: 630,
+        alt: `${SITE_NAME} ロゴ`,
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: `${siteName} | FGOサーヴァント当てクイズ`,
-    description: siteDescription,
-    images: [`${siteUrl}/icon.png`],
+    title: `${SITE_NAME} | FGOサーヴァント当てクイズ`,
+    description: SITE_DESCRIPTION,
+    images: [defaultSocialImage],
   },
   robots: {
     index: true,

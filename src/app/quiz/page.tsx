@@ -1,6 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import PageLayout from "@/app/components/PageLayout";
+import { OG_IMAGE_PATHS, buildPageMetadata } from "@/utils/seo";
+
+export const dynamic = "force-static";
+
+const pageTitle = "クイズモード一覧";
+const pageDescription =
+  "スキル／プロフィール／宝具の3種類から、遊び方や得意分野に合わせて挑戦するモードを選べます。";
 
 const quizModes = [
   {
@@ -44,11 +51,12 @@ const quizModes = [
   },
 ] as const;
 
-export const metadata: Metadata = {
-  title: "クイズモード一覧",
-  description:
-    "スキル／プロフィール／宝具の3種類の出題形式から、遊び方や得意分野に合わせて挑戦するモードを選べます。",
-};
+export const metadata: Metadata = buildPageMetadata({
+  title: pageTitle,
+  description: pageDescription,
+  path: "/quiz",
+  ogImagePath: OG_IMAGE_PATHS.quizIndex,
+});
 
 export default function QuizIndexPage() {
   return (

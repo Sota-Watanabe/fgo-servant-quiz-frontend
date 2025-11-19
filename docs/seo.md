@@ -83,10 +83,10 @@ Next.jsの`generateStaticParams`や`export`を利用し、GooglebotがJS実行�
 
 ## 🧠 6. 技術的対応（Next.js）
 
-- [ ] 主要ページを `generateStaticParams` や `next export` で静的生成  
-- [ ] `View Source` で確認し、初期HTML内に本文がある  
-- [ ] クイズごとに固有OGP（`og:title`, `og:description`, `og:image`）を設定  
-- [ ] SSG/SSR時に `metadata` API や `generateMetadata` を活用  
+- [x] 主要ページを `generateStaticParams` や `next export` で静的生成  
+- [x] `View Source` で確認し、初期HTML内に本文がある  
+- [x] クイズごとに固有OGP（`og:title`, `og:description`, `og:image`）を設定  
+- [x] SSG/SSR時に `metadata` API や `generateMetadata` を活用  
 
 ---
 
@@ -111,5 +111,5 @@ Next.jsの`generateStaticParams`や`export`を利用し、GooglebotがJS実行�
 ---
 
 **更新日:** 2025-11-05  
-**作成者:** みぃ  
+**作成者:** そうた  
 **目的:** Google AdSense ポリシー遵守とクオリティ向上
