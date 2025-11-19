@@ -44,7 +44,7 @@ export const shareQuizResultOnTwitter = ({
   const quizUrl = buildShareUrl(window.location.origin, shareType, servantId);
 
   const tweetText = `真名看破──完了。
-  我、英霊の正体を見通す者なり。
+
   
   ${quizUrl.toString()}
   `;
