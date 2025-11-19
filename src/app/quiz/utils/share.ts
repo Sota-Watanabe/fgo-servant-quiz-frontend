@@ -18,11 +18,7 @@ const buildShareUrl = (
   shareType: QuizShareType,
   id: number
 ) => {
-  const baseUrl =
-    process.env.NEXT_PUBLIC_API_URL &&
-    process.env.NEXT_PUBLIC_API_URL.length > 0
-      ? process.env.NEXT_PUBLIC_API_URL
-      : DEFAULT_SHARE_BASE_URL;
+  const baseUrl = origin && origin.length > 0 ? origin : DEFAULT_SHARE_BASE_URL;
 
   const resolvedBase = (() => {
     try {
