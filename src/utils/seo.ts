@@ -8,6 +8,7 @@ export const SITE_DESCRIPTION =
 export const DEFAULT_SOCIAL_IMAGE_PATH = "/title-logo.png";
 export const SOCIAL_IMAGE_WIDTH = 1200;
 export const SOCIAL_IMAGE_HEIGHT = 630;
+export const TWITTER_CARD_TYPE = "summary_large_image";
 
 const ensureLeadingSlash = (value: string) =>
   value.startsWith("/") ? value : `/${value}`;
@@ -62,13 +63,14 @@ export const buildPageMetadata = ({
       ],
     },
     twitter: {
-      card: "summary_large_image",
+      card: TWITTER_CARD_TYPE,
       title: socialTitle,
       description,
       images: [imageUrl],
     },
     other: {
       "og:site_name": SITE_NAME,
+      "twitter:card": TWITTER_CARD_TYPE,
     },
   };
 };
