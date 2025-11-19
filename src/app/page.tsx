@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { OG_IMAGE_PATHS, buildPageMetadata } from "@/utils/seo";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import { buildPageMetadata, DEFAULT_SOCIAL_IMAGE_PATH } from "@/utils/seo";
 
 export const dynamic = "force-static";
 
@@ -14,7 +14,7 @@ export const metadata: Metadata = buildPageMetadata({
   title: pageTitle,
   description: pageDescription,
   path: "/",
-  ogImagePath: OG_IMAGE_PATHS.home,
+  ogImagePath: DEFAULT_SOCIAL_IMAGE_PATH,
 });
 
 const quizRoutes = [
