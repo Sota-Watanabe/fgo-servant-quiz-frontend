@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import PageLayout from "@/app/components/PageLayout";
-import { OG_IMAGE_PATHS, buildPageMetadata } from "@/utils/seo";
+import { buildPageMetadata, DEFAULT_SOCIAL_IMAGE_PATH } from "@/utils/seo";
 
 export const dynamic = "force-static";
 
@@ -55,7 +55,7 @@ export const metadata: Metadata = buildPageMetadata({
   title: pageTitle,
   description: pageDescription,
   path: "/quiz",
-  ogImagePath: OG_IMAGE_PATHS.quizIndex,
+  ogImagePath: DEFAULT_SOCIAL_IMAGE_PATH,
 });
 
 export default function QuizIndexPage() {
@@ -70,7 +70,8 @@ export default function QuizIndexPage() {
             各クイズモードの概要と遊び方
           </h1>
           <p className="mt-4 text-base leading-relaxed text-gray-700 sm:text-lg">
-            どのモードも1問ごとに真名判定と解説が行える共通 UI を採用。難易度や好みに合わせて、気になる出題タイプから挑戦してください。
+            どのモードも1問ごとに真名判定と解説が行える共通 UI
+            を採用。難易度や好みに合わせて、気になる出題タイプから挑戦してください。
           </p>
         </header>
 

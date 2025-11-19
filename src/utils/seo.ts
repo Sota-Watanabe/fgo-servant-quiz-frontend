@@ -9,14 +9,6 @@ export const DEFAULT_SOCIAL_IMAGE_PATH = "/title-logo.png";
 export const SOCIAL_IMAGE_WIDTH = 1200;
 export const SOCIAL_IMAGE_HEIGHT = 630;
 
-export const OG_IMAGE_PATHS = {
-  home: DEFAULT_SOCIAL_IMAGE_PATH,
-  quizIndex: DEFAULT_SOCIAL_IMAGE_PATH,
-  quizSkill: DEFAULT_SOCIAL_IMAGE_PATH,
-  quizProfile: DEFAULT_SOCIAL_IMAGE_PATH,
-  quizNp: DEFAULT_SOCIAL_IMAGE_PATH,
-} as const;
-
 const ensureLeadingSlash = (value: string) =>
   value.startsWith("/") ? value : `/${value}`;
 
@@ -74,6 +66,9 @@ export const buildPageMetadata = ({
       title: socialTitle,
       description,
       images: [imageUrl],
+    },
+    other: {
+      "og:site_name": SITE_NAME,
     },
   };
 };

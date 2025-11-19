@@ -1,19 +1,31 @@
 import type { Metadata } from "next";
-import { OG_IMAGE_PATHS, buildPageMetadata } from "@/utils/seo";
+import {
+  buildQuizMetadataWithDynamicOgp,
+  type QuizMetadataSearchParams,
+} from "@/app/quiz/utils/metadata";
 import SkillQuizClient from "./SkillQuizClient";
-
-export const dynamic = "force-static";
+import { DEFAULT_SOCIAL_IMAGE_PATH } from "@/utils/seo";
 
 const pageTitle = "スキルクイズ";
 const pageDescription =
   "スキル効果テキストだけをヒントにサーヴァントの真名を推理するチャレンジモード。最大3つのスキルを読み解いて記憶力を試そう。";
 
-export const metadata: Metadata = buildPageMetadata({
-  title: pageTitle,
-  description: pageDescription,
-  path: "/quiz/skill",
-  ogImagePath: OG_IMAGE_PATHS.quizSkill,
-});
+export const dynamic = "force-dynamic";
+
+export function generateMetadata({
+  searchParams,
+}: {
+  searchParams?: QuizMetadataSearchParams;
+}): Metadata {
+  return buildQuizMetadataWithDynamicOgp({
+    title: pageTitle,
+    description: pageDescription,
+    path: "/quiz/skill",
+    defaultOgImagePath: DEFAULT_SOCIAL_IMAGE_PATH,
+    quizType: "skill",
+    searchParams,
+  });
+}
 
 export default function SkillQuizPage() {
   return <SkillQuizClient />;
