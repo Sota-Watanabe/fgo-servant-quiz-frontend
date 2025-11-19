@@ -19,9 +19,9 @@ const buildShareUrl = (
   id: number
 ) => {
   const baseUrl =
-    process.env.NEXT_PUBLIC_OGP_BASE_URL &&
-    process.env.NEXT_PUBLIC_OGP_BASE_URL.length > 0
-      ? process.env.NEXT_PUBLIC_OGP_BASE_URL
+    process.env.NEXT_PUBLIC_API_URL &&
+    process.env.NEXT_PUBLIC_API_URL.length > 0
+      ? process.env.NEXT_PUBLIC_API_URL
       : DEFAULT_SHARE_BASE_URL;
 
   const resolvedBase = (() => {
@@ -47,8 +47,8 @@ export const shareQuizResultOnTwitter = ({
   if (typeof window === "undefined") return;
   const quizUrl = buildShareUrl(window.location.origin, shareType, servantId);
 
-  const tweetText = `「真名看破」、成功！
-  FGOサーヴァントクイズに挑戦して正解しました！
+  const tweetText = `真名看破──完了。
+  我、英霊の正体を見通す者なり。
   
   ${quizUrl.toString()}
   `;
