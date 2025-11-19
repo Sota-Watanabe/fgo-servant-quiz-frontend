@@ -1,7 +1,12 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import PageLayout from "@/app/components/PageLayout";
-import { buildPageMetadata, DEFAULT_SOCIAL_IMAGE_PATH } from "@/utils/seo";
+import {
+  buildPageSeo,
+  DEFAULT_KEYWORDS,
+  DEFAULT_ROBOTS,
+  DEFAULT_SOCIAL_IMAGE_PATH,
+} from "@/utils/seo";
+import SeoHead from "@/app/components/SeoHead";
 
 export const dynamic = "force-static";
 
@@ -51,7 +56,7 @@ const quizModes = [
   },
 ] as const;
 
-export const metadata: Metadata = buildPageMetadata({
+const seo = buildPageSeo({
   title: pageTitle,
   description: pageDescription,
   path: "/quiz",
@@ -60,8 +65,14 @@ export const metadata: Metadata = buildPageMetadata({
 
 export default function QuizIndexPage() {
   return (
-    <PageLayout>
-      <main className="bg-white rounded-3xl shadow-lg border border-indigo-100 p-6 sm:p-10">
+    <>
+      <SeoHead
+        {...seo}
+        keywords={DEFAULT_KEYWORDS}
+        robots={DEFAULT_ROBOTS}
+      />
+      <PageLayout>
+        <main className="bg-white rounded-3xl shadow-lg border border-indigo-100 p-6 sm:p-10">
         <header className="max-w-3xl mx-auto text-center">
           <p className="text-sm font-semibold tracking-[0.3em] text-indigo-500">
             QUIZ SELECTION
@@ -118,5 +129,6 @@ export default function QuizIndexPage() {
         </section>
       </main>
     </PageLayout>
+    </>
   );
 }

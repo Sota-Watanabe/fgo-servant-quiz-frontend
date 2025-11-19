@@ -1,8 +1,13 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import { buildPageMetadata, DEFAULT_SOCIAL_IMAGE_PATH } from "@/utils/seo";
+import {
+  buildPageSeo,
+  DEFAULT_KEYWORDS,
+  DEFAULT_ROBOTS,
+  DEFAULT_SOCIAL_IMAGE_PATH,
+} from "@/utils/seo";
+import SeoHead from "./components/SeoHead";
 
 export const dynamic = "force-static";
 
@@ -10,7 +15,7 @@ const pageTitle = "FGOサーヴァント愛を試すクイズプラットフォ�
 const pageDescription =
   "Fate/Grand Order をもっと楽しむための非公式クイズサイト。スキル・プロフィール・宝具の問題に挑戦して、推しサーヴァントの知識を磨こう。";
 
-export const metadata: Metadata = buildPageMetadata({
+const seo = buildPageSeo({
   title: pageTitle,
   description: pageDescription,
   path: "/",
@@ -41,6 +46,11 @@ const quizRoutes = [
 export default function Home() {
   return (
     <>
+      <SeoHead
+        {...seo}
+        keywords={DEFAULT_KEYWORDS}
+        robots={DEFAULT_ROBOTS}
+      />
       <Header />
       <main className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-100">
         <div className="mx-auto w-full max-w-6xl px-4 pb-16 pt-12 sm:px-6 sm:pb-20 sm:pt-16">

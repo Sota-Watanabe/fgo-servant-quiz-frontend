@@ -1,10 +1,14 @@
-import type { Metadata } from "next";
 import {
-  buildQuizMetadataWithDynamicOgp,
+  buildQuizSeoWithDynamicOgp,
   type QuizMetadataSearchParams,
 } from "@/app/quiz/utils/metadata";
 import NoblePhantasmQuizClient from "./NoblePhantasmQuizClient";
-import { DEFAULT_SOCIAL_IMAGE_PATH } from "@/utils/seo";
+import {
+  DEFAULT_KEYWORDS,
+  DEFAULT_ROBOTS,
+  DEFAULT_SOCIAL_IMAGE_PATH,
+} from "@/utils/seo";
+import SeoHead from "@/app/components/SeoHead";
 
 const pageTitle = "宝具クイズ";
 const pageDescription =
@@ -12,21 +16,31 @@ const pageDescription =
 
 export const dynamic = "force-dynamic";
 
-export function generateMetadata({
+type NoblePhantasmQuizPageProps = {
+  searchParams?: QuizMetadataSearchParams | Promise<QuizMetadataSearchParams>;
+};
+
+export default async function NoblePhantasmQuizPage({
   searchParams,
-}: {
-  searchParams?: QuizMetadataSearchParams;
-}): Metadata {
-  return buildQuizMetadataWithDynamicOgp({
+}: NoblePhantasmQuizPageProps) {
+  const resolvedSearchParams = await Promise.resolve(searchParams);
+  const seo = buildQuizSeoWithDynamicOgp({
     title: pageTitle,
     description: pageDescription,
     path: "/quiz/np",
     defaultOgImagePath: DEFAULT_SOCIAL_IMAGE_PATH,
     quizType: "np",
-    searchParams,
+    searchParams: resolvedSearchParams,
   });
-}
 
-export default function NoblePhantasmQuizPage() {
-  return <NoblePhantasmQuizClient />;
+  return (
+    <>
+      <SeoHead
+        {...seo}
+        keywords={DEFAULT_KEYWORDS}
+        robots={DEFAULT_ROBOTS}
+      />
+      <NoblePhantasmQuizClient />
+    </>
+  );
 }
