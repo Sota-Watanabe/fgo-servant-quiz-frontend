@@ -115,15 +115,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <head>
-        <link rel="icon" href="/icon.png?v=1" />
-        <link rel="shortcut icon" href="/icon.png?v=1" />
-        <link rel="apple-touch-icon" href="/icon.png?v=1" />
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
         <GoogleAnalytics measurementId="G-R5XW321DL4" />
-        <script
+        <Script
+          id="website-json-ld"
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
-        />
+          strategy="beforeInteractive"
+        >
+          {JSON.stringify(websiteJsonLd)}
+        </Script>
         {adSenseClientId ? (
           <Script
             async
@@ -132,10 +134,6 @@ export default function RootLayout({
             strategy="afterInteractive"
           />
         ) : null}
-      </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
         <QueryProvider>{children}</QueryProvider>
       </body>
     </html>
