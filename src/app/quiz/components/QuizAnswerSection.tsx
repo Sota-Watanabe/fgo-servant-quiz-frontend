@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SearchableSelect from "@/app/components/SearchableSelect";
 import {
   shareQuizResultOnTwitter,
@@ -8,6 +8,7 @@ import {
 } from "@/app/quiz/utils/share";
 import { getClassTypeName } from "@/models/classTypes";
 import type { ServantsOptionsResponse } from "@/hooks/useFetchServantsOption";
+import { getApiBaseUrl } from "@/utils/apiClient";
 
 type ServantOption = ServantsOptionsResponse["options"][number];
 
@@ -28,6 +29,19 @@ type QuizAnswerSectionProps<T extends BaseQuizData> = {
   options: ServantOption[];
   onNextQuestion: () => void;
   shareType?: QuizShareType;
+};
+
+const buildOgpImageUrl = (quizType: QuizShareType, servantId: number) => {
+  const apiBaseUrl = getApiBaseUrl();
+
+  try {
+    const ogpUrl = new URL("/ogp", apiBaseUrl);
+    ogpUrl.searchParams.set("type", quizType);
+    ogpUrl.searchParams.set("servantId", String(servantId));
+    return ogpUrl.toString();
+  } catch {
+    return `/ogp?type=${quizType}&servantId=${servantId}`;
+  }
 };
 
 export default function QuizAnswerSection<T extends BaseQuizData>({
@@ -75,6 +89,32 @@ export default function QuizAnswerSection<T extends BaseQuizData>({
       shareType,
     });
   };
+
+  useEffect(() => {
+    const controller = new AbortController();
+    const prefetchOgpImage = async () => {
+      const ogpImageUrl = buildOgpImageUrl(shareType, quizData.id);
+      try {
+        await fetch(ogpImageUrl, {
+          cache: "no-store",
+          signal: controller.signal,
+        });
+      } catch (error) {
+        if (
+          error instanceof DOMException &&
+          error.name === "AbortError"
+        ) {
+          return;
+        }
+      }
+    };
+
+    prefetchOgpImage();
+
+    return () => {
+      controller.abort();
+    };
+  }, [quizData.id, shareType]);
 
   const isWaiting = resultStatus === "waiting";
   const showResult = resultStatus !== "waiting";
