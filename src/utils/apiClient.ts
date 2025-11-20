@@ -10,6 +10,14 @@ export const getApiBaseUrl = (): string => {
 };
 
 /**
+ * OGP画像生成用のベースURLを取得
+ * API用のURLが指定されていればそれをフォールバックとして使用
+ */
+export const getOgpBaseUrl = (): string => {
+  return process.env.NEXT_PUBLIC_OGP_BASE_URL || getApiBaseUrl();
+};
+
+/**
  * APIエラークラス
  */
 export class ApiError extends Error {

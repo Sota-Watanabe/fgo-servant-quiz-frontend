@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { buildPageMetadata } from "@/utils/seo";
-import { getApiBaseUrl } from "@/utils/apiClient";
+import { getOgpBaseUrl } from "@/utils/apiClient";
 import type { QuizShareType } from "./share";
 
 export type QuizMetadataSearchParams = {
@@ -35,10 +35,10 @@ const buildDynamicOgpUrl = (
   quizType: QuizShareType,
   servantId: string
 ): string => {
-  const apiBaseUrl = getApiBaseUrl();
+  const ogpBaseUrl = getOgpBaseUrl();
 
   try {
-    const ogpUrl = new URL("/ogp", apiBaseUrl);
+    const ogpUrl = new URL("/ogp", ogpBaseUrl);
     ogpUrl.searchParams.set("type", quizType);
     ogpUrl.searchParams.set("servantId", servantId);
     return ogpUrl.toString();

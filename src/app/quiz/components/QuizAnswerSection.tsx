@@ -8,7 +8,7 @@ import {
 } from "@/app/quiz/utils/share";
 import { getClassTypeName } from "@/models/classTypes";
 import type { ServantsOptionsResponse } from "@/hooks/useFetchServantsOption";
-import { getApiBaseUrl } from "@/utils/apiClient";
+import { getOgpBaseUrl } from "@/utils/apiClient";
 
 type ServantOption = ServantsOptionsResponse["options"][number];
 
@@ -32,10 +32,10 @@ type QuizAnswerSectionProps<T extends BaseQuizData> = {
 };
 
 const buildOgpImageUrl = (quizType: QuizShareType, servantId: number) => {
-  const apiBaseUrl = getApiBaseUrl();
+  const ogpBaseUrl = getOgpBaseUrl();
 
   try {
-    const ogpUrl = new URL("/ogp", apiBaseUrl);
+    const ogpUrl = new URL("/ogp", ogpBaseUrl);
     ogpUrl.searchParams.set("type", quizType);
     ogpUrl.searchParams.set("servantId", String(servantId));
     return ogpUrl.toString();
