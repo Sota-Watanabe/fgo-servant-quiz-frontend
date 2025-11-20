@@ -6,8 +6,8 @@ import {
 import SkillQuizClient from "./SkillQuizClient";
 import { DEFAULT_SOCIAL_IMAGE_PATH } from "@/utils/seo";
 
-const pageTitle = "スキルクイズ";
-const pageDescription =
+export const pageTitle = "スキルクイズ";
+export const pageDescription =
   "スキル効果テキストだけをヒントにサーヴァントの真名を推理するチャレンジモード。最大3つのスキルを読み解いて記憶力を試そう。";
 
 export const dynamic = "force-dynamic";

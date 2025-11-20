@@ -6,8 +6,8 @@ import {
 import ProfileQuizClient from "./ProfileQuizClient";
 import { DEFAULT_SOCIAL_IMAGE_PATH } from "@/utils/seo";
 
-const pageTitle = "プロフィールクイズ";
-const pageDescription =
+export const pageTitle = "プロフィールクイズ";
+export const pageDescription =
   "プロフィール本文やステータス、関連情報からサーヴァントを推理する設定重視のモード。マテリアル好きのマスター向けチャレンジです。";
 
 export const dynamic = "force-dynamic";
