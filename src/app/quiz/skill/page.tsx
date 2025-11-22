@@ -1,9 +1,10 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import {
   buildQuizMetadataWithDynamicOgp,
   type QuizMetadataSearchParams,
 } from "@/app/quiz/utils/metadata";
-import SkillQuizClient from "./SkillQuizClient";
+import SkillQuizClient, { SkillQuizLoading } from "./SkillQuizClient";
 import { DEFAULT_SOCIAL_IMAGE_PATH } from "@/utils/seo";
 
 export const pageTitle = "スキルクイズ";
@@ -49,5 +50,9 @@ export async function generateMetadata({
 }
 
 export default function SkillQuizPage() {
-  return <SkillQuizClient />;
+  return (
+    <Suspense fallback={<SkillQuizLoading />}>
+      <SkillQuizClient />
+    </Suspense>
+  );
 }

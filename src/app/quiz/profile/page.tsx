@@ -1,9 +1,12 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import {
   buildQuizMetadataWithDynamicOgp,
   type QuizMetadataSearchParams,
 } from "@/app/quiz/utils/metadata";
-import ProfileQuizClient from "./ProfileQuizClient";
+import ProfileQuizClient, {
+  ProfileQuizLoading,
+} from "./ProfileQuizClient";
 import { DEFAULT_SOCIAL_IMAGE_PATH } from "@/utils/seo";
 
 export const pageTitle = "プロフィールクイズ";
@@ -49,5 +52,9 @@ export async function generateMetadata({
 }
 
 export default function ProfileQuizPage() {
-  return <ProfileQuizClient />;
+  return (
+    <Suspense fallback={<ProfileQuizLoading />}>
+      <ProfileQuizClient />
+    </Suspense>
+  );
 }

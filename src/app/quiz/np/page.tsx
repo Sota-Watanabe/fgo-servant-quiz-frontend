@@ -1,9 +1,12 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import {
   buildQuizMetadataWithDynamicOgp,
   type QuizMetadataSearchParams,
 } from "@/app/quiz/utils/metadata";
-import NoblePhantasmQuizClient from "./NoblePhantasmQuizClient";
+import NoblePhantasmQuizClient, {
+  NoblePhantasmQuizLoading,
+} from "./NoblePhantasmQuizClient";
 import { DEFAULT_SOCIAL_IMAGE_PATH } from "@/utils/seo";
 
 export const pageTitle = "宝具クイズ";
@@ -49,5 +52,9 @@ export async function generateMetadata({
 }
 
 export default function NoblePhantasmQuizPage() {
-  return <NoblePhantasmQuizClient />;
+  return (
+    <Suspense fallback={<NoblePhantasmQuizLoading />}>
+      <NoblePhantasmQuizClient />
+    </Suspense>
+  );
 }
