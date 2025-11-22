@@ -36,15 +36,8 @@ const buildDynamicOgpUrl = (
   servantId: string
 ): string => {
   const ogpBaseUrl = getOgpBaseUrl();
-
-  try {
-    const ogpUrl = new URL("/ogp", ogpBaseUrl);
-    ogpUrl.searchParams.set("type", quizType);
-    ogpUrl.searchParams.set("servantId", servantId);
-    return ogpUrl.toString();
-  } catch {
-    return `/ogp?type=${quizType}&servantId=${servantId}`;
-  }
+  // URLSearchParamsを使わず手動で構築してHTMLエスケープを回避
+  return `${ogpBaseUrl}/ogp?type=${quizType}&servantId=${servantId}`;
 };
 
 export const buildQuizMetadataWithDynamicOgp = ({
