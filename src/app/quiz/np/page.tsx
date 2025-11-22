@@ -1,12 +1,15 @@
 import { Suspense } from "react";
 import { createQuizGenerateMetadata } from "@/app/quiz/utils/metadata";
-import NoblePhantasmQuizClient, {
-  NoblePhantasmQuizLoading,
-} from "./NoblePhantasmQuizClient";
+import NoblePhantasmQuizClient from "./NoblePhantasmQuizClient";
+import QuizLoading from "@/app/quiz/components/QuizLoading";
 
-export const pageTitle = "宝具クイズ";
-export const pageDescription =
+const pageTitle = "宝具クイズ";
+const pageDescription =
   "宝具名・ランク・種別・カード属性・解説文を手掛かりに持ち主を当てる王道モード。偽名宝具も含めて理解度をチェックしよう。";
+
+const NoblePhantasmQuizLoading = () => (
+  <QuizLoading title="問題準備中..." message="宝具情報を読み込んでいます" />
+);
 
 export const dynamic = "force-dynamic";
 

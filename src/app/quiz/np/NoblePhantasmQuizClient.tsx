@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import PageLayout from "@/app/components/PageLayout";
 import QuizAnswerSection from "@/app/quiz/components/QuizAnswerSection";
-import QuizLoading from "@/app/quiz/components/QuizLoading";
 import { useFetchQuizNp } from "@/hooks/useFetchQuizNp";
 import { useFetchServantsOption } from "@/hooks/useFetchServantsOption";
 import type { NoblePhantasmQuizResponse } from "@/hooks/useFetchQuizNp";
@@ -13,16 +12,10 @@ import { getCardTypeName } from "@/models/cardTypes";
 
 type ServantOption = ServantsOptionsResponse["options"][number];
 
-export const NoblePhantasmQuizLoading = () => (
-  <QuizLoading
-    title="問題準備中..."
-    message="宝具情報を読み込んでいます"
-  />
-);
 
 type NoblePhantasmQuizPageBodyProps = {
-  quizData?: NoblePhantasmQuizResponse;
-  options?: ServantOption[];
+  quizData: NoblePhantasmQuizResponse;
+  options: ServantOption[];
   onNextQuestion: () => void;
 };
 
@@ -31,10 +24,6 @@ function NoblePhantasmQuizPageBody({
   options,
   onNextQuestion,
 }: NoblePhantasmQuizPageBodyProps) {
-  if (!quizData || !options) {
-    return <NoblePhantasmQuizLoading />;
-  }
-
   const noblePhantasm = quizData.noblePhantasm;
   const cardLabel = noblePhantasm
     ? getCardTypeName(Number(noblePhantasm.card))
@@ -126,10 +115,11 @@ export default function NoblePhantasmQuizClient() {
   const { data: quizData } = useFetchQuizNp(questionCount, servantId);
   const { data: optionData } = useFetchServantsOption();
 
+  if (!quizData || !optionData?.options) return;
   return (
     <NoblePhantasmQuizPageBody
       quizData={quizData}
-      options={optionData?.options}
+      options={optionData.options}
       onNextQuestion={() => {
         setQuestionCount((prev) => prev + 1);
       }}

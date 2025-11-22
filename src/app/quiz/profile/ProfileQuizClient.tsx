@@ -6,7 +6,6 @@ import { useFetchQuizProfile } from "@/hooks/useFetchQuizProfile";
 import { useFetchServantsOption } from "@/hooks/useFetchServantsOption";
 import PageLayout from "@/app/components/PageLayout";
 import QuizAnswerSection from "@/app/quiz/components/QuizAnswerSection";
-import QuizLoading from "@/app/quiz/components/QuizLoading";
 import ProfileSection from "./components/ProfileSection";
 import StatusSection from "./components/StatusSection";
 import RelatedInfoSection from "./components/RelatedInfoSection";
@@ -15,16 +14,9 @@ import type { ServantsOptionsResponse } from "@/hooks/useFetchServantsOption";
 
 type ServantOption = ServantsOptionsResponse["options"][number];
 
-export const ProfileQuizLoading = () => (
-  <QuizLoading
-    title="問題を準備しています…"
-    message="AIによる霊基再構成を開始します。十数秒の刻を要します——"
-  />
-);
-
 type ProfileQuizPageBodyProps = {
-  quizData?: ProfileQuizResponse;
-  options?: ServantOption[];
+  quizData: ProfileQuizResponse;
+  options: ServantOption[];
   onNextQuestion: () => void;
 };
 
@@ -33,10 +25,6 @@ function ProfileQuizPageBody({
   options,
   onNextQuestion,
 }: ProfileQuizPageBodyProps) {
-  if (!quizData || !options) {
-    return <ProfileQuizLoading />;
-  }
-
   const profile = quizData.baseProfile;
   const relatedInfo = {
     cv: quizData.cv,
@@ -108,10 +96,12 @@ export default function ProfileQuizClient() {
   const { data: quizData } = useFetchQuizProfile(questionCount, servantId);
   const { data: optionData } = useFetchServantsOption();
 
+  if (!quizData || !optionData?.options) return;
+
   return (
     <ProfileQuizPageBody
       quizData={quizData}
-      options={optionData?.options}
+      options={optionData.options}
       onNextQuestion={() => setQuestionCount((prev) => prev + 1)}
     />
   );
