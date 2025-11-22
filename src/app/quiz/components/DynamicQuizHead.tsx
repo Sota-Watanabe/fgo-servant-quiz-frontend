@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { buildQuizMetadataWithDynamicOgp } from "@/app/quiz/utils/metadata";
 import type { QuizShareType } from "@/app/quiz/utils/share";
 import { getQuizMetadataSearchParamsFromHeaders } from "@/app/quiz/utils/serverSearchParams";
@@ -31,10 +32,7 @@ type TwitterImageDescriptor = {
 };
 
 type TwitterImageValue = string | URL | TwitterImageDescriptor;
-type TwitterImagesInput =
-  | TwitterImageValue
-  | TwitterImageValue[]
-  | undefined;
+type TwitterImagesInput = TwitterImageValue | TwitterImageValue[] | undefined;
 
 const pickFirstOpenGraphImage = (
   images: OgImagesInput
@@ -43,8 +41,7 @@ const pickFirstOpenGraphImage = (
   return Array.isArray(images) ? images[0] : images;
 };
 
-const hasHref = (value: object): value is { href: unknown } =>
-  "href" in value;
+const hasHref = (value: object): value is { href: unknown } => "href" in value;
 
 const isUrlObject = (value: unknown): value is URL =>
   typeof value === "object" && value !== null && hasHref(value);
@@ -116,6 +113,71 @@ const resolveTwitterImage = (
   return undefined;
 };
 
+const hasUrlProperty = (
+  value: unknown
+): value is { url?: string | URL | null | undefined } =>
+  typeof value === "object" && value !== null && "url" in value;
+
+const hasTwitterCard = (
+  value: unknown
+): value is { card?: unknown } =>
+  typeof value === "object" && value !== null && "card" in value;
+
+const toCanonicalUrlString = (canonical: unknown): string | undefined => {
+  if (!canonical) return undefined;
+
+  if (Array.isArray(canonical)) {
+    for (const entry of canonical) {
+      const resolved = toCanonicalUrlString(entry);
+      if (resolved) {
+        return resolved;
+      }
+    }
+    return undefined;
+  }
+
+  if (typeof canonical === "string") {
+    return canonical;
+  }
+
+  if (isUrlObject(canonical)) {
+    return toUrlString(canonical);
+  }
+
+  if (hasUrlProperty(canonical) && canonical.url) {
+    return typeof canonical.url === "string"
+      ? canonical.url
+      : isUrlObject(canonical.url)
+        ? toUrlString(canonical.url)
+        : undefined;
+  }
+
+  return undefined;
+};
+
+type MetadataTitle = Metadata["title"];
+
+const isMetadataTitleObject = (
+  value: MetadataTitle
+): value is Exclude<MetadataTitle, string> =>
+  typeof value === "object" && value !== null;
+
+const resolveMetadataTitle = (
+  title: MetadataTitle | undefined
+): string | undefined => {
+  if (!title) return undefined;
+  if (typeof title === "string") return title;
+  if (isMetadataTitleObject(title)) {
+    if ("absolute" in title && title.absolute) {
+      return title.absolute;
+    }
+    if ("default" in title && title.default) {
+      return title.default;
+    }
+  }
+  return undefined;
+};
+
 export default async function DynamicQuizHead({
   title,
   description,
@@ -137,9 +199,80 @@ export default async function DynamicQuizHead({
     pickFirstOpenGraphImage(metadata.openGraph?.images)
   );
   const twitterImage = resolveTwitterImage(metadata.twitter?.images);
+  const pageTitle = resolveMetadataTitle(metadata.title);
+  const descriptionContent =
+    typeof metadata.description === "string" ? metadata.description : undefined;
+  const canonicalUrl = toCanonicalUrlString(metadata.alternates?.canonical);
+  const openGraphTitle =
+    typeof metadata.openGraph?.title === "string"
+      ? metadata.openGraph.title
+      : undefined;
+  const openGraphDescription =
+    typeof metadata.openGraph?.description === "string"
+      ? metadata.openGraph.description
+      : undefined;
+  const openGraphUrlValue = metadata.openGraph?.url;
+  const openGraphUrl =
+    typeof openGraphUrlValue === "string"
+      ? openGraphUrlValue
+      : openGraphUrlValue && isUrlObject(openGraphUrlValue)
+      ? toUrlString(openGraphUrlValue)
+      : undefined;
+  const openGraphWithType =
+    metadata.openGraph && typeof metadata.openGraph === "object"
+      ? (metadata.openGraph as { type?: unknown })
+      : undefined;
+  const openGraphType =
+    typeof openGraphWithType?.type === "string"
+      ? (openGraphWithType.type as string)
+      : undefined;
+  const openGraphSiteName =
+    typeof metadata.openGraph?.siteName === "string"
+      ? metadata.openGraph.siteName
+      : undefined;
+  const openGraphLocale =
+    typeof metadata.openGraph?.locale === "string"
+      ? metadata.openGraph.locale
+      : undefined;
+  const twitterMetadataWithCard = hasTwitterCard(metadata.twitter)
+    ? metadata.twitter
+    : undefined;
+  const twitterCard =
+    typeof twitterMetadataWithCard?.card === "string"
+      ? (twitterMetadataWithCard.card as string)
+      : undefined;
+  const twitterTitle =
+    typeof metadata.twitter?.title === "string"
+      ? metadata.twitter.title
+      : undefined;
+  const twitterDescription =
+    typeof metadata.twitter?.description === "string"
+      ? metadata.twitter.description
+      : undefined;
 
   return (
     <>
+      {pageTitle ? <title>{pageTitle}</title> : null}
+      {descriptionContent ? (
+        <meta name="description" content={descriptionContent} />
+      ) : null}
+      {canonicalUrl ? <link rel="canonical" href={canonicalUrl} /> : null}
+      {openGraphTitle ? (
+        <meta property="og:title" content={openGraphTitle} />
+      ) : null}
+      {openGraphDescription ? (
+        <meta property="og:description" content={openGraphDescription} />
+      ) : null}
+      {openGraphType ? (
+        <meta property="og:type" content={openGraphType} />
+      ) : null}
+      {openGraphUrl ? <meta property="og:url" content={openGraphUrl} /> : null}
+      {openGraphSiteName ? (
+        <meta property="og:site_name" content={openGraphSiteName} />
+      ) : null}
+      {openGraphLocale ? (
+        <meta property="og:locale" content={openGraphLocale} />
+      ) : null}
       {ogImage?.url ? (
         <>
           <meta property="og:image" content={ogImage.url} />
@@ -153,6 +286,13 @@ export default async function DynamicQuizHead({
             <meta property="og:image:alt" content={ogImage.alt} />
           ) : null}
         </>
+      ) : null}
+      {twitterCard ? <meta name="twitter:card" content={twitterCard} /> : null}
+      {twitterTitle ? (
+        <meta name="twitter:title" content={twitterTitle} />
+      ) : null}
+      {twitterDescription ? (
+        <meta name="twitter:description" content={twitterDescription} />
       ) : null}
       {twitterImage ? (
         <meta name="twitter:image" content={twitterImage} />
