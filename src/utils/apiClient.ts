@@ -14,7 +14,7 @@ export const getApiBaseUrl = (): string => {
  * API用のURLが指定されていればそれをフォールバックとして使用
  */
 export const getOgpBaseUrl = (): string => {
-  return process.env.NEXT_PUBLIC_OGP_BASE_URL || getApiBaseUrl();
+  return process.env.NEXT_PUBLIC_OGP_BASE_URL || 'HOGEHOGE';
 };
 
 /**
