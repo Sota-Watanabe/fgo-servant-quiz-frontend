@@ -125,7 +125,8 @@ jobs:
             --min-instances 0 \
             --max-instances 10 \
             --set-env-vars NODE_ENV=production \
-            --set-env-vars NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}
+            --set-env-vars NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }} \
+            --set-env-vars NEXT_PUBLIC_OGP_BASE_URL=${{ env.NEXT_PUBLIC_OGP_BASE_URL }}
         env:
           CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE: ${{ steps.auth.outputs.credentials_file_path }}
 
