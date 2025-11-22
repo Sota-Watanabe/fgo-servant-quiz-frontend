@@ -12,18 +12,19 @@ export const pageDescription =
 
 export const dynamic = "force-dynamic";
 
-export function generateMetadata({
+export async function generateMetadata({
   searchParams,
 }: {
-  searchParams?: QuizMetadataSearchParams;
-}): Metadata {
+  searchParams?: Promise<QuizMetadataSearchParams>;
+}): Promise<Metadata> {
+  const resolvedSearchParams = await searchParams;
   return buildQuizMetadataWithDynamicOgp({
     title: pageTitle,
     description: pageDescription,
     path: "/quiz/np",
     defaultOgImagePath: DEFAULT_SOCIAL_IMAGE_PATH,
     quizType: "np",
-    searchParams,
+    searchParams: resolvedSearchParams,
   });
 }
 
