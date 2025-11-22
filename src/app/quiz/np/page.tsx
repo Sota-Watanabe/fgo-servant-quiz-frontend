@@ -15,16 +15,36 @@ export const dynamic = "force-dynamic";
 export async function generateMetadata({
   searchParams,
 }: {
-  searchParams?: Promise<QuizMetadataSearchParams>;
+  searchParams?: Promise<
+    Record<string, string | string[] | undefined> | URLSearchParams
+  >;
 }): Promise<Metadata> {
-  const resolvedSearchParams = await searchParams;
+  const resolvedSearchParams = searchParams ? await searchParams : undefined;
+
+  let servantId: string | string[] | undefined;
+  if (!resolvedSearchParams) {
+    servantId = undefined;
+  } else if (
+    typeof (resolvedSearchParams as URLSearchParams).get === "function"
+  ) {
+    servantId =
+      (resolvedSearchParams as URLSearchParams).get("servantId") ?? undefined;
+  } else {
+    servantId = (resolvedSearchParams as Record<string, string | string[] | undefined>)
+      .servantId;
+  }
+
+  const quizSearchParams: QuizMetadataSearchParams | undefined = servantId
+    ? { servantId }
+    : undefined;
+
   return buildQuizMetadataWithDynamicOgp({
     title: pageTitle,
     description: pageDescription,
     path: "/quiz/np",
     defaultOgImagePath: DEFAULT_SOCIAL_IMAGE_PATH,
     quizType: "np",
-    searchParams: resolvedSearchParams,
+    searchParams: quizSearchParams,
   });
 }
 
