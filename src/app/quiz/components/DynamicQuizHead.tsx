@@ -2,14 +2,12 @@ import type { Metadata } from "next";
 import { buildQuizMetadataWithDynamicOgp } from "@/app/quiz/utils/metadata";
 import type { QuizShareType } from "@/app/quiz/utils/share";
 import { getQuizMetadataSearchParamsFromHeaders } from "@/app/quiz/utils/serverSearchParams";
-import { DEFAULT_SOCIAL_IMAGE_PATH } from "@/utils/seo";
 
 type DynamicQuizHeadProps = {
   title: string;
   description: string;
   path: string;
   quizType: QuizShareType;
-  defaultOgImagePath?: string;
 };
 
 type OgImageDescriptor = {
@@ -183,7 +181,6 @@ export default async function DynamicQuizHead({
   description,
   path,
   quizType,
-  defaultOgImagePath = DEFAULT_SOCIAL_IMAGE_PATH,
 }: DynamicQuizHeadProps) {
   const searchParams = await getQuizMetadataSearchParamsFromHeaders();
   const metadata = buildQuizMetadataWithDynamicOgp({
@@ -191,7 +188,6 @@ export default async function DynamicQuizHead({
     description,
     path,
     quizType,
-    defaultOgImagePath,
     searchParams,
   });
 

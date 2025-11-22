@@ -1,10 +1,22 @@
 import type { Metadata } from "next";
-import { buildPageMetadata } from "@/utils/seo";
+import { buildPageMetadata, DEFAULT_SOCIAL_IMAGE_PATH } from "@/utils/seo";
 import { getOgpBaseUrl } from "@/utils/apiClient";
 import type { QuizShareType } from "./share";
 
 export type QuizMetadataSearchParams = {
   servantId?: string | string[];
+};
+
+type RouteSearchParams =
+  | Record<string, string | string[] | undefined>
+  | URLSearchParams;
+
+type BuildQuizMetadataArgs = {
+  title: string;
+  description: string;
+  path: string;
+  quizType: QuizShareType;
+  searchParams?: QuizMetadataSearchParams;
 };
 
 const extractServantId = (
@@ -22,15 +34,6 @@ const extractServantId = (
   return servantId;
 };
 
-type BuildQuizMetadataArgs = {
-  title: string;
-  description: string;
-  path: string;
-  defaultOgImagePath: string;
-  quizType: QuizShareType;
-  searchParams?: QuizMetadataSearchParams;
-};
-
 const buildDynamicOgpUrl = (
   quizType: QuizShareType,
   servantId: string
@@ -44,14 +47,13 @@ export const buildQuizMetadataWithDynamicOgp = ({
   title,
   description,
   path,
-  defaultOgImagePath,
   quizType,
   searchParams,
 }: BuildQuizMetadataArgs): Metadata => {
   const servantId = extractServantId(searchParams);
   const ogImagePath = servantId
     ? buildDynamicOgpUrl(quizType, servantId)
-    : defaultOgImagePath;
+    : DEFAULT_SOCIAL_IMAGE_PATH;
 
   return buildPageMetadata({
     title,
@@ -60,3 +62,44 @@ export const buildQuizMetadataWithDynamicOgp = ({
     ogImagePath,
   });
 };
+
+type QuizMetadataConfig = {
+  title: string;
+  description: string;
+  path: string;
+  quizType: QuizShareType;
+};
+
+export function createQuizGenerateMetadata(config: QuizMetadataConfig) {
+  return async function generateMetadata({
+    searchParams,
+  }: {
+    searchParams?: Promise<RouteSearchParams>;
+  }): Promise<Metadata> {
+    const resolvedSearchParams = searchParams ? await searchParams : undefined;
+
+    let servantId: string | string[] | undefined;
+    if (!resolvedSearchParams) {
+      servantId = undefined;
+    } else if (
+      typeof (resolvedSearchParams as URLSearchParams).get === "function"
+    ) {
+      servantId =
+        (resolvedSearchParams as URLSearchParams).get("servantId") ?? undefined;
+    } else {
+      servantId = (resolvedSearchParams as Record<
+        string,
+        string | string[] | undefined
+      >).servantId;
+    }
+
+    const quizSearchParams: QuizMetadataSearchParams | undefined = servantId
+      ? { servantId }
+      : undefined;
+
+    return buildQuizMetadataWithDynamicOgp({
+      ...config,
+      searchParams: quizSearchParams,
+    });
+  };
+}
