@@ -67,6 +67,7 @@ jobs:
       - name: Build application
         env:
           NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
+          NEXT_PUBLIC_OGP_BASE_URL: ${{ secrets.NEXT_PUBLIC_OGP_BASE_URL }}
         run: npm run build
 
       - name: Debug which SA is being impersonated
@@ -90,9 +91,11 @@ jobs:
       - name: Build Docker image
         env:
           NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
+          NEXT_PUBLIC_OGP_BASE_URL: ${{ secrets.NEXT_PUBLIC_OGP_BASE_URL }}
         run: |
           docker build \
             --build-arg NEXT_PUBLIC_API_URL="${{ secrets.NEXT_PUBLIC_API_URL }}" \
+            --build-arg NEXT_PUBLIC_OGP_BASE_URL="${{ secrets.NEXT_PUBLIC_OGP_BASE_URL }}" \
             -t ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ github.sha }} .
           docker tag \
             ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ github.sha }} \
