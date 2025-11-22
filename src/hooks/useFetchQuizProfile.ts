@@ -1,4 +1,7 @@
-import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import {
+  useSuspenseQuery,
+  UseSuspenseQueryOptions,
+} from "@tanstack/react-query";
 import { components } from "@/types/api";
 import { apiClient, API_ENDPOINTS, ApiError } from "@/utils/apiClient";
 
@@ -24,11 +27,11 @@ export const useFetchQuizProfile = (
   key: string | number = 0,
   servantId?: string,
   options?: Omit<
-    UseQueryOptions<ProfileQuizResponse, ApiError>,
-    "queryKey" | "queryFn"
+    UseSuspenseQueryOptions<ProfileQuizResponse, ApiError>,
+    "queryKey"
   >
 ) =>
-  useQuery({
+  useSuspenseQuery({
     queryKey: [API_ENDPOINTS.QUIZ_PROFILE, key, servantId ?? null],
     queryFn: () => fetchQuizProfile(servantId),
     ...options,

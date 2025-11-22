@@ -1,4 +1,7 @@
-import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import {
+  useSuspenseQuery,
+  UseSuspenseQueryOptions,
+} from "@tanstack/react-query";
 import { components } from "@/types/api";
 import { apiClient, API_ENDPOINTS, ApiError } from "@/utils/apiClient";
 
@@ -24,11 +27,11 @@ export const useFetchQuizNp = (
   key: string | number = 0,
   servantId?: string,
   options?: Omit<
-    UseQueryOptions<NoblePhantasmQuizResponse, ApiError>,
-    "queryKey" | "queryFn"
+    UseSuspenseQueryOptions<NoblePhantasmQuizResponse, ApiError>,
+    "queryKey"
   >
 ) =>
-  useQuery({
+  useSuspenseQuery({
     queryKey: [API_ENDPOINTS.QUIZ_NP, key, servantId ?? null],
     queryFn: () => fetchQuizNoblePhantasm(servantId),
     ...options,

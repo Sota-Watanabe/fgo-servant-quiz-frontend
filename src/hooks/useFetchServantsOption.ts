@@ -1,4 +1,7 @@
-import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import {
+  useSuspenseQuery,
+  UseSuspenseQueryOptions,
+} from "@tanstack/react-query";
 import { components } from "@/types/api";
 import { apiClient, API_ENDPOINTS, ApiError } from "@/utils/apiClient";
 
@@ -11,11 +14,11 @@ const fetchServantsOptions = async (): Promise<ServantsOptionsResponse> => {
 
 export const useFetchServantsOption = (
   options?: Omit<
-    UseQueryOptions<ServantsOptionsResponse, ApiError>,
-    "queryKey" | "queryFn"
+    UseSuspenseQueryOptions<ServantsOptionsResponse, ApiError>,
+    "queryKey"
   >
 ) =>
-  useQuery({
+  useSuspenseQuery({
     queryKey: [API_ENDPOINTS.SERVANTS_OPTIONS],
     queryFn: fetchServantsOptions,
     ...options,

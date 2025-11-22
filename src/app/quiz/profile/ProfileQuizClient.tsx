@@ -103,12 +103,8 @@ function ProfileQuizPageBody() {
   });
   const servantId = questionCount === 0 ? initialServantId : undefined;
 
-  const { data: quizData, isFetching: quizFetching } =
-    useFetchQuizProfile(questionCount, servantId);
-  const { data: optionData, isFetching: optionFetching } =
-    useFetchServantsOption();
-
-  const isFetching = quizFetching || optionFetching;
+  const { data: quizData } = useFetchQuizProfile(questionCount, servantId);
+  const { data: optionData } = useFetchServantsOption();
 
   return (
     <PageLayout>
@@ -118,34 +114,7 @@ function ProfileQuizPageBody() {
           aria-hidden="true"
           className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-sky-100/70 to-transparent"
         />
-        {isFetching ? (
-          <div className="relative p-5 sm:p-8 space-y-6 sm:space-y-8">
-            <section className="space-y-6">
-              <div className="space-y-4">
-                <div className="mx-auto max-w-sm text-center">
-                  <h2 className="text-lg sm:text-xl font-semibold text-gray-800">
-                    問題を準備しています…
-                  </h2>
-                  <p className="mt-2 text-sm text-gray-500">
-                    AIによる霊基再構成を開始します。十数秒の刻を要します——
-                  </p>
-                </div>
-                <div className="grid gap-3 sm:gap-4">
-                  {[...Array(3)].map((_, index) => (
-                    <div
-                      key={index}
-                      className="animate-pulse rounded-xl border border-sky-50 bg-sky-50/40 p-4 sm:p-6"
-                    >
-                      <div className="h-4 w-1/3 rounded bg-sky-100" />
-                      <div className="mt-3 h-3 w-full rounded bg-sky-100" />
-                      <div className="mt-2 h-3 w-4/5 rounded bg-sky-100" />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </section>
-          </div>
-        ) : quizData && optionData ? (
+        {quizData && optionData ? (
           <ProfileQuiz
             quizData={quizData}
             options={optionData.options}

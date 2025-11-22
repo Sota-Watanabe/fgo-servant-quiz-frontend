@@ -79,31 +79,15 @@ function SkillQuizPageBody() {
   });
   const servantId = questionCount === 0 ? initialServantId : undefined;
 
-  const { data: quizData, isFetching: quizFetching } =
-    useFetchQuizSkill(questionCount, servantId);
-
-  const { data: optionData, isFetching: optionFetching } =
-    useFetchServantsOption();
-
-  const isFetching = quizFetching || optionFetching;
+  const { data: quizData } = useFetchQuizSkill(questionCount, servantId);
+  const { data: optionData } = useFetchServantsOption();
 
   return (
     <PageLayout>
       {/* クイズエリア */}
       <main className="bg-white rounded-lg shadow-lg p-4 sm:p-6 mb-6 sm:mb-8">
         <div className="text-center">
-          {isFetching ? (
-            <>
-              <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-4 sm:mb-6">
-                問題準備中...
-              </h2>
-              <div className="bg-gray-100 rounded-lg p-6 sm:p-8 mb-4 sm:mb-6">
-                <p className="text-gray-500 text-base sm:text-lg">
-                  スキル情報を読み込んでいます
-                </p>
-              </div>
-            </>
-          ) : quizData && optionData ? (
+          {quizData && optionData ? (
             <SkillQuiz
               quizData={quizData}
               options={optionData.options}
