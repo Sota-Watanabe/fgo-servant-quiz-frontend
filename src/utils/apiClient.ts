@@ -5,8 +5,8 @@
 /**
  * API ベースURLを取得
  */
-export const getApiBaseUrl = (): string => {
-  return process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1234';
+const getApiBaseUrl = (): string => {
+  return process.env.NEXT_PUBLIC_API_URL || "http://localhost:1234";
 };
 
 /**
@@ -14,20 +14,16 @@ export const getApiBaseUrl = (): string => {
  * API用のURLが指定されていればそれをフォールバックとして使用
  */
 export const getOgpBaseUrl = (): string => {
-  return process.env.NEXT_PUBLIC_OGP_BASE_URL || 'HOGEHOGE';
+  return process.env.NEXT_PUBLIC_OGP_BASE_URL || "HOGEHOGE";
 };
 
 /**
  * APIエラークラス
  */
 export class ApiError extends Error {
-  constructor(
-    message: string,
-    public status: number,
-    public endpoint: string
-  ) {
+  constructor(message: string, public status: number, public endpoint: string) {
     super(message);
-    this.name = 'ApiError';
+    this.name = "ApiError";
   }
 }
 
@@ -57,10 +53,12 @@ export const apiClient = async <T>(endpoint: string): Promise<T> => {
     if (error instanceof ApiError) {
       throw error;
     }
-    
+
     // Network error や JSON parse error など
     throw new ApiError(
-      `Network or parsing error: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      `Network or parsing error: ${
+        error instanceof Error ? error.message : "Unknown error"
+      }`,
       0,
       endpoint
     );
@@ -71,8 +69,8 @@ export const apiClient = async <T>(endpoint: string): Promise<T> => {
  * API エンドポイントの定数
  */
 export const API_ENDPOINTS = {
-  QUIZ_SKILL: '/quiz/skill',
-  QUIZ_NP: '/quiz/np',
-  QUIZ_PROFILE: '/quiz/profile',
-  SERVANTS_OPTIONS: '/servants/options',
+  QUIZ_SKILL: "/quiz/skill",
+  QUIZ_NP: "/quiz/np",
+  QUIZ_PROFILE: "/quiz/profile",
+  SERVANTS_OPTIONS: "/servants/options",
 } as const;

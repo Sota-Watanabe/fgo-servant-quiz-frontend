@@ -33,6 +33,7 @@ type QuizAnswerSectionProps<T extends BaseQuizData> = {
 
 const buildOgpImageUrl = (quizType: QuizShareType, servantId: number) => {
   const ogpBaseUrl = getOgpBaseUrl();
+  console.log("ogpBaseUrl:", ogpBaseUrl);
 
   try {
     const ogpUrl = new URL("/ogp", ogpBaseUrl);
@@ -40,6 +41,7 @@ const buildOgpImageUrl = (quizType: QuizShareType, servantId: number) => {
     ogpUrl.searchParams.set("servantId", String(servantId));
     return ogpUrl.toString();
   } catch {
+    console.log("an error occurred while constructing OGP URL");
     return `/ogp?type=${quizType}&servantId=${servantId}`;
   }
 };
@@ -100,10 +102,7 @@ export default function QuizAnswerSection<T extends BaseQuizData>({
           signal: controller.signal,
         });
       } catch (error) {
-        if (
-          error instanceof DOMException &&
-          error.name === "AbortError"
-        ) {
+        if (error instanceof DOMException && error.name === "AbortError") {
           return;
         }
       }
