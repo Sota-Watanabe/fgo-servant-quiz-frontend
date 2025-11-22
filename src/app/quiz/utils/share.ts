@@ -43,15 +43,14 @@ export const shareQuizResultOnTwitter = ({
   if (typeof window === "undefined") return;
   const quizUrl = buildShareUrl(window.location.origin, shareType, servantId);
 
-  const tweetText = `真名看破──完了。
+  const tweetText = `サーヴァントクイズに正解しました！
 
-  
-  ${quizUrl.toString()}
   `;
 
   const shareUrl = new URL("https://twitter.com/intent/tweet");
   shareUrl.searchParams.set("text", tweetText);
   shareUrl.searchParams.set("hashtags", "FGO,FateGrandQuiz");
+  shareUrl.searchParams.set("url", quizUrl.toString());
 
   window.open(shareUrl.toString(), "_blank", "noopener,noreferrer");
 };
