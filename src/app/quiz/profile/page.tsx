@@ -12,6 +12,12 @@ export const generateMetadata = createQuizGenerateMetadata({
   quizType: "profile",
 });
 
-export default function ProfileQuizPage() {
-  return <ProfileQuizClient />;
+type ProfileQuizPageProps = {
+  searchParams: Promise<{ servantId?: string }>;
+};
+
+export default async function ProfileQuizPage({ searchParams }: ProfileQuizPageProps) {
+  const params = await searchParams;
+  const servantId = params.servantId;
+  return <ProfileQuizClient initialServantId={servantId} />;
 }

@@ -12,6 +12,12 @@ export const generateMetadata = createQuizGenerateMetadata({
   quizType: "skill",
 });
 
-export default function SkillQuizPage() {
-  return <SkillQuizClient />;
+type SkillQuizPageProps = {
+  searchParams: Promise<{ servantId?: string }>;
+};
+
+export default async function SkillQuizPage({ searchParams }: SkillQuizPageProps) {
+  const params = await searchParams;
+  const servantId = params.servantId;
+  return <SkillQuizClient initialServantId={servantId} />;
 }

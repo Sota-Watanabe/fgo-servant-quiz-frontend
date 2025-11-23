@@ -12,6 +12,12 @@ export const generateMetadata = createQuizGenerateMetadata({
   quizType: "np",
 });
 
-export default function NoblePhantasmQuizPage() {
-  return <NoblePhantasmQuizClient />;
+type NoblePhantasmQuizPageProps = {
+  searchParams: Promise<{ servantId?: string }>;
+};
+
+export default async function NoblePhantasmQuizPage({ searchParams }: NoblePhantasmQuizPageProps) {
+  const params = await searchParams;
+  const servantId = params.servantId;
+  return <NoblePhantasmQuizClient initialServantId={servantId} />;
 }

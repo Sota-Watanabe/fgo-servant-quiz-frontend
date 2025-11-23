@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useSearchParams } from "next/navigation";
 import PageLayout from "@/app/components/PageLayout";
 import QuizAnswerSection from "@/app/quiz/components/QuizAnswerSection";
 import QuizLoading from "@/app/quiz/components/QuizLoading";
@@ -105,12 +104,12 @@ function NoblePhantasmQuizPageBody({
   );
 }
 
-export default function NoblePhantasmQuizClient() {
-  const searchParams = useSearchParams();
+type NoblePhantasmQuizClientProps = {
+  initialServantId?: string;
+};
+
+export default function NoblePhantasmQuizClient({ initialServantId }: NoblePhantasmQuizClientProps) {
   const [questionCount, setQuestionCount] = useState(0);
-  const [initialServantId] = useState<string | undefined>(() => {
-    return searchParams.get("servantId") ?? undefined;
-  });
   const servantId = questionCount === 0 ? initialServantId : undefined;
 
   const { data: quizData, isLoading: isQuizLoading } = useFetchQuizNp(questionCount, servantId);

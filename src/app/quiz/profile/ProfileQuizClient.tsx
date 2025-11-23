@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useSearchParams } from "next/navigation";
 import { useFetchQuizProfile } from "@/hooks/useFetchQuizProfile";
 import { useFetchServantsOption } from "@/hooks/useFetchServantsOption";
 import PageLayout from "@/app/components/PageLayout";
@@ -86,12 +85,12 @@ function ProfileQuizPageBody({
   );
 }
 
-export default function ProfileQuizClient() {
-  const searchParams = useSearchParams();
+type ProfileQuizClientProps = {
+  initialServantId?: string;
+};
+
+export default function ProfileQuizClient({ initialServantId }: ProfileQuizClientProps) {
   const [questionCount, setQuestionCount] = useState(0);
-  const [initialServantId] = useState<string | undefined>(() => {
-    return searchParams.get("servantId") ?? undefined;
-  });
   const servantId = questionCount === 0 ? initialServantId : undefined;
 
   const { data: quizData, isLoading: isQuizLoading } = useFetchQuizProfile(questionCount, servantId);

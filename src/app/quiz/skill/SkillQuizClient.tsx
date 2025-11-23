@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useSearchParams } from "next/navigation";
 import PageLayout from "@/app/components/PageLayout";
 import QuizAnswerSection from "@/app/quiz/components/QuizAnswerSection";
 import QuizLoading from "@/app/quiz/components/QuizLoading";
@@ -63,12 +62,12 @@ function SkillQuizPageBody({
   );
 }
 
-export default function SkillQuizClient() {
-  const searchParams = useSearchParams();
+type SkillQuizClientProps = {
+  initialServantId?: string;
+};
+
+export default function SkillQuizClient({ initialServantId }: SkillQuizClientProps) {
   const [questionCount, setQuestionCount] = useState(0);
-  const [initialServantId] = useState<string | undefined>(() => {
-    return searchParams.get("servantId") ?? undefined;
-  });
   const servantId = questionCount === 0 ? initialServantId : undefined;
 
   const { data: quizData, isLoading: isQuizLoading } = useFetchQuizSkill(questionCount, servantId);
