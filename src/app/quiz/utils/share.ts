@@ -45,7 +45,7 @@ export const shareQuizResultOnTwitter = ({
 
   const tweetText = `サーヴァントクイズに正解しました！
 
-  ${quizUrl.toString()}
+${quizUrl.toString()}
   `;
 
   const shareUrl = new URL("https://twitter.com/intent/tweet");
