@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import PageLayout from "@/app/components/PageLayout";
 import QuizAnswerSection from "@/app/quiz/components/QuizAnswerSection";
+import QuizLoading from "@/app/quiz/components/QuizLoading";
 import { useFetchQuizNp } from "@/hooks/useFetchQuizNp";
 import { useFetchServantsOption } from "@/hooks/useFetchServantsOption";
 import type { NoblePhantasmQuizResponse } from "@/hooks/useFetchQuizNp";
@@ -104,7 +105,7 @@ function NoblePhantasmQuizPageBody({
   );
 }
 
-export default function NoblePhantasmQuizClient() {
+function NoblePhantasmQuizContent() {
   const searchParams = useSearchParams();
   const [questionCount, setQuestionCount] = useState(0);
   const [initialServantId] = useState<string | undefined>(() => {
@@ -124,5 +125,17 @@ export default function NoblePhantasmQuizClient() {
         setQuestionCount((prev) => prev + 1);
       }}
     />
+  );
+}
+
+export default function NoblePhantasmQuizClient() {
+  return (
+    <Suspense
+      fallback={
+        <QuizLoading title="問題準備中..." message="宝具情報を読み込んでいます" />
+      }
+    >
+      <NoblePhantasmQuizContent />
+    </Suspense>
   );
 }

@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import PageLayout from "@/app/components/PageLayout";
 import QuizAnswerSection from "@/app/quiz/components/QuizAnswerSection";
+import QuizLoading from "@/app/quiz/components/QuizLoading";
 import { useFetchQuizSkill } from "@/hooks/useFetchQuizSkill";
 import { useFetchServantsOption } from "@/hooks/useFetchServantsOption";
 import type { SkillQuizResponse } from "@/hooks/useFetchQuizSkill";
@@ -62,7 +63,7 @@ function SkillQuizPageBody({
   );
 }
 
-export default function SkillQuizClient() {
+function SkillQuizContent() {
   const searchParams = useSearchParams();
   const [questionCount, setQuestionCount] = useState(0);
   const [initialServantId] = useState<string | undefined>(() => {
@@ -81,5 +82,17 @@ export default function SkillQuizClient() {
       options={optionData.options}
       onNextQuestion={() => setQuestionCount((prev) => prev + 1)}
     />
+  );
+}
+
+export default function SkillQuizClient() {
+  return (
+    <Suspense
+      fallback={
+        <QuizLoading title="問題準備中..." message="スキル情報を読み込んでいます" />
+      }
+    >
+      <SkillQuizContent />
+    </Suspense>
   );
 }

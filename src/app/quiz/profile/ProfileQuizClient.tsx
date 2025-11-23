@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useFetchQuizProfile } from "@/hooks/useFetchQuizProfile";
 import { useFetchServantsOption } from "@/hooks/useFetchServantsOption";
 import PageLayout from "@/app/components/PageLayout";
 import QuizAnswerSection from "@/app/quiz/components/QuizAnswerSection";
+import QuizLoading from "@/app/quiz/components/QuizLoading";
 import ProfileSection from "./components/ProfileSection";
 import StatusSection from "./components/StatusSection";
 import RelatedInfoSection from "./components/RelatedInfoSection";
@@ -85,7 +86,7 @@ function ProfileQuizPageBody({
   );
 }
 
-export default function ProfileQuizClient() {
+function ProfileQuizContent() {
   const searchParams = useSearchParams();
   const [questionCount, setQuestionCount] = useState(0);
   const [initialServantId] = useState<string | undefined>(() => {
@@ -104,5 +105,20 @@ export default function ProfileQuizClient() {
       options={optionData.options}
       onNextQuestion={() => setQuestionCount((prev) => prev + 1)}
     />
+  );
+}
+
+export default function ProfileQuizClient() {
+  return (
+    <Suspense
+      fallback={
+        <QuizLoading
+          title="問題を準備しています…"
+          message="AIによる霊基再構成を開始します。十数秒の刻を要します——"
+        />
+      }
+    >
+      <ProfileQuizContent />
+    </Suspense>
   );
 }
