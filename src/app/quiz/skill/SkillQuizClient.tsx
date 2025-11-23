@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, Suspense } from "react";
+import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import PageLayout from "@/app/components/PageLayout";
 import QuizAnswerSection from "@/app/quiz/components/QuizAnswerSection";
@@ -63,7 +63,7 @@ function SkillQuizPageBody({
   );
 }
 
-function SkillQuizContent() {
+export default function SkillQuizClient() {
   const searchParams = useSearchParams();
   const [questionCount, setQuestionCount] = useState(0);
   const [initialServantId] = useState<string | undefined>(() => {
@@ -71,8 +71,14 @@ function SkillQuizContent() {
   });
   const servantId = questionCount === 0 ? initialServantId : undefined;
 
-  const { data: quizData } = useFetchQuizSkill(questionCount, servantId);
-  const { data: optionData } = useFetchServantsOption();
+  const { data: quizData, isLoading: isQuizLoading } = useFetchQuizSkill(questionCount, servantId);
+  const { data: optionData, isLoading: isOptionLoading } = useFetchServantsOption();
+
+  if (isQuizLoading || isOptionLoading) {
+    return (
+      <QuizLoading title="問題準備中..." message="スキル情報を読み込んでいます" />
+    );
+  }
 
   if (!quizData || !optionData?.options) return;
 
@@ -82,17 +88,5 @@ function SkillQuizContent() {
       options={optionData.options}
       onNextQuestion={() => setQuestionCount((prev) => prev + 1)}
     />
-  );
-}
-
-export default function SkillQuizClient() {
-  return (
-    <Suspense
-      fallback={
-        <QuizLoading title="問題準備中..." message="スキル情報を読み込んでいます" />
-      }
-    >
-      <SkillQuizContent />
-    </Suspense>
   );
 }

@@ -1,6 +1,6 @@
 import {
-  useSuspenseQuery,
-  UseSuspenseQueryOptions,
+  useQuery,
+  UseQueryOptions,
 } from "@tanstack/react-query";
 import { components } from "@/types/api";
 import { apiClient, API_ENDPOINTS, ApiError } from "@/utils/apiClient";
@@ -27,11 +27,11 @@ export const useFetchQuizSkill = (
   key: string | number = 0,
   servantId?: string,
   options?: Omit<
-    UseSuspenseQueryOptions<SkillQuizResponse, ApiError>,
+    UseQueryOptions<SkillQuizResponse, ApiError>,
     "queryKey"
   >
 ) =>
-  useSuspenseQuery({
+  useQuery({
     queryKey: [API_ENDPOINTS.QUIZ_SKILL, key, servantId ?? null],
     queryFn: () => fetchQuizData(servantId),
     ...options,

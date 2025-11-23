@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, Suspense } from "react";
+import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useFetchQuizProfile } from "@/hooks/useFetchQuizProfile";
 import { useFetchServantsOption } from "@/hooks/useFetchServantsOption";
@@ -86,7 +86,7 @@ function ProfileQuizPageBody({
   );
 }
 
-function ProfileQuizContent() {
+export default function ProfileQuizClient() {
   const searchParams = useSearchParams();
   const [questionCount, setQuestionCount] = useState(0);
   const [initialServantId] = useState<string | undefined>(() => {
@@ -94,8 +94,17 @@ function ProfileQuizContent() {
   });
   const servantId = questionCount === 0 ? initialServantId : undefined;
 
-  const { data: quizData } = useFetchQuizProfile(questionCount, servantId);
-  const { data: optionData } = useFetchServantsOption();
+  const { data: quizData, isLoading: isQuizLoading } = useFetchQuizProfile(questionCount, servantId);
+  const { data: optionData, isLoading: isOptionLoading } = useFetchServantsOption();
+
+  if (isQuizLoading || isOptionLoading) {
+    return (
+      <QuizLoading
+        title="問題を準備しています…"
+        message="AIによる霊基再構成を開始します。十数秒の刻を要します——"
+      />
+    );
+  }
 
   if (!quizData || !optionData?.options) return;
 
@@ -105,20 +114,5 @@ function ProfileQuizContent() {
       options={optionData.options}
       onNextQuestion={() => setQuestionCount((prev) => prev + 1)}
     />
-  );
-}
-
-export default function ProfileQuizClient() {
-  return (
-    <Suspense
-      fallback={
-        <QuizLoading
-          title="問題を準備しています…"
-          message="AIによる霊基再構成を開始します。十数秒の刻を要します——"
-        />
-      }
-    >
-      <ProfileQuizContent />
-    </Suspense>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, Suspense } from "react";
+import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import PageLayout from "@/app/components/PageLayout";
 import QuizAnswerSection from "@/app/quiz/components/QuizAnswerSection";
@@ -105,7 +105,7 @@ function NoblePhantasmQuizPageBody({
   );
 }
 
-function NoblePhantasmQuizContent() {
+export default function NoblePhantasmQuizClient() {
   const searchParams = useSearchParams();
   const [questionCount, setQuestionCount] = useState(0);
   const [initialServantId] = useState<string | undefined>(() => {
@@ -113,10 +113,17 @@ function NoblePhantasmQuizContent() {
   });
   const servantId = questionCount === 0 ? initialServantId : undefined;
 
-  const { data: quizData } = useFetchQuizNp(questionCount, servantId);
-  const { data: optionData } = useFetchServantsOption();
+  const { data: quizData, isLoading: isQuizLoading } = useFetchQuizNp(questionCount, servantId);
+  const { data: optionData, isLoading: isOptionLoading } = useFetchServantsOption();
+
+  if (isQuizLoading || isOptionLoading) {
+    return (
+      <QuizLoading title="問題準備中..." message="宝具情報を読み込んでいます" />
+    );
+  }
 
   if (!quizData || !optionData?.options) return;
+
   return (
     <NoblePhantasmQuizPageBody
       quizData={quizData}
@@ -125,17 +132,5 @@ function NoblePhantasmQuizContent() {
         setQuestionCount((prev) => prev + 1);
       }}
     />
-  );
-}
-
-export default function NoblePhantasmQuizClient() {
-  return (
-    <Suspense
-      fallback={
-        <QuizLoading title="問題準備中..." message="宝具情報を読み込んでいます" />
-      }
-    >
-      <NoblePhantasmQuizContent />
-    </Suspense>
   );
 }
