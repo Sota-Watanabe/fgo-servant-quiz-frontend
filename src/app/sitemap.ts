@@ -1,8 +1,16 @@
 import type { MetadataRoute } from "next";
+import { headers } from "next/headers";
 
-const BASE_URL =
-  (process.env.NEXT_PUBLIC_SITE_URL || "").replace(/\/$/, "") ||
-  "http://localhost:3000";
+const getBaseUrl = async () => {
+  const envUrl = (process.env.NEXT_PUBLIC_SITE_URL || "").replace(/\/$/, "");
+  if (envUrl) return envUrl;
+
+  const h = await headers();
+  const protocol = h.get("x-forwarded-proto") ?? "http";
+  const host = h.get("x-forwarded-host") ?? h.get("host") ?? "localhost:3000";
+
+  return `${protocol}://${host}`;
+};
 
 const routes = [
   "",
@@ -17,13 +25,14 @@ const routes = [
   "/contact",
 ] as const;
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const lastModified = new Date();
+  const baseUrl = await getBaseUrl();
 
   return routes.map((path) => {
     const urlPath = path === "" ? "/" : path;
     return {
-      url: `${BASE_URL}${urlPath}`,
+      url: `${baseUrl}${urlPath}`,
       lastModified,
       changeFrequency: "weekly",
       priority: path === "" ? 1.0 : 0.8,
