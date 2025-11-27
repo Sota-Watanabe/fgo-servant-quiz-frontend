@@ -86,6 +86,16 @@ export default function Home() {
             <p className="mt-3 text-sm text-gray-600 sm:text-base">
               好みの遊び方に合わせて出題タイプを選択。初めての方はスキルクイズで感覚をつかむのがおすすめです。
             </p>
+            <p className="mt-2 text-xs text-gray-600 sm:text-sm">
+              各モードの詳しい説明をまとめたページは{" "}
+              <Link
+                href="/quiz"
+                className="font-semibold text-indigo-600 hover:text-indigo-700 underline underline-offset-4"
+              >
+                こちら
+              </Link>
+              からご覧いただけます。
+            </p>
             <div className="-mx-1 sm:-mx-3 sm:flex sm:flex-wrap">
               {quizRoutes.map((route) => (
                 <div

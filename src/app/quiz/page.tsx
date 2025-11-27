@@ -12,6 +12,7 @@ const pageDescription =
 const quizModes = [
   {
     href: "/quiz/skill",
+    descriptionHref: "/quiz/skill/description",
     label: "Skill Quiz",
     title: "スキルクイズ",
     summary:
@@ -22,9 +23,11 @@ const quizModes = [
       "真名判定後はクラス・レアリティ・真名ルビを確認可能",
     ],
     cta: "スキル問題で遊ぶ",
+    descriptionCta: "スキルクイズの詳しい解説を読む",
   },
   {
     href: "/quiz/profile",
+    descriptionHref: "/quiz/profile/description",
     label: "Profile Quiz",
     title: "プロフィールクイズ",
     summary:
@@ -35,9 +38,11 @@ const quizModes = [
       "回答候補は検索可能なサーヴァントセレクトに統一",
     ],
     cta: "プロフィール問題で遊ぶ",
+    descriptionCta: "プロフィールクイズの詳しい解説を読む",
   },
   {
     href: "/quiz/np",
+    descriptionHref: "/quiz/np/description",
     label: "Noble Phantasm Quiz",
     title: "宝具クイズ",
     summary:
@@ -48,6 +53,7 @@ const quizModes = [
       "真名判定の結果を確認しながら次の問題へシームレスに移行",
     ],
     cta: "宝具問題で遊ぶ",
+    descriptionCta: "宝具クイズの詳しい解説を読む",
   },
 ] as const;
 
@@ -112,6 +118,14 @@ export default function QuizIndexPage() {
                     <path d="M5.22 3.47a.75.75 0 0 1 1.06 0l4 4a.75.75 0 0 1 0 1.06l-4 4a.75.75 0 0 1-1.06-1.06L8.94 8 5.22 4.53a.75.75 0 0 1 0-1.06z" />
                   </svg>
                 </Link>
+                <div className="mt-3 text-xs sm:text-sm">
+                  <Link
+                    href={mode.descriptionHref}
+                    className="font-semibold text-indigo-600 hover:text-indigo-700 underline underline-offset-4"
+                  >
+                    {mode.descriptionCta}
+                  </Link>
+                </div>
               </div>
             </article>
           ))}

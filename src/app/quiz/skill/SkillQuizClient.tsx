@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import PageLayout from "@/app/components/PageLayout";
 import QuizAnswerSection from "@/app/quiz/components/QuizAnswerSection";
 import QuizLoading from "@/app/quiz/components/QuizLoading";
@@ -32,6 +33,16 @@ function SkillQuizPageBody({
           <h2 className="text-lg sm:text-2xl font-semibold text-gray-800 mb-4 sm:mb-6 px-2">
             このスキルを持つサーヴァントは？
           </h2>
+          <p className="mb-4 sm:mb-6 text-xs sm:text-sm text-gray-600">
+            スキルクイズ全体の遊び方や、FGO におけるスキルの役割をまとめた解説ページは{" "}
+            <Link
+              href="/quiz/skill/description"
+              className="font-semibold text-indigo-600 hover:text-indigo-700 underline underline-offset-4"
+            >
+              こちら
+            </Link>
+            からご覧いただけます。
+          </p>
           <div className="space-y-3 sm:space-y-4 mb-4 sm:mb-6">
             {displaySkills.map((skill, index) => (
               <div key={index} className="bg-blue-50 rounded-lg p-4 sm:p-6">
