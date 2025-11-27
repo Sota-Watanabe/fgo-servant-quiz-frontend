@@ -37,16 +37,6 @@ function NoblePhantasmQuizPageBody({
           <h2 className="text-lg sm:text-2xl font-semibold text-gray-900 mb-4 sm:mb-6 px-2 text-center">
             この宝具を持つサーヴァントは？
           </h2>
-          <p className="mb-4 sm:mb-6 text-xs sm:text-sm text-gray-600">
-            宝具クイズ全体の遊び方や、FGO における宝具の役割をまとめた解説ページは{" "}
-            <Link
-              href="/quiz/np/description"
-              className="font-semibold text-indigo-600 hover:text-indigo-700 underline underline-offset-4"
-            >
-              こちら
-            </Link>
-            からご覧いただけます。
-          </p>
 
           {noblePhantasm ? (
             <section className="space-y-5 sm:space-y-6 mb-4 sm:mb-6 rounded-2xl border border-sky-100 bg-white p-5 sm:p-7 shadow-sm">

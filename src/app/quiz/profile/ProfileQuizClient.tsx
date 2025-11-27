@@ -67,16 +67,6 @@ function ProfileQuizPageBody({
             <h2 className="text-lg sm:text-2xl font-semibold text-gray-900 text-center">
               このプロフィールを持つサーヴァントは？
             </h2>
-            <p className="text-xs sm:text-sm text-gray-600 text-center">
-              プロフィールクイズ全体の遊び方や、FGO におけるプロフィールの役割をまとめた解説ページは{" "}
-              <Link
-                href="/quiz/profile/description"
-                className="font-semibold text-indigo-600 hover:text-indigo-700 underline underline-offset-4"
-              >
-                こちら
-              </Link>
-              からご覧いただけます。
-            </p>
             <div className="space-y-6 sm:space-y-7">
               <ProfileSection baseProfile={profile} />
               <StatusSection stats={quizData.stats} />
