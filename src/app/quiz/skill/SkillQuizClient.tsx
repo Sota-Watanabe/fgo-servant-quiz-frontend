@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import PageLayout from "@/app/components/PageLayout";
 import QuizAnswerSection from "@/app/quiz/components/QuizAnswerSection";
 import QuizLoading from "@/app/quiz/components/QuizLoading";

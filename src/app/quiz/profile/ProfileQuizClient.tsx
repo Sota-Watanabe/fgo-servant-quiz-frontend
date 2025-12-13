@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { useFetchQuizProfile } from "@/hooks/useFetchQuizProfile";
 import { useFetchServantsOption } from "@/hooks/useFetchServantsOption";
 import PageLayout from "@/app/components/PageLayout";
