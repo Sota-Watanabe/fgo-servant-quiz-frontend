@@ -27,7 +27,7 @@ jobs:
       # ソースコード取得
       # ------------------------------------
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       # ------------------------------------
       # Workload Identity Federation 認証
