@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const SITE_URL = "https://fate-grand-quiz.com";
 export const SITE_NAME = "Fate/Grand Quiz";
 export const SITE_DESCRIPTION =
-  "「Fate/Grand Order」ファン必見！サーヴァントのプロフィールや宝具からキャラ名を当てるFGOクイズ。あなたの知識と愛で、真のマスター度を試そう！";
+  "Fate/Grand Orderファン向けの非公式クイズサイト。サーヴァントのスキル・プロフィール・宝具から真名を当てるクイズに挑戦。無料・登録不要で今すぐプレイ可能。FGOの知識を試して、推しサーヴァントへの愛を深めよう！";
 
 export const DEFAULT_SOCIAL_IMAGE_PATH = "/title-logo.png";
 export const SOCIAL_IMAGE_WIDTH = 1200;

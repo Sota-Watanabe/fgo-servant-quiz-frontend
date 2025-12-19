@@ -21,6 +21,10 @@ const routes = [
   "/quiz/profile/description",
   "/quiz/np",
   "/quiz/np/description",
+  "/about",
+  "/guide",
+  "/glossary",
+  "/faq",
   "/privacy",
   "/contact",
 ] as const;

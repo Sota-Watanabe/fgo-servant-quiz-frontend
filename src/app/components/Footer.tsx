@@ -1,9 +1,52 @@
 export default function Footer() {
   return (
-    <footer className="bg-gray-800 text-white py-6 mt-[200px]">
-      <div className="container mx-auto px-4 text-center">
-        <div className="flex flex-col items-center md:flex-row md:justify-center">
-          <div className="text-sm">
+    <footer className="bg-gray-800 text-white py-8 mt-[200px]">
+      <div className="container mx-auto px-4">
+        <div className="flex flex-col items-center">
+          <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-sm mb-4">
+            <a
+              href="/about"
+              className="text-gray-300 hover:text-white transition-colors duration-200"
+            >
+              サイトについて
+            </a>
+            <span className="text-gray-500">|</span>
+            <a
+              href="/guide"
+              className="text-gray-300 hover:text-white transition-colors duration-200"
+            >
+              利用ガイド
+            </a>
+            <span className="text-gray-500">|</span>
+            <a
+              href="/glossary"
+              className="text-gray-300 hover:text-white transition-colors duration-200"
+            >
+              FGO用語集
+            </a>
+            <span className="text-gray-500">|</span>
+            <a
+              href="/faq"
+              className="text-gray-300 hover:text-white transition-colors duration-200"
+            >
+              よくある質問
+            </a>
+            <span className="text-gray-500">|</span>
+            <a
+              href="/privacy"
+              className="text-gray-300 hover:text-white transition-colors duration-200"
+            >
+              プライバシーポリシー
+            </a>
+            <span className="text-gray-500">|</span>
+            <a
+              href="/contact"
+              className="text-gray-300 hover:text-white transition-colors duration-200"
+            >
+              お問い合わせ
+            </a>
+          </div>
+          <div className="text-sm text-center">
             Created by{" "}
             <a
               href="https://github.com/Sota-Watanabe"
@@ -14,20 +57,8 @@ export default function Footer() {
               Sota-Watanabe
             </a>
           </div>
-          <div className="mt-2 md:mt-0 md:ml-4 text-xs">
-            <a
-              href="/privacy"
-              className="text-gray-300 hover:text-white transition-colors duration-200"
-            >
-              プライバシーポリシー
-            </a>
-            <span className="mx-2 text-gray-500">|</span>
-            <a
-              href="/contact"
-              className="text-gray-300 hover:text-white transition-colors duration-200"
-            >
-              お問い合わせ
-            </a>
+          <div className="text-xs text-gray-400 mt-2 text-center max-w-2xl">
+            本サイトは非公式のファンサイトです。Fate/Grand Order は TYPE-MOON/FGO PROJECT の著作物です。
           </div>
         </div>
       </div>

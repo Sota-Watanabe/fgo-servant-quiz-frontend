@@ -129,6 +129,126 @@ export default function QuizIndexPage() {
             </article>
           ))}
         </section>
+
+        <section className="mt-12 rounded-[28px] border border-indigo-100 bg-gradient-to-br from-indigo-50/50 to-purple-50/50 p-6 sm:p-8">
+          <h2 className="text-xl font-bold text-gray-900 sm:text-2xl">
+            各クイズモードの特徴と学習効果
+          </h2>
+          <div className="mt-6 space-y-4">
+            <div className="rounded-2xl border border-blue-100 bg-white p-5">
+              <h3 className="text-base font-bold text-blue-900 sm:text-lg">
+                スキルクイズ：実戦的な記憶力を鍛える
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-gray-700">
+                周回やクエストで何度も目にしてきたスキル効果テキストを手がかりに、サーヴァントを推理します。効果の組み合わせやスキル名のニュアンスから、編成でよく使うサーヴァントを思い出す楽しさがあります。実戦で重要なスキル構成を自然と記憶する学習効果も期待できます。
+              </p>
+            </div>
+            <div className="rounded-2xl border border-purple-100 bg-white p-5">
+              <h3 className="text-base font-bold text-purple-900 sm:text-lg">
+                プロフィールクイズ：物語性と設定理解を深める
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-gray-700">
+                サーヴァントのバックストーリーや性格、ステータス情報から真名を推理。Fate
+                シリーズの物語や歴史的背景への理解が深まり、キャラクターへの愛着がより一層強くなります。マテリアルやプロフィール文をじっくり読み込む習慣が身につきます。
+              </p>
+            </div>
+            <div className="rounded-2xl border border-pink-100 bg-white p-5">
+              <h3 className="text-base font-bold text-pink-900 sm:text-lg">
+                宝具クイズ：象徴的な記憶と演出を振り返る
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-gray-700">
+                宝具名、ランク、種別、カード属性といったヒントから持ち主を当てます。印象的な宝具演出や名前が記憶に残りやすく、バトル中のハイライトシーンを思い出しながら楽しめます。宝具の背景設定を知ることで、サーヴァントの本質をより深く理解できます。
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section className="mt-12 rounded-[28px] border border-green-100 bg-gradient-to-br from-green-50/30 to-teal-50/30 p-6 sm:p-8">
+          <h2 className="text-xl font-bold text-gray-900 sm:text-2xl">
+            効果的なクイズの活用方法
+          </h2>
+          <div className="mt-6 space-y-3 text-sm leading-relaxed text-gray-700 sm:text-base">
+            <div className="flex gap-3">
+              <span className="text-lg">📌</span>
+              <div>
+                <span className="font-semibold text-gray-900">
+                  スキマ時間に1問だけ挑戦：
+                </span>
+                通勤・通学時や休憩時間に、気軽に1問だけ解いて知識の確認ができます。
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <span className="text-lg">🎯</span>
+              <div>
+                <span className="font-semibold text-gray-900">
+                  苦手なモードを重点的に練習：
+                </span>
+                不正解が多いモードを繰り返し遊ぶことで、その分野の理解を深められます。
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <span className="text-lg">🤝</span>
+              <div>
+                <span className="font-semibold text-gray-900">
+                  友人と競って楽しむ：
+                </span>
+                FGO仲間と一緒にクイズに挑戦して、誰が一番詳しいか競い合えます。
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <span className="text-lg">📚</span>
+              <div>
+                <span className="font-semibold text-gray-900">
+                  推しサーヴァントの知識確認：
+                </span>
+                お気に入りのサーヴァントが出題されたら、全ての情報を正確に答えられるか試してみましょう。
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="mt-12 rounded-[28px] border border-amber-100 bg-gradient-to-br from-amber-50/30 to-orange-50/30 p-6 sm:p-8">
+          <h2 className="text-xl font-bold text-gray-900 sm:text-2xl">
+            よくある質問
+          </h2>
+          <div className="mt-6 space-y-5">
+            <div>
+              <h3 className="text-base font-semibold text-gray-900">
+                Q. どのモードから始めるのがおすすめですか？
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-gray-700">
+                A.
+                初めての方には「スキルクイズ」がおすすめです。周回で見慣れたスキル効果が多く出題されるため、直感的に答えやすい傾向があります。
+              </p>
+            </div>
+            <div>
+              <h3 className="text-base font-semibold text-gray-900">
+                Q. 問題は何問くらいありますか？
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-gray-700">
+                A.
+                実装済みの全サーヴァントが出題対象となるため、膨大な問題数があります。ランダム出題なので、飽きずに長く遊べます。
+              </p>
+            </div>
+            <div>
+              <h3 className="text-base font-semibold text-gray-900">
+                Q. 料金はかかりますか？
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-gray-700">
+                A.
+                完全無料です。すべてのクイズモードを制限なく遊べます。会員登録も不要です。
+              </p>
+            </div>
+          </div>
+          <div className="mt-6 text-center">
+            <Link
+              href="/faq"
+              className="text-sm font-semibold text-indigo-600 hover:text-indigo-700 underline underline-offset-4"
+            >
+              その他のよくある質問を見る →
+            </Link>
+          </div>
+        </section>
       </main>
     </PageLayout>
   );

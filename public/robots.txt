@@ -1,0 +1,11 @@
+# robots.txt for Fate/Grand Quiz
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://fgoquiz.com/sitemap.xml
+
+# Disallow admin or staging paths if any
+# User-agent: *
+# Disallow: /admin/
