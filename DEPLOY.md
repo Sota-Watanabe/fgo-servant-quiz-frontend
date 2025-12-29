@@ -38,6 +38,11 @@ gcloud artifacts repositories create fgo-quiz \
     --description="FGO Quiz application images"
 ```
 
+## イメージの自動クリーンアップ
+
+GitHub Actionsのデプロイワークフローには、デプロイ後に古いイメージを自動削除する機能が組み込まれています。
+最新5つのイメージと `latest` タグのみが保持され、それ以外は自動的に削除されます。
+
 ## 環境変数設定（オプション）
 
 本番環境用の設定が必要な場合は、GitHub Actionsワークフローファイルで以下の環境変数を設定可能：
