@@ -83,7 +83,7 @@ export default function PrivacyPolicyPage() {
             </p>
 
             <p className="mt-8 text-xs text-gray-500">
-              制定日: 2024年
+              制定日: 2025年
             </p>
           </section>
         </div>
