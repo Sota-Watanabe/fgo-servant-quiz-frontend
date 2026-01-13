@@ -40,6 +40,13 @@ export default function Footer() {
             </a>
             <span className="text-gray-500">|</span>
             <a
+              href="/operator"
+              className="text-gray-300 hover:text-white transition-colors duration-200"
+            >
+              運営者情報
+            </a>
+            <span className="text-gray-500">|</span>
+            <a
               href="/contact"
               className="text-gray-300 hover:text-white transition-colors duration-200"
             >

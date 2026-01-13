@@ -26,7 +26,14 @@ const routes = [
   "/glossary",
   "/faq",
   "/privacy",
+  "/operator",
   "/contact",
+  "/articles",
+  "/articles/quiz-tips",
+  "/articles/skill-memorization",
+  "/articles/profile-reading",
+  "/articles/noble-phantasm-lore",
+  "/articles/fgo-trivia",
 ] as const;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
