@@ -29,6 +29,7 @@ function NoblePhantasmVoiceQuizPageBody({
   const [playingVoiceIndex, setPlayingVoiceIndex] = useState<number | null>(
     null
   );
+  const [volume, setVolume] = useState<number>(0.7);
   const currentAudioRef = useRef<HTMLAudioElement | null>(null);
   const currentTimeoutRef = useRef<number | null>(null);
   const isStoppingRef = useRef<boolean>(false);
@@ -71,6 +72,7 @@ function NoblePhantasmVoiceQuizPageBody({
 
       const src = voiceLine.audioAssets[idx];
       const audio = new Audio(src);
+      audio.volume = volume;
       currentAudioRef.current = audio;
 
       audio.onended = () => {
@@ -138,9 +140,28 @@ function NoblePhantasmVoiceQuizPageBody({
           {noblePhantasm && voiceLines.length > 0 ? (
             <section className="space-y-5 sm:space-y-6 mb-4 sm:mb-6 rounded-2xl border border-purple-100 bg-gradient-to-br from-purple-50 to-indigo-50 p-5 sm:p-7 shadow-sm">
               <header className="space-y-3 text-center sm:text-left">
-                <span className="inline-flex items-center justify-center rounded-full bg-purple-100 px-3 py-1 text-xs sm:text-sm font-semibold uppercase tracking-wide text-purple-700">
-                  Noble Phantasm Voice
-                </span>
+                <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+                  <span className="inline-flex items-center justify-center rounded-full bg-purple-100 px-3 py-1 text-xs sm:text-sm font-semibold uppercase tracking-wide text-purple-700">
+                    Noble Phantasm Voice
+                  </span>
+                  <div className="flex items-center gap-2 justify-center sm:justify-start">
+                    <svg className="w-4 h-4 text-purple-600" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                    </svg>
+                    <input
+                      type="range"
+                      min="0"
+                      max="100"
+                      value={volume * 100}
+                      onChange={(e) => setVolume(Number(e.target.value) / 100)}
+                      className="w-24 h-2 bg-purple-200 rounded-lg appearance-none cursor-pointer accent-purple-600"
+                      aria-label="音量調整"
+                    />
+                    <span className="text-xs text-purple-700 font-semibold min-w-[2.5rem] text-right">
+                      {Math.round(volume * 100)}%
+                    </span>
+                  </div>
+                </div>
               </header>
 
               <div className="space-y-3">
