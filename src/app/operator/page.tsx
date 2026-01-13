@@ -37,20 +37,6 @@ export default function OperatorPage() {
             </p>
 
             <h2 className="mt-8 text-lg font-semibold text-gray-900">
-              サイトURL
-            </h2>
-            <p className="mt-2 text-sm leading-relaxed text-gray-700 sm:text-base">
-              <a
-                href="https://fgo-quiz.com"
-                className="text-indigo-600 hover:text-indigo-700 underline underline-offset-4"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                https://fgo-quiz.com
-              </a>
-            </p>
-
-            <h2 className="mt-8 text-lg font-semibold text-gray-900">
               運営者
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-gray-700 sm:text-base">

@@ -1,4 +1,3 @@
 Contact: https://x.com/fgqproject
 Expires: 2027-01-13T00:00:00.000Z
 Preferred-Languages: ja, en
-Canonical: https://fgo-quiz.com/.well-known/security.txt
