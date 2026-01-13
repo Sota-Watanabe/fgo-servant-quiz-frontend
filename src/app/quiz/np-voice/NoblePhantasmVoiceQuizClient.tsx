@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import PageLayout from "@/app/components/PageLayout";
 import QuizAnswerSection from "@/app/quiz/components/QuizAnswerSection";
 import QuizLoading from "@/app/quiz/components/QuizLoading";
@@ -29,75 +29,103 @@ function NoblePhantasmVoiceQuizPageBody({
   const [playingVoiceIndex, setPlayingVoiceIndex] = useState<number | null>(
     null
   );
-  const [audioElements, setAudioElements] = useState<HTMLAudioElement[]>([]);
+  const currentAudioRef = useRef<HTMLAudioElement | null>(null);
+  const currentTimeoutRef = useRef<number | null>(null);
+  const isStoppingRef = useRef<boolean>(false);
 
-  const playVoiceLine = async (voiceIndex: number) => {
-    if (playingVoiceIndex !== null) {
-      audioElements.forEach((audio) => {
-        audio.pause();
-        audio.currentTime = 0;
-      });
-      setAudioElements([]);
+  const cleanupPlayback = () => {
+    const a = currentAudioRef.current;
+    if (a) {
+      try {
+        a.pause();
+      } catch {}
+      try {
+        a.currentTime = 0;
+      } catch {}
+      a.onended = null;
+      a.onerror = null;
     }
+    currentAudioRef.current = null;
+    if (currentTimeoutRef.current !== null) {
+      clearTimeout(currentTimeoutRef.current);
+      currentTimeoutRef.current = null;
+    }
+  };
+
+  const playVoiceLine = (voiceIndex: number) => {
+    // 既存の再生を停止してから開始
+    stopVoiceLine();
 
     const voiceLine = voiceLines[voiceIndex];
-    if (
-      !voiceLine ||
-      !voiceLine.audioAssets ||
-      voiceLine.audioAssets.length === 0
-    ) {
+    if (!voiceLine || !voiceLine.audioAssets || voiceLine.audioAssets.length === 0) {
       return;
     }
 
+    isStoppingRef.current = false;
     setPlayingVoiceIndex(voiceIndex);
 
-    const audios: HTMLAudioElement[] = [];
+    let idx = 0;
 
-    for (let i = 0; i < voiceLine.audioAssets.length; i++) {
-      const audioUrl = voiceLine.audioAssets[i];
-      const delay = voiceLine.delay[i] || 0;
+    const scheduleNext = () => {
+      if (isStoppingRef.current) return;
 
-      await new Promise<void>((resolve) => {
-        setTimeout(() => {
-          const audio = new Audio(audioUrl);
-          audios.push(audio);
+      const src = voiceLine.audioAssets[idx];
+      const audio = new Audio(src);
+      currentAudioRef.current = audio;
 
-          audio.onended = () => {
-            if (i === voiceLine.audioAssets.length - 1) {
-              setPlayingVoiceIndex(null);
-              setAudioElements([]);
-            }
-            resolve();
-          };
+      audio.onended = () => {
+        if (isStoppingRef.current) return;
+        idx += 1;
+        if (idx < voiceLine.audioAssets.length) {
+          const d = voiceLine.delay[idx] || 0;
+          currentTimeoutRef.current = window.setTimeout(scheduleNext, d);
+        } else {
+          cleanupPlayback();
+          setPlayingVoiceIndex(null);
+        }
+      };
 
-          audio.onerror = () => {
-            console.error(`Failed to load audio: ${audioUrl}`);
-            if (i === voiceLine.audioAssets.length - 1) {
-              setPlayingVoiceIndex(null);
-              setAudioElements([]);
-            }
-            resolve();
-          };
+      audio.onerror = () => {
+        if (isStoppingRef.current) return;
+        idx += 1;
+        if (idx < voiceLine.audioAssets.length) {
+          const d = voiceLine.delay[idx] || 0;
+          currentTimeoutRef.current = window.setTimeout(scheduleNext, d);
+        } else {
+          cleanupPlayback();
+          setPlayingVoiceIndex(null);
+        }
+      };
 
-          audio.play().catch((err) => {
-            console.error("Failed to play audio:", err);
-            resolve();
-          });
-        }, delay);
+      audio.play().catch(() => {
+        if (isStoppingRef.current) return;
+        idx += 1;
+        if (idx < voiceLine.audioAssets.length) {
+          const d = voiceLine.delay[idx] || 0;
+          currentTimeoutRef.current = window.setTimeout(scheduleNext, d);
+        } else {
+          cleanupPlayback();
+          setPlayingVoiceIndex(null);
+        }
       });
-    }
+    };
 
-    setAudioElements(audios);
+    const firstDelay = (voiceLine.delay && voiceLine.delay[0]) || 0;
+    currentTimeoutRef.current = window.setTimeout(scheduleNext, firstDelay);
   };
 
   const stopVoiceLine = () => {
-    audioElements.forEach((audio) => {
-      audio.pause();
-      audio.currentTime = 0;
-    });
-    setAudioElements([]);
+    isStoppingRef.current = true;
+    cleanupPlayback();
     setPlayingVoiceIndex(null);
   };
+
+  useEffect(() => {
+    return () => {
+      isStoppingRef.current = true;
+      cleanupPlayback();
+    };
+  }, []);
 
   return (
     <PageLayout>
