@@ -1,4 +1,4 @@
-export type QuizShareType = "skill" | "profile" | "np";
+export type QuizShareType = "skill" | "profile" | "np" | "np-voice";
 
 type ShareOptions = {
   servantId: number;
@@ -11,6 +11,7 @@ const SHARE_PATHS: Record<QuizShareType, string> = {
   skill: "/quiz/skill",
   profile: "/quiz/profile",
   np: "/quiz/np",
+  "np-voice": "/quiz/np-voice",
 };
 
 const buildShareUrl = (

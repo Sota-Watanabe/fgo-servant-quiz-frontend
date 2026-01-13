@@ -25,6 +25,11 @@ export default function GlobalNav() {
       href: "/quiz/np",
       subLabel: "Noble Phantasm Quiz",
     },
+    {
+      label: "宝具ボイス",
+      href: "/quiz/np-voice",
+      subLabel: "NP Voice Quiz",
+    },
   ];
 
   return (

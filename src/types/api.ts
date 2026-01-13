@@ -21,6 +21,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/healthz": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["AppController_health"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/quiz/skill": {
         parameters: {
             query?: never;
@@ -30,7 +46,7 @@ export interface paths {
         };
         /**
          * スキルクイズの取得
-         * @description ランダムなサーヴァントのスキル情報を返します
+         * @description ランダム、またはクエリで指定したサーヴァントIDのスキル情報を返します
          */
         get: operations["QuizController_getSkillQuiz"];
         put?: never;
@@ -50,7 +66,7 @@ export interface paths {
         };
         /**
          * プロフィールクイズの取得
-         * @description ランダムなサーヴァントのプロフィール情報を返します
+         * @description ランダム、またはクエリで指定したサーヴァントIDのプロフィール情報を返します
          */
         get: operations["QuizController_getProfileQuiz"];
         put?: never;
@@ -70,9 +86,29 @@ export interface paths {
         };
         /**
          * 宝具クイズの取得
-         * @description ランダムなサーヴァントの宝具情報を返します
+         * @description ランダム、またはクエリで指定したサーヴァントIDの宝具情報を返します
          */
         get: operations["QuizController_getNpQuiz"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/quiz/np-voice": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * 宝具ボイスクイズの取得
+         * @description ランダム、またはクエリで指定したサーヴァントIDの宝具ボイス情報を返します
+         */
+        get: operations["QuizController_getNpVoiceQuiz"];
         put?: never;
         post?: never;
         delete?: never;
@@ -93,6 +129,26 @@ export interface paths {
          * @description クイズで使用するサーヴァントの選択肢データを取得します。各サーヴァントのID、名前、オリジナル名が含まれます。
          */
         get: operations["ServantsController_getServantOptions"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ogp": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * OGP画像を取得
+         * @description クイズタイプとサーヴァントIDに対応するOGP画像を返す。画像が存在しない場合は400エラー。
+         */
+        get: operations["OgpController_getOgpImage"];
         put?: never;
         post?: never;
         delete?: never;
@@ -468,6 +524,119 @@ export interface components {
              */
             imageUrl: string;
         };
+        VoiceLineDto: {
+            /**
+             * @description ボイス名
+             * @example 宝具セリフ1
+             */
+            name: string;
+            /**
+             * @description ボイスID配列
+             * @example [
+             *       "100",
+             *       "101"
+             *     ]
+             */
+            id: string[];
+            /**
+             * @description オーディオファイルURL配列
+             * @example [
+             *       "https://example.com/audio/np1.mp3"
+             *     ]
+             */
+            audioAssets: string[];
+            /**
+             * @description 遅延時間（ミリ秒）配列
+             * @example [
+             *       0,
+             *       1500
+             *     ]
+             */
+            delay: number[];
+            /**
+             * @description 優先度
+             * @example 1
+             */
+            priority: number;
+            /**
+             * @description 条件タイプ
+             * @example svtLimit
+             */
+            condType: string;
+            /**
+             * @description 条件値
+             * @example 0
+             */
+            condValue: number;
+        };
+        NoblePhantasmVoiceDto: {
+            /**
+             * @description 宝具ID
+             * @example 100010
+             */
+            id: number;
+            /**
+             * @description 宝具名
+             * @example 約束された勝利の剣
+             */
+            name: string;
+            /**
+             * @description オリジナル名
+             * @example Excalibur
+             */
+            originalName: string;
+            /**
+             * @description ルビ
+             * @example エクスカリバー
+             */
+            ruby: string;
+            /** @description ボイスライン一覧 */
+            voiceLines: components["schemas"]["VoiceLineDto"][];
+        };
+        ServantNpVoiceGetResponseDto: {
+            /**
+             * @description サーヴァントID
+             * @example 102600
+             */
+            id: number;
+            /**
+             * @description コレクション番号
+             * @example 100
+             */
+            collectionNo: number;
+            /**
+             * @description サーヴァント名
+             * @example 坂本龍馬
+             */
+            name: string;
+            /**
+             * @description オリジナル名
+             * @example 坂本龍馬
+             */
+            originalName: string;
+            /**
+             * @description フリガナ
+             * @example さかもとりょうま
+             */
+            ruby: string;
+            /**
+             * @description クラスID
+             * @example 5
+             */
+            classId: number;
+            /**
+             * @description レアリティ
+             * @example 4
+             */
+            rarity: number;
+            /** @description 宝具ボイス詳細 */
+            noblePhantasm: components["schemas"]["NoblePhantasmVoiceDto"] | null;
+            /**
+             * @description サーヴァント画像URL
+             * @example https://example.com/images/servants/102600.png
+             */
+            imageUrl: string;
+        };
         ServantsOptions: {
             /**
              * @description サーヴァントID
@@ -528,9 +697,29 @@ export interface operations {
             };
         };
     };
-    QuizController_getSkillQuiz: {
+    AppController_health: {
         parameters: {
             query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    QuizController_getSkillQuiz: {
+        parameters: {
+            query?: {
+                /** @description 指定すると該当サーヴァントのスキル情報を返します */
+                servantId?: number;
+            };
             header?: never;
             path?: never;
             cookie?: never;
@@ -550,7 +739,10 @@ export interface operations {
     };
     QuizController_getProfileQuiz: {
         parameters: {
-            query?: never;
+            query?: {
+                /** @description 指定すると該当サーヴァントのプロフィール情報を返します */
+                servantId?: number;
+            };
             header?: never;
             path?: never;
             cookie?: never;
@@ -570,7 +762,10 @@ export interface operations {
     };
     QuizController_getNpQuiz: {
         parameters: {
-            query?: never;
+            query?: {
+                /** @description 指定すると該当サーヴァントの宝具情報を返します */
+                servantId?: number;
+            };
             header?: never;
             path?: never;
             cookie?: never;
@@ -584,6 +779,29 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ServantNpGetResponseDto"];
+                };
+            };
+        };
+    };
+    QuizController_getNpVoiceQuiz: {
+        parameters: {
+            query?: {
+                /** @description 指定すると該当サーヴァントの宝具ボイス情報を返します */
+                servantId?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description 宝具ボイスクイズデータ */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServantNpVoiceGetResponseDto"];
                 };
             };
         };
@@ -608,6 +826,38 @@ export interface operations {
             };
             /** @description サーバー内部エラー */
             500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    OgpController_getOgpImage: {
+        parameters: {
+            query: {
+                /** @description クイズタイプ */
+                type: "skill" | "profile" | "np";
+                /** @description サーヴァントID */
+                servantId: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OGP画像を返す */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "image/png": string;
+                };
+            };
+            /** @description 画像が見つからない、または不正なパラメータ */
+            400: {
                 headers: {
                     [name: string]: unknown;
                 };
