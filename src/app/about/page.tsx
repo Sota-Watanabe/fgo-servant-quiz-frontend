@@ -158,17 +158,6 @@ export default function AboutPage() {
               </a>
               を利用しており、FGOの膨大なゲームデータを正確かつ最新の状態で取得しています。このAPIはコミュニティによって運営されており、非常に高品質で信頼性のあるデータソースです。
             </p>
-            <p>
-              サイトのソースコードは<a
-                href="https://github.com/Sota-Watanabe/fgo-servant-quiz-frontend"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-indigo-600 hover:text-indigo-700 underline underline-offset-4"
-              >
-                GitHub
-              </a>
-              で公開しており、技術的な質問や改善提案も歓迎しています。
-            </p>
           </div>
         </section>
 

@@ -31,25 +31,7 @@ export default function ContactPage() {
             </p>
 
             <h2 className="mt-8 text-lg font-semibold text-gray-900">
-              1. GitHub Issues
-            </h2>
-            <p className="mt-2 text-sm leading-relaxed text-gray-700 sm:text-base">
-              技術的な不具合や改善提案については、GitHub リポジトリの Issues からご連絡いただけるとスムーズです。
-            </p>
-            <p className="mt-2 text-sm leading-relaxed text-indigo-700 sm:text-base">
-              GitHub:{" "}
-              <a
-                href="https://github.com/Sota-Watanabe/fgo-servant-quiz"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline underline-offset-4"
-              >
-                github.com/Sota-Watanabe/fgo-servant-quiz
-              </a>
-            </p>
-
-            <h2 className="mt-8 text-lg font-semibold text-gray-900">
-              2. X（旧Twitter）
+              X（旧Twitter）
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-gray-700 sm:text-base">
               ライトなご意見や感想などは、X（旧Twitter）経由でのメッセージも歓迎しています。

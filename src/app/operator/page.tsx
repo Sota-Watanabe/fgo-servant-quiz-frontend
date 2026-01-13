@@ -66,22 +66,6 @@ export default function OperatorPage() {
             </h2>
             <div className="mt-2 space-y-3 text-sm leading-relaxed text-gray-700 sm:text-base">
               <div>
-                <strong className="font-semibold">GitHub Issues（推奨）:</strong>
-                <br />
-                <a
-                  href="https://github.com/Sota-Watanabe/fgo-servant-quiz/issues"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-indigo-600 hover:text-indigo-700 underline underline-offset-4"
-                >
-                  https://github.com/Sota-Watanabe/fgo-servant-quiz/issues
-                </a>
-                <br />
-                <span className="text-sm text-gray-600">
-                  ※ 不具合報告や機能要望はGitHub Issuesからお願いします
-                </span>
-              </div>
-              <div>
                 <strong className="font-semibold">X（旧Twitter）:</strong>
                 <br />
                 <a
@@ -94,7 +78,7 @@ export default function OperatorPage() {
                 </a>
                 <br />
                 <span className="text-sm text-gray-600">
-                  ※ ライトなご意見・感想はDMまたはメンションでお寄せください
+                  ※ ご意見・感想・不具合報告等はDMまたはメンションでお寄せください
                 </span>
               </div>
             </div>
@@ -196,18 +180,6 @@ export default function OperatorPage() {
             <p className="mt-2 text-sm leading-relaxed text-gray-700 sm:text-base">
               個人運営のため、すべてのお問い合わせに個別の返信ができない場合があります。
               また、回答までにお時間をいただく場合があります。あらかじめご了承ください。
-              <br />
-              <br />
-              不具合報告や機能要望については、
-              <a
-                href="https://github.com/Sota-Watanabe/fgo-servant-quiz/issues"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-indigo-600 hover:text-indigo-700 underline underline-offset-4 mx-1"
-              >
-                GitHub Issues
-              </a>
-              からご報告いただけると、より迅速に対応できます。
             </p>
 
             <p className="mt-8 text-xs text-gray-500">
