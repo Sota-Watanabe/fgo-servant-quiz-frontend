@@ -13,7 +13,7 @@
     "generate:types": "npm run generate:backend:openapi && npm run generate:frontend:types"
   },
   "dependencies": {
-    "@tanstack/react-query": "^5.90.12",
+    "@tanstack/react-query": "^5.90.17",
     "next": "^16.0.10",
     "react": "^19.2.3",
     "react-dom": "^19.2.3"
