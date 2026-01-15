@@ -629,8 +629,8 @@ export interface components {
              * @example 4
              */
             rarity: number;
-            /** @description 宝具ボイス詳細 */
-            noblePhantasm: components["schemas"]["NoblePhantasmVoiceDto"] | null;
+            /** @description 宝具ボイス詳細一覧 */
+            noblePhantasms: components["schemas"]["NoblePhantasmVoiceDto"][];
             /**
              * @description サーヴァント画像URL
              * @example https://example.com/images/servants/102600.png
