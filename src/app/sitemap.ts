@@ -26,6 +26,7 @@ const routes = [
   "/glossary",
   "/faq",
   "/privacy",
+  "/terms",
   "/operator",
   "/contact",
   "/articles",
