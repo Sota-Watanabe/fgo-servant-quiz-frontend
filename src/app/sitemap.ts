@@ -29,6 +29,8 @@ const routes = [
   "/operator",
   "/contact",
   "/articles",
+  "/articles/beginner-guide",
+  "/articles/user-stories",
   "/articles/quiz-tips",
   "/articles/skill-memorization",
   "/articles/profile-reading",

@@ -18,6 +18,24 @@ export const metadata: Metadata = buildPageMetadata({
 
 const articles = [
   {
+    href: "/articles/beginner-guide",
+    title: "FGO初心者が知っておきたい基礎知識とクイズの活用法",
+    category: "初心者ガイド",
+    date: "2026-01-21",
+    description:
+      "FGOを始めたばかりの初心者マスター向けに、ゲームの基本システムとクイズサイトの活用方法を詳しく解説します。",
+    readTime: "約12分",
+  },
+  {
+    href: "/articles/user-stories",
+    title: "クイズで発見した推しサーヴァントの新たな魅力",
+    category: "体験談",
+    date: "2026-01-21",
+    description:
+      "実際にクイズを遊んで発見したサーヴァントの知られざる魅力や、記憶に残ったエピソードを体験談形式で紹介します。",
+    readTime: "約8分",
+  },
+  {
     href: "/articles/quiz-tips",
     title: "FGOクイズで高正答率を目指すコツ",
     category: "攻略",
