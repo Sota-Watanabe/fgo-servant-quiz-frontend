@@ -27,6 +27,33 @@ const articles = [
     readTime: "約12分",
   },
   {
+    href: "/articles/priority-servants",
+    title: "FGO初心者が優先すべき育成サーヴァント - 低レアから始める攻略法",
+    category: "初心者ガイド",
+    date: "2026-01-21",
+    description:
+      "星1〜3の低レアサーヴァントでも十分に戦力になる理由と、優先的に育成すべきおすすめサーヴァントを解説します。",
+    readTime: "約12分",
+  },
+  {
+    href: "/articles/class-advantage",
+    title: "FGOのクラス相性を完全解説 - 有利クラスで戦う重要性",
+    category: "システム解説",
+    date: "2026-01-21",
+    description:
+      "基本の三すくみから特殊クラスまで、クラス相性システムを詳しく解説。戦略的な編成のために知っておくべき知識です。",
+    readTime: "約10分",
+  },
+  {
+    href: "/articles/command-card",
+    title: "FGOコマンドカードの基礎知識 - 効果的なカード選択のコツ",
+    category: "システム解説",
+    date: "2026-01-21",
+    description:
+      "Buster、Arts、Quickカードの特性と使い分けを解説。カードチェーンを理解して戦闘を有利に進めましょう。",
+    readTime: "約8分",
+  },
+  {
     href: "/articles/user-stories",
     title: "クイズで発見した推しサーヴァントの新たな魅力",
     category: "体験談",

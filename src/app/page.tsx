@@ -51,7 +51,7 @@ export default function Home() {
       <Header />
       <main className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-100">
         <div className="mx-auto w-full max-w-6xl px-4 pb-16 pt-12 sm:px-6 sm:pb-20 sm:pt-16">
-          {/* ヒーローセクション: より印象的なデザインにリファイン */}
+          {/* ヒーローセクション */}
           <section className="relative overflow-hidden rounded-[40px] border border-indigo-100 bg-gradient-to-br from-white/95 via-indigo-50/90 to-blue-100/80 p-8 shadow-2xl backdrop-blur-xl sm:p-16">
             {/* 装飾的なグラデーション円 */}
             <div className="pointer-events-none absolute -left-32 top-8 h-80 w-80 rounded-full bg-indigo-300/20 blur-[90px]" />
@@ -71,37 +71,131 @@ export default function Home() {
                 </h1>
                 <p className="mt-6 text-lg leading-relaxed text-gray-700 sm:text-xl">
                   「Fate/Grand
-                  Order」のサーヴァント知識を試せる非公式クイズサイトです。
+                  Order」のサーヴァント知識を深める情報サイトです。
                   <br className="hidden sm:inline" />
-                  スキル・プロフィール・宝具などの問題を通じて、あなたのマスター度を試しましょう。
-                </p>
-                <p className="mt-4 text-base leading-relaxed text-gray-700 sm:text-lg">
-                  スキル・プロフィール・宝具の{" "}
-                  <span className="font-bold text-indigo-600">3種類</span>{" "}
-                  を用意。
-                  <br className="hidden sm:inline" />
-                  気分に合わせて選んで、推しサーヴァントへの理解度を確かめましょう。
+                  攻略記事、システム解説、クイズなどを通じて、FGOをもっと楽しみましょう。
                 </p>
               </div>
             </div>
           </section>
 
-          <section className="mt-12 rounded-3xl border border-blue-100 bg-white/80 p-6 shadow-lg sm:p-8">
+          {/* 最新記事セクション - 一番上に配置 */}
+          <section className="mt-12 rounded-3xl border border-green-100 bg-white/80 p-6 shadow-lg sm:p-8">
             <h2 className="text-2xl font-semibold text-gray-900 sm:text-3xl">
-              クイズモードを選ぶ
+              📚 最新記事・FGO攻略情報
             </h2>
             <p className="mt-3 text-sm text-gray-600 sm:text-base">
-              好みの遊び方に合わせて出題タイプを選択。初めての方はスキルクイズで感覚をつかむのがおすすめです。
+              FGOをもっと楽しむための攻略法、システム解説、豆知識などを紹介しています。
             </p>
-            <p className="mt-2 text-xs text-gray-600 sm:text-sm">
-              各モードの詳しい説明をまとめたページは{" "}
+            <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               <Link
-                href="/quiz"
-                className="font-semibold text-indigo-600 hover:text-indigo-700 underline underline-offset-4"
+                href="/articles/beginner-guide"
+                className="block rounded-2xl border border-indigo-100 bg-gradient-to-br from-white to-indigo-50/30 p-5 shadow-sm transition hover:shadow-md hover:-translate-y-0.5"
               >
-                こちら
+                <div className="text-xs font-semibold text-green-600">
+                  初心者ガイド
+                </div>
+                <h3 className="mt-2 text-base font-bold text-gray-900">
+                  FGO初心者が知っておきたい基礎知識
+                </h3>
+                <p className="mt-2 text-xs leading-relaxed text-gray-600 sm:text-sm">
+                  基本システムとクイズの活用法を詳しく解説
+                </p>
+                <div className="mt-3 text-xs text-gray-500">約12分で読めます</div>
               </Link>
-              からご覧いただけます。
+              <Link
+                href="/articles/priority-servants"
+                className="block rounded-2xl border border-purple-100 bg-gradient-to-br from-white to-purple-50/30 p-5 shadow-sm transition hover:shadow-md hover:-translate-y-0.5"
+              >
+                <div className="text-xs font-semibold text-green-600">
+                  初心者ガイド
+                </div>
+                <h3 className="mt-2 text-base font-bold text-gray-900">
+                  初心者が優先すべき育成サーヴァント
+                </h3>
+                <p className="mt-2 text-xs leading-relaxed text-gray-600 sm:text-sm">
+                  低レアから始める効率的な攻略法
+                </p>
+                <div className="mt-3 text-xs text-gray-500">約12分で読めます</div>
+              </Link>
+              <Link
+                href="/articles/class-advantage"
+                className="block rounded-2xl border border-red-100 bg-gradient-to-br from-white to-red-50/30 p-5 shadow-sm transition hover:shadow-md hover:-translate-y-0.5"
+              >
+                <div className="text-xs font-semibold text-blue-600">
+                  システム解説
+                </div>
+                <h3 className="mt-2 text-base font-bold text-gray-900">
+                  クラス相性を完全解説
+                </h3>
+                <p className="mt-2 text-xs leading-relaxed text-gray-600 sm:text-sm">
+                  三すくみから特殊クラスまで徹底解説
+                </p>
+                <div className="mt-3 text-xs text-gray-500">約10分で読めます</div>
+              </Link>
+              <Link
+                href="/articles/command-card"
+                className="block rounded-2xl border border-teal-100 bg-gradient-to-br from-white to-teal-50/30 p-5 shadow-sm transition hover:shadow-md hover:-translate-y-0.5"
+              >
+                <div className="text-xs font-semibold text-blue-600">
+                  システム解説
+                </div>
+                <h3 className="mt-2 text-base font-bold text-gray-900">
+                  コマンドカードの基礎知識
+                </h3>
+                <p className="mt-2 text-xs leading-relaxed text-gray-600 sm:text-sm">
+                  効果的なカード選択のコツを解説
+                </p>
+                <div className="mt-3 text-xs text-gray-500">約8分で読めます</div>
+              </Link>
+              <Link
+                href="/articles/user-stories"
+                className="block rounded-2xl border border-pink-100 bg-gradient-to-br from-white to-pink-50/30 p-5 shadow-sm transition hover:shadow-md hover:-translate-y-0.5"
+              >
+                <div className="text-xs font-semibold text-purple-600">
+                  体験談
+                </div>
+                <h3 className="mt-2 text-base font-bold text-gray-900">
+                  推しサーヴァントの新たな魅力を発見
+                </h3>
+                <p className="mt-2 text-xs leading-relaxed text-gray-600 sm:text-sm">
+                  クイズで見つけた意外な一面とは
+                </p>
+                <div className="mt-3 text-xs text-gray-500">約8分で読めます</div>
+              </Link>
+              <Link
+                href="/articles/noble-phantasm-lore"
+                className="block rounded-2xl border border-amber-100 bg-gradient-to-br from-white to-amber-50/30 p-5 shadow-sm transition hover:shadow-md hover:-translate-y-0.5"
+              >
+                <div className="text-xs font-semibold text-amber-600">
+                  設定解説
+                </div>
+                <h3 className="mt-2 text-base font-bold text-gray-900">
+                  宝具の背景設定と神話・歴史
+                </h3>
+                <p className="mt-2 text-xs leading-relaxed text-gray-600 sm:text-sm">
+                  宝具に込められた元ネタを深掘り
+                </p>
+                <div className="mt-3 text-xs text-gray-500">約10分で読めます</div>
+              </Link>
+            </div>
+            <div className="mt-6 text-center">
+              <Link
+                href="/articles"
+                className="inline-flex items-center rounded-full bg-green-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-green-700"
+              >
+                記事一覧をすべて見る（全10記事）
+              </Link>
+            </div>
+          </section>
+
+          {/* クイズモード選択 - 2番目に配置 */}
+          <section className="mt-12 rounded-3xl border border-blue-100 bg-white/80 p-6 shadow-lg sm:p-8">
+            <h2 className="text-2xl font-semibold text-gray-900 sm:text-3xl">
+              🎮 クイズで知識をテスト
+            </h2>
+            <p className="mt-3 text-sm text-gray-600 sm:text-base">
+              記事で学んだ知識を実際に試してみましょう。3種類のクイズモードを用意しています。
             </p>
             <div className="-mx-1 sm:-mx-3 sm:flex sm:flex-wrap">
               {quizRoutes.map((route) => (
