@@ -7,9 +7,9 @@ import { generateWebSiteSchema } from "@/utils/structuredData";
 
 export const dynamic = "force-static";
 
-const pageTitle = "FGOサーヴァント愛を試すクイズプラットフォーム";
+const pageTitle = "FGO攻略・サーヴァント情報データベース | Fate/Grand Quiz";
 const pageDescription =
-  "Fate/Grand Order をもっと楽しむための非公式クイズサイト。スキル・プロフィール・宝具の問題に挑戦して、推しサーヴァントの知識を磨こう。";
+  "Fate/Grand Order の攻略情報、サーヴァント解説、システムガイドを提供する総合情報サイト。初心者向けガイドから上級者向け攻略記事まで、FGOをもっと楽しむための知識が満載。知識テスト機能も搭載。";
 
 export const metadata: Metadata = buildPageMetadata({
   title: pageTitle,
@@ -67,13 +67,12 @@ export default function Home() {
               </div>
               <div className="mx-auto max-w-xl sm:mx-0 sm:flex-1">
                 <h1 className="text-4xl font-extrabold leading-tight tracking-tight text-indigo-900 drop-shadow-sm sm:text-5xl">
-                  記憶に刻まれし英霊たちの軌跡を辿れ
+                  FGO攻略・情報の決定版サイト
                 </h1>
                 <p className="mt-6 text-lg leading-relaxed text-gray-700 sm:text-xl">
-                  「Fate/Grand
-                  Order」のサーヴァント知識を深める情報サイトです。
+                  「Fate/Grand Order」の攻略法、システム解説、サーヴァント情報を網羅した総合情報サイトです。
                   <br className="hidden sm:inline" />
-                  攻略記事、システム解説、クイズなどを通じて、FGOをもっと楽しみましょう。
+                  初心者ガイド、育成優先度、クラス相性など、実戦で役立つ知識をお届けします。
                 </p>
               </div>
             </div>
@@ -192,10 +191,11 @@ export default function Home() {
           {/* クイズモード選択 - 2番目に配置 */}
           <section className="mt-12 rounded-3xl border border-blue-100 bg-white/80 p-6 shadow-lg sm:p-8">
             <h2 className="text-2xl font-semibold text-gray-900 sm:text-3xl">
-              🎮 クイズで知識をテスト
+              🎮 知識確認ツール
             </h2>
             <p className="mt-3 text-sm text-gray-600 sm:text-base">
-              記事で学んだ知識を実際に試してみましょう。3種類のクイズモードを用意しています。
+              記事で学んだ知識を実際に確認できる知識テスト機能です。
+              スキル・プロフィール・宝具の3種類の問題形式で、あなたのFGO知識をチェックできます。
             </p>
             <div className="-mx-1 sm:-mx-3 sm:flex sm:flex-wrap">
               {quizRoutes.map((route) => (
@@ -415,6 +415,23 @@ export default function Home() {
                 記事一覧をすべて見る →
               </Link>
             </div>
+          </section>
+
+          {/* 免責事項の注意 */}
+          <section className="mt-12 rounded-2xl border border-gray-300 bg-gray-50 p-6 text-center">
+            <p className="text-xs text-gray-600 leading-relaxed">
+              <strong>※ 本サイトは非公式のファンサイトです</strong>
+              <br />
+              「Fate/Grand Order」および関連するすべての権利は TYPE-MOON / FGO PROJECT に帰属します。
+              <br />
+              本サイトは公式とは一切関係がありません。
+              <Link
+                href="/disclaimer"
+                className="ml-2 text-indigo-600 hover:text-indigo-700 underline underline-offset-2"
+              >
+                免責事項・著作権について
+              </Link>
+            </p>
           </section>
         </div>
       </main>

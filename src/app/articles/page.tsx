@@ -5,9 +5,9 @@ import { buildPageMetadata, DEFAULT_SOCIAL_IMAGE_PATH } from "@/utils/seo";
 
 export const dynamic = "force-static";
 
-const pageTitle = "FGOクイズ攻略記事とお役立ち情報";
+const pageTitle = "FGO攻略記事・情報ガイド一覧";
 const pageDescription =
-  "Fate/Grand Orderのクイズをもっと楽しむための攻略記事、サーヴァント知識、FGOの豆知識などをまとめています。";
+  "Fate/Grand Orderの攻略法、システム解説、育成ガイド、豆知識などをまとめた記事一覧。初心者から上級者まで役立つFGO情報を提供します。";
 
 export const metadata: Metadata = buildPageMetadata({
   title: pageTitle,
@@ -118,10 +118,10 @@ export default function ArticlesPage() {
             ARTICLES
           </p>
           <h1 className="mt-3 text-2xl sm:text-3xl font-extrabold text-gray-900">
-            FGOクイズをもっと楽しむための記事集
+            FGO攻略・情報記事一覧
           </h1>
           <p className="mt-4 text-sm sm:text-base leading-relaxed text-gray-700">
-            攻略のコツ、学習方法、設定解説など、クイズを遊びながら知識を深めるためのお役立ち情報をお届けします。
+            初心者ガイド、システム解説、攻略法、豆知識など、FGOをより深く楽しむための情報をお届けします。
           </p>
         </header>
 

@@ -31,6 +31,20 @@ export default function ContactPage() {
             </p>
 
             <h2 className="mt-8 text-lg font-semibold text-gray-900">
+              メールでのお問い合わせ
+            </h2>
+            <p className="mt-2 text-sm leading-relaxed text-gray-700 sm:text-base">
+              以下のメールアドレス宛にご連絡ください。
+            </p>
+            <p className="mt-3 text-base leading-relaxed text-indigo-700 sm:text-lg font-medium">
+              📧 fgoquiz.contact@gmail.com
+            </p>
+            <p className="mt-3 text-xs leading-relaxed text-gray-600 sm:text-sm">
+              ※ 通常、2〜3営業日以内に返信いたします。ただし、内容によっては返信にお時間をいただく場合や、
+              返信を差し控えさせていただく場合がございます。あらかじめご了承ください。
+            </p>
+
+            <h2 className="mt-8 text-lg font-semibold text-gray-900">
               X（旧Twitter）
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-gray-700 sm:text-base">
@@ -42,19 +56,32 @@ export default function ContactPage() {
                 href="https://x.com/fgqproject"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="underline underline-offset-4"
+                className="underline underline-offset-4 hover:text-indigo-800"
               >
-                運営者アカウント
+                @fgqproject
               </a>
             </p>
 
             <h2 className="mt-8 text-lg font-semibold text-gray-900">
+              お問い合わせ内容の例
+            </h2>
+            <ul className="mt-3 ml-5 list-disc text-sm leading-relaxed text-gray-700 sm:text-base space-y-1">
+              <li>サイトの不具合や表示崩れの報告</li>
+              <li>誤字・誤情報の修正依頼</li>
+              <li>新機能のご要望</li>
+              <li>サイト運営に関するご質問</li>
+              <li>広告掲載や提携に関するお問い合わせ</li>
+            </ul>
+
+            <h2 className="mt-8 text-lg font-semibold text-gray-900">
               注意事項
             </h2>
-            <p className="mt-2 text-sm leading-relaxed text-gray-700 sm:text-base">
-              いただいたご連絡には可能な限り対応しますが、すべてに個別の返信ができない場合があります。
-              あらかじめご了承ください。
-            </p>
+            <ul className="mt-3 ml-5 list-disc text-sm leading-relaxed text-gray-700 sm:text-base space-y-1">
+              <li>個別のゲーム攻略相談には対応できません</li>
+              <li>Fate/Grand Order 本編のサポートは公式へお問い合わせください</li>
+              <li>いただいたご連絡には可能な限り対応しますが、すべてに個別の返信ができない場合があります</li>
+              <li>営業目的の連絡はご遠慮ください</li>
+            </ul>
           </section>
         </div>
       </main>

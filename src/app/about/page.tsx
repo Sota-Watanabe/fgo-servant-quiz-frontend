@@ -38,11 +38,18 @@ export default function AboutPage() {
           </h2>
           <div className="mt-6 space-y-4 text-sm sm:text-base leading-relaxed text-gray-700">
             <p>
-              Fate/Grand Quiz
-              は、「Fate/Grand Order」をもっと深く楽しみたいマスターのために作られた非公式のファンサイトです。FGOには膨大な数のサーヴァントが登場し、それぞれが固有のスキル、宝具、プロフィールを持っています。日々のプレイで自然と触れているこれらの情報を、クイズという形で振り返ることで、新しい発見や記憶の整理ができることを目指しています。
+              Fate/Grand Quiz は、「Fate/Grand Order」の攻略情報とサーヴァント知識を体系的に整理・提供する総合情報サイトです。
+              初心者向けのゲーム解説から、上級者向けの戦略分析まで、FGOをより深く楽しむための情報を幅広く扱っています。
             </p>
             <p>
-              本サイトは、得点やランキングで競い合うことよりも、「自分はこのサーヴァントをここまで覚えていたんだ」という小さな達成感や、「このスキルにはこんな背景があったのか」という気づきを大切にしています。FGOの世界観をより身近に感じてもらい、推しサーヴァントへの愛を深めるきっかけになれば嬉しいです。
+              本サイトの特徴は、単なる情報の羅列ではなく、
+              「記事で学ぶ → 知識テストで確認する → さらに深く理解する」という学習サイクルを提供している点です。
+              攻略記事やシステム解説で学んだ知識を、インタラクティブな知識テスト機能で確認できます。
+            </p>
+            <p>
+              FGOには膨大な数のサーヴァントが登場し、それぞれが固有のスキル、宝具、プロフィールを持っています。
+              本サイトでは、これらの情報を整理し、実戦で役立つ形で提供することで、
+              マスターの皆様のゲームプレイをサポートします。
             </p>
           </div>
         </section>
@@ -92,8 +99,18 @@ export default function AboutPage() {
                 3. 正確で最新のデータ
               </h3>
               <p className="mt-3 text-sm sm:text-base leading-relaxed text-gray-700">
-                Atlas Academy
-                APIという信頼性の高いデータソースを利用し、スキル、宝具、プロフィールなどの情報を正確に反映しています。新サーヴァント実装や強化クエスト後も、できるだけ速やかにデータを更新します。
+                <a
+                  href="https://api.atlasacademy.io/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-indigo-600 hover:text-indigo-700 underline underline-offset-4"
+                >
+                  Atlas Academy API
+                </a>
+                という信頼性の高いデータソースを利用し、スキル、宝具、プロフィールなどの情報を正確に反映しています。新サーヴァント実装や強化クエスト後も、できるだけ速やかにデータを更新します。
+              </p>
+              <p className="mt-2 text-xs text-gray-600">
+                ※ Atlas Academy APIは、TYPE-MOON公式のデータベースではなく、コミュニティが運営するオープンソースプロジェクトです。
               </p>
             </div>
 
@@ -144,12 +161,35 @@ export default function AboutPage() {
           </h2>
           <div className="mt-6 space-y-4 text-sm sm:text-base leading-relaxed text-gray-700">
             <p>
-              本サイトは、Next.js（React）、TypeScript、Tailwind
-              CSSなどのモダンなWeb技術を使って構築されています。フロントエンドとバックエンドを分離した設計により、高速で快適なユーザー体験を提供しています。
+              本サイトは、<a
+                href="https://nextjs.org/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-indigo-600 hover:text-indigo-700 underline underline-offset-4"
+              >
+                Next.js
+              </a>
+              （React）、<a
+                href="https://www.typescriptlang.org/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-indigo-600 hover:text-indigo-700 underline underline-offset-4"
+              >
+                TypeScript
+              </a>
+              、<a
+                href="https://tailwindcss.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-indigo-600 hover:text-indigo-700 underline underline-offset-4"
+              >
+                Tailwind CSS
+              </a>
+              などのモダンなWeb技術を使って構築されています。フロントエンドとバックエンドを分離した設計により、高速で快適なユーザー体験を提供しています。
             </p>
             <p>
               データソースとしては、<a
-                href="https://atlasacademy.io/"
+                href="https://api.atlasacademy.io/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-indigo-600 hover:text-indigo-700 underline underline-offset-4"
@@ -158,6 +198,62 @@ export default function AboutPage() {
               </a>
               を利用しており、FGOの膨大なゲームデータを正確かつ最新の状態で取得しています。このAPIはコミュニティによって運営されており、非常に高品質で信頼性のあるデータソースです。
             </p>
+            <p className="text-xs text-gray-600">
+              ※ 本サイトは個人が運営する非公式ファンサイトです。「Fate/Grand Order」および関連するすべての権利は、
+              <a
+                href="https://www.fate-go.jp/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-indigo-600 hover:text-indigo-700 underline underline-offset-4"
+              >
+                TYPE-MOON / FGO PROJECT
+              </a>
+              に帰属します。サイト内で使用している画像やテキストの著作権は各権利者に帰属します。
+            </p>
+          </div>
+        </section>
+
+        <section className="mt-10 max-w-3xl mx-auto">
+          <h2 className="text-lg sm:text-xl font-bold text-gray-900 border-b-2 border-indigo-100 pb-2">
+            関連リンク
+          </h2>
+          <div className="mt-6 space-y-3 text-sm sm:text-base">
+            <div className="rounded-xl border border-gray-200 bg-gray-50 p-4">
+              <h3 className="font-semibold text-gray-900">Fate/Grand Order 公式サイト</h3>
+              <a
+                href="https://www.fate-go.jp/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-1 text-indigo-600 hover:text-indigo-700 underline underline-offset-4 text-sm"
+              >
+                https://www.fate-go.jp/
+              </a>
+            </div>
+            <div className="rounded-xl border border-gray-200 bg-gray-50 p-4">
+              <h3 className="font-semibold text-gray-900">Atlas Academy (データソース)</h3>
+              <a
+                href="https://api.atlasacademy.io/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-1 text-indigo-600 hover:text-indigo-700 underline underline-offset-4 text-sm"
+              >
+                https://api.atlasacademy.io/
+              </a>
+              <p className="mt-2 text-xs text-gray-600">
+                FGOのゲームデータを提供するコミュニティ運営のAPIプロジェクト
+              </p>
+            </div>
+            <div className="rounded-xl border border-gray-200 bg-gray-50 p-4">
+              <h3 className="font-semibold text-gray-900">サイト運営者 GitHub</h3>
+              <a
+                href="https://github.com/Sota-Watanabe"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-1 text-indigo-600 hover:text-indigo-700 underline underline-offset-4 text-sm"
+              >
+                https://github.com/Sota-Watanabe
+              </a>
+            </div>
           </div>
         </section>
 

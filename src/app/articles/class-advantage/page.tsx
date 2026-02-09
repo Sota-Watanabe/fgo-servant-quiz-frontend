@@ -33,12 +33,36 @@ export default function ClassAdvantageArticle() {
           <h1 className="mt-4 text-2xl sm:text-3xl font-extrabold text-gray-900">
             FGOのクラス相性を完全解説 - 有利クラスで戦う重要性
           </h1>
-          <div className="mt-3 flex items-center gap-4 text-sm text-gray-600">
-            <time dateTime="2026-01-21">2026年1月21日</time>
-            <span>•</span>
+          <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-gray-600">
+            <div className="flex items-center gap-2">
+              <span className="text-gray-500">執筆:</span>
+              <Link href="/operator" className="text-indigo-600 hover:text-indigo-700 font-medium">
+                Sota Watanabe
+              </Link>
+            </div>
+            <span className="text-gray-400">|</span>
+            <time dateTime="2026-01-21">公開: 2026年1月21日</time>
+            <span className="text-gray-400">|</span>
             <span>約10分で読めます</span>
           </div>
         </header>
+
+        <div className="mt-8 max-w-3xl mx-auto rounded-2xl border border-gray-200 bg-gray-50 p-5">
+          <div className="flex items-start gap-4">
+            <div className="flex-shrink-0">
+              <div className="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center">
+                <span className="text-indigo-700 font-bold text-lg">SW</span>
+              </div>
+            </div>
+            <div className="flex-1">
+              <div className="font-semibold text-gray-900">Sota Watanabe</div>
+              <div className="mt-1 text-xs text-gray-600 leading-relaxed">
+                FGOプレイヤー歴9年。サーヴァントの知識を深めるためにこのサイトを開設。
+                記事執筆とサイト運営を一人で行っています。
+              </div>
+            </div>
+          </div>
+        </div>
 
         <div className="mt-8 max-w-3xl mx-auto space-y-8 text-sm sm:text-base leading-relaxed text-gray-800">
           <section>

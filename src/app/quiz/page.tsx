@@ -5,9 +5,9 @@ import { buildPageMetadata, DEFAULT_SOCIAL_IMAGE_PATH } from "@/utils/seo";
 
 export const dynamic = "force-static";
 
-const pageTitle = "クイズモードを選ぶ";
+const pageTitle = "FGO知識確認ツール - サーヴァント情報テスト";
 const pageDescription =
-  "スキル・プロフィール・宝具の3種類のクイズから、好きなモードを選んで遊べます。";
+  "記事で学んだFGO知識を確認できる3種類の知識テストモード。スキル・プロフィール・宝具の情報から、あなたのサーヴァント知識をチェックできます。";
 
 const quizModes = [
   {
