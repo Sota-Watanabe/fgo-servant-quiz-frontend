@@ -71,6 +71,11 @@ export default function Footer() {
                   </a>
                 </li>
                 <li>
+                  <a href="/changelog" className="text-gray-300 hover:text-white transition-colors">
+                    更新履歴
+                  </a>
+                </li>
+                <li>
                   <a href="/contact" className="text-gray-300 hover:text-white transition-colors">
                     お問い合わせ
                   </a>

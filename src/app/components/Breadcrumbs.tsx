@@ -33,6 +33,7 @@ export default function Breadcrumbs() {
     about: "サイトについて",
     operator: "運営者情報",
     contact: "お問い合わせ",
+    changelog: "更新履歴",
     privacy: "プライバシーポリシー",
     terms: "利用規約",
     disclaimer: "免責事項",

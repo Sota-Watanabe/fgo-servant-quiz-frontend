@@ -1,1 +1,3 @@
-google.com, pub-6714287536670840, DIRECT, f08c47fec0942fa0
+# Google AdSense ads.txt
+# 審査合格後に以下のコメントを解除してください
+# google.com, pub-6714287536670840, DIRECT, f08c47fec0942fa0

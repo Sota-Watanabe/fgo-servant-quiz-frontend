@@ -30,6 +30,7 @@ const routes = [
   "/disclaimer",
   "/operator",
   "/contact",
+  "/changelog",
   "/articles",
   "/articles/beginner-guide",
   "/articles/priority-servants",

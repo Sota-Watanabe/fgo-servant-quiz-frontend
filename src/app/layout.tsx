@@ -130,14 +130,15 @@ export default function RootLayout({
         >
           {JSON.stringify(websiteJsonLd)}
         </Script>
-        {adSenseClientId ? (
+        {/* AdSense: 審査合格後に有効化してください */}
+        {/* {adSenseClientId ? (
           <Script
             async
             src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adSenseClientId}`}
             crossOrigin="anonymous"
             strategy="afterInteractive"
           />
-        ) : null}
+        ) : null} */}
         <QueryProvider>{children}</QueryProvider>
       </body>
     </html>
