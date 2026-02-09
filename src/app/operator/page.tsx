@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
+import PageLayout from "@/app/components/PageLayout";
 import { buildPageMetadata } from "@/utils/seo";
 
 export const dynamic = "force-static";
@@ -17,14 +16,12 @@ export const metadata: Metadata = buildPageMetadata({
 
 export default function OperatorPage() {
   return (
-    <>
-      <Header />
-      <main className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-100">
-        <div className="mx-auto w-full max-w-3xl px-4 pb-16 pt-12 sm:px-6 sm:pb-20 sm:pt-16">
-          <section className="rounded-3xl border border-blue-100 bg-white/90 p-6 shadow-lg sm:p-8">
-            <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">
-              運営者情報
-            </h1>
+    <PageLayout>
+      <div className="bg-white rounded-3xl shadow-lg border border-indigo-100 p-6 sm:p-10">
+        <section>
+          <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">
+            運営者情報
+          </h1>
             <p className="mt-4 text-sm leading-relaxed text-gray-700 sm:text-base">
               本サイト「Fate/Grand Quiz」の運営者情報および連絡先をご案内します。
             </p>
@@ -259,10 +256,8 @@ export default function OperatorPage() {
             <p className="mt-8 text-xs text-gray-500">
               最終更新日: 2026年1月13日
             </p>
-          </section>
-        </div>
-      </main>
-      <Footer />
-    </>
+        </section>
+      </div>
+    </PageLayout>
   );
 }

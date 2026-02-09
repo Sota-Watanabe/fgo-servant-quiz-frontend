@@ -21,14 +21,8 @@ export default function CommandCardArticle() {
     <PageLayout>
       <article className="bg-white rounded-3xl shadow-lg border border-indigo-100 p-6 sm:p-10">
         <header className="max-w-3xl mx-auto">
-          <div className="flex items-center gap-3 text-xs text-gray-500">
-            <Link href="/articles" className="hover:text-indigo-600">
-              記事一覧
-            </Link>
-            <span>›</span>
-            <span className="inline-block rounded-full bg-indigo-100 px-3 py-1 font-semibold text-indigo-700">
-              システム解説
-            </span>
+          <div className="inline-block rounded-full bg-indigo-100 px-3 py-1 text-xs font-semibold text-indigo-700">
+            システム解説
           </div>
           <h1 className="mt-4 text-2xl sm:text-3xl font-extrabold text-gray-900">
             FGOコマンドカードの基礎知識 - 効果的なカード選択のコツ

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
+import PageLayout from "@/app/components/PageLayout";
 import { buildPageMetadata } from "@/utils/seo";
 
 export const dynamic = "force-static";
@@ -17,14 +16,12 @@ export const metadata: Metadata = buildPageMetadata({
 
 export default function PrivacyPolicyPage() {
   return (
-    <>
-      <Header />
-      <main className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-100">
-        <div className="mx-auto w-full max-w-3xl px-4 pb-16 pt-12 sm:px-6 sm:pb-20 sm:pt-16">
-          <section className="rounded-3xl border border-blue-100 bg-white/90 p-6 shadow-lg sm:p-8">
-            <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">
-              プライバシーポリシー
-            </h1>
+    <PageLayout>
+      <div className="bg-white rounded-3xl shadow-lg border border-indigo-100 p-6 sm:p-10">
+        <section>
+          <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">
+            プライバシーポリシー
+          </h1>
             <p className="mt-4 text-sm leading-relaxed text-gray-700 sm:text-base">
               Fate/Grand Quiz（以下「当サイト」）では、ユーザーの皆さまのプライバシーを尊重し、
               個人情報の適切な保護と取り扱いに努めています。本プライバシーポリシーは、当サイトにおける個人情報およびこれに準ずる情報の取り扱いについて定めています。
@@ -232,11 +229,9 @@ export default function PrivacyPolicyPage() {
               <br />
               最終更新日: 2026年1月21日
             </p>
-          </section>
-        </div>
-      </main>
-      <Footer />
-    </>
+        </section>
+      </div>
+    </PageLayout>
   );
 }
 

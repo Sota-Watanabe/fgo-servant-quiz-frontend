@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
+import PageLayout from "@/app/components/PageLayout";
 import { buildPageMetadata } from "@/utils/seo";
 
 export const dynamic = "force-static";
@@ -17,14 +16,12 @@ export const metadata: Metadata = buildPageMetadata({
 
 export default function ContactPage() {
   return (
-    <>
-      <Header />
-      <main className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-100">
-        <div className="mx-auto w-full max-w-3xl px-4 pb-16 pt-12 sm:px-6 sm:pb-20 sm:pt-16">
-          <section className="rounded-3xl border border-blue-100 bg-white/90 p-6 shadow-lg sm:p-8">
-            <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">
-              お問い合わせ
-            </h1>
+    <PageLayout>
+      <div className="bg-white rounded-3xl shadow-lg border border-indigo-100 p-6 sm:p-10">
+        <section>
+          <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">
+            お問い合わせ
+          </h1>
             <p className="mt-4 text-sm leading-relaxed text-gray-700 sm:text-base">
               当サイトに関するご意見・ご要望・ご質問・不具合のご報告などがありましたら、
               下記の方法でご連絡ください。
@@ -82,11 +79,9 @@ export default function ContactPage() {
               <li>いただいたご連絡には可能な限り対応しますが、すべてに個別の返信ができない場合があります</li>
               <li>営業目的の連絡はご遠慮ください</li>
             </ul>
-          </section>
-        </div>
-      </main>
-      <Footer />
-    </>
+        </section>
+      </div>
+    </PageLayout>
   );
 }
 
