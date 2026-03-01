@@ -23,6 +23,7 @@ const routes = [
   "/quiz/np/description",
   "/about",
   "/guide",
+  "/guide/battle-system",
   "/glossary",
   "/faq",
   "/privacy",

@@ -7,9 +7,9 @@ import { generateWebSiteSchema } from "@/utils/structuredData";
 
 export const dynamic = "force-static";
 
-const pageTitle = "FGO攻略・サーヴァント情報データベース | Fate/Grand Quiz";
+const pageTitle = "FGO攻略・学習プラットフォーム | Fate/Grand Quiz";
 const pageDescription =
-  "Fate/Grand Order の攻略情報、サーヴァント解説、システムガイドを提供する総合情報サイト。初心者向けガイドから上級者向け攻略記事まで、FGOをもっと楽しむための知識が満載。知識テスト機能も搭載。";
+  "Fate/Grand Orderの攻略情報、サーヴァント解説、戦略ガイドを提供する総合学習サイト。初心者向けガイド、育成優先度、クラス相性、コマンドカード解説など実戦で役立つ攻略記事を多数掲載。知識確認ツールで学んだ内容を定着させ、マスターとしてのスキルアップをサポートします。";
 
 export const metadata: Metadata = buildPageMetadata({
   title: pageTitle,
@@ -67,12 +67,12 @@ export default function Home() {
               </div>
               <div className="mx-auto max-w-xl sm:mx-0 sm:flex-1">
                 <h1 className="text-4xl font-extrabold leading-tight tracking-tight text-indigo-900 drop-shadow-sm sm:text-5xl">
-                  FGO攻略・情報の決定版サイト
+                  FGO攻略・学習プラットフォーム
                 </h1>
                 <p className="mt-6 text-lg leading-relaxed text-gray-700 sm:text-xl">
-                  「Fate/Grand Order」の攻略法、システム解説、サーヴァント情報を網羅した総合情報サイトです。
+                  「Fate/Grand Order」の攻略法、戦略解説、サーヴァント情報を体系的に学べる総合学習サイトです。
                   <br className="hidden sm:inline" />
-                  初心者ガイド、育成優先度、クラス相性など、実戦で役立つ知識をお届けします。
+                  初心者ガイド、育成優先度、クラス相性、コマンドカード解説など、実戦で即活用できる攻略情報と、知識確認ツールによる定着学習で、マスターとしてのレベルアップをサポートします。
                 </p>
               </div>
             </div>
@@ -81,10 +81,11 @@ export default function Home() {
           {/* 最新記事セクション - 一番上に配置 */}
           <section className="mt-12 rounded-3xl border border-green-100 bg-white/80 p-6 shadow-lg sm:p-8">
             <h2 className="text-2xl font-semibold text-gray-900 sm:text-3xl">
-              📚 最新記事・FGO攻略情報
+              📚 FGO攻略記事・戦略ガイド
             </h2>
             <p className="mt-3 text-sm text-gray-600 sm:text-base">
-              FGOをもっと楽しむための攻略法、システム解説、豆知識などを紹介しています。
+              FGOの攻略に必要な知識を体系的に解説した記事集です。ゲームシステムの基礎から、効率的な育成方法、戦闘戦略まで、
+              初心者から上級者まで役立つ実践的な情報を提供しています。各記事は実際のゲームプレイに基づいた具体的なアドバイスを含んでいます。
             </p>
             <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               <Link
@@ -191,11 +192,12 @@ export default function Home() {
           {/* クイズモード選択 - 2番目に配置 */}
           <section className="mt-12 rounded-3xl border border-blue-100 bg-white/80 p-6 shadow-lg sm:p-8">
             <h2 className="text-2xl font-semibold text-gray-900 sm:text-3xl">
-              🎮 知識確認ツール
+              🎮 知識定着ツール（インタラクティブ学習）
             </h2>
             <p className="mt-3 text-sm text-gray-600 sm:text-base">
-              記事で学んだ知識を実際に確認できる知識テスト機能です。
-              スキル・プロフィール・宝具の3種類の問題形式で、あなたのFGO知識をチェックできます。
+              記事で学んだサーヴァント知識を実際に確認し、記憶に定着させるための学習ツールです。
+              スキル効果、プロフィール情報、宝具特性という3つの異なる視点から、実戦で役立つ知識を身につけられます。
+              問題を解くことで、攻略記事で学んだ理論を実践的な知識として定着させ、ゲームプレイの質を向上させることができます。
             </p>
             <div className="-mx-1 sm:-mx-3 sm:flex sm:flex-wrap">
               {quizRoutes.map((route) => (

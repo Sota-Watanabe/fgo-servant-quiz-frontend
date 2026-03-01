@@ -34,23 +34,46 @@ export default function AboutPage() {
 
         <section className="mt-10 max-w-3xl mx-auto">
           <h2 className="text-lg sm:text-xl font-bold text-gray-900 border-b-2 border-indigo-100 pb-2">
-            サイトの目的
+            サイトの目的と提供価値
           </h2>
           <div className="mt-6 space-y-4 text-sm sm:text-base leading-relaxed text-gray-700">
             <p>
-              Fate/Grand Quiz は、「Fate/Grand Order」の攻略情報とサーヴァント知識を体系的に整理・提供する総合情報サイトです。
-              初心者向けのゲーム解説から、上級者向けの戦略分析まで、FGOをより深く楽しむための情報を幅広く扱っています。
+              Fate/Grand Quiz は、「Fate/Grand Order」の攻略情報とサーヴァント知識を体系的に整理・提供する総合学習プラットフォームです。
+              単なる情報サイトではなく、「記事で学ぶ → 知識テストで確認する → さらに深く理解する」という能動的な学習サイクルを提供している点が最大の特徴です。
             </p>
             <p>
-              本サイトの特徴は、単なる情報の羅列ではなく、
-              「記事で学ぶ → 知識テストで確認する → さらに深く理解する」という学習サイクルを提供している点です。
-              攻略記事やシステム解説で学んだ知識を、インタラクティブな知識テスト機能で確認できます。
+              <strong>攻略記事</strong>では、ゲームシステムの基礎、戦略的編成、効率的な育成方法など、実際のゲームプレイに役立つ具体的な情報を提供しています。
+              初心者マスターがゲームを始める際に知っておくべき基本知識から、上級者向けの高難易度攻略テクニックまで、幅広いレベルに対応した内容を掲載しています。
             </p>
             <p>
-              FGOには膨大な数のサーヴァントが登場し、それぞれが固有のスキル、宝具、プロフィールを持っています。
-              本サイトでは、これらの情報を整理し、実戦で役立つ形で提供することで、
-              マスターの皆様のゲームプレイをサポートします。
+              <strong>知識定着ツール</strong>（インタラクティブ学習機能）では、スキル効果、プロフィール情報、宝具特性という3つの異なる視点から、
+              サーヴァントの特徴を実践的に学べます。記事で得た理論的な知識を、実際に問題を解くことで記憶に定着させ、
+              ゲームプレイに活かせる実践的なスキルへと昇華させることができます。
             </p>
+            <p>
+              FGOには350体以上のサーヴァントが実装されており、それぞれが固有のスキル、宝具、プロフィールを持っています。
+              本サイトは、この膨大な情報を整理し、マスターの皆様が効率的に学習できる形で提供することで、
+              より戦略的で充実したゲーム体験をサポートします。
+            </p>
+            <div className="mt-6 rounded-2xl border border-indigo-100 bg-gradient-to-br from-indigo-50/50 to-purple-50/50 p-6">
+              <h3 className="text-base font-bold text-indigo-900">
+                📚 学習プラットフォームとしての3つの柱
+              </h3>
+              <ul className="mt-3 space-y-2 text-sm">
+                <li className="flex items-start">
+                  <span className="mr-2 font-bold text-indigo-600">1.</span>
+                  <span><strong>体系的な攻略記事</strong>：ゲームシステム解説、戦術ガイド、育成攻略など、実戦で役立つ情報を段階的に提供</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="mr-2 font-bold text-indigo-600">2.</span>
+                  <span><strong>インタラクティブ学習</strong>：記事で学んだ知識を実際に試し、記憶に定着させる知識テスト機能</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="mr-2 font-bold text-indigo-600">3.</span>
+                  <span><strong>継続的な学習支援</strong>：スキマ時間に1問から取り組め、自分のペースで知識を深められる設計</span>
+                </li>
+              </ul>
+            </div>
           </div>
         </section>
 

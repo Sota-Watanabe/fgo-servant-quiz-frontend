@@ -59,17 +59,23 @@ export const metadata: Metadata = {
   },
   description: SITE_DESCRIPTION,
   keywords: [
+    "FGO 攻略",
+    "FGO 戦略ガイド",
+    "FGO 初心者",
+    "FGO サーヴァント 育成",
+    "FGO クラス相性",
+    "FGO 戦闘システム",
+    "FGO スキル解説",
+    "FGO 宝具解説",
+    "Fate/Grand Order 攻略",
+    "Fate/Grand Order 初心者ガイド",
+    "FGO コマンドカード",
+    "FGO 編成",
+    "FGO 学習",
     "FGO クイズ",
     "FGO サーヴァント クイズ",
     "Fate/Grand Order クイズ",
-    "FGO キャラ 当てクイズ",
-    "FGO 知識 クイズ",
-    "FGO 初心者",
-    "FGO 上級者",
-    "FGO ランダム出題",
-    "FGO マスター向け クイズ",
-    "FGQ クイズ",
-    "Fate/Grand Quiz",
+    "FGO 知識確認",
   ],
   alternates: {
     canonical: SITE_URL,
@@ -130,15 +136,15 @@ export default function RootLayout({
         >
           {JSON.stringify(websiteJsonLd)}
         </Script>
-        {/* AdSense: 審査合格後に有効化してください */}
-        {/* {adSenseClientId ? (
+        {/* AdSense */}
+        {adSenseClientId ? (
           <Script
             async
             src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adSenseClientId}`}
             crossOrigin="anonymous"
             strategy="afterInteractive"
           />
-        ) : null} */}
+        ) : null}
         <QueryProvider>{children}</QueryProvider>
       </body>
     </html>

@@ -5,9 +5,9 @@ import { buildPageMetadata, DEFAULT_SOCIAL_IMAGE_PATH } from "@/utils/seo";
 
 export const dynamic = "force-static";
 
-const pageTitle = "FGO攻略記事・情報ガイド一覧";
+const pageTitle = "FGO攻略記事・戦略ガイド一覧";
 const pageDescription =
-  "Fate/Grand Orderの攻略法、システム解説、育成ガイド、豆知識などをまとめた記事一覧。初心者から上級者まで役立つFGO情報を提供します。";
+  "Fate/Grand Orderをもっと楽しむための攻略記事、ゲームシステム解説、戦略ガイド、育成攻略、およびFGOの豆知識をまとめた総合政略データベース。初心者向けの基礎知識から上級者向けの実践的な戦術解説まで、実際のゲームプレイに役立つ情報を提供します。";
 
 export const metadata: Metadata = buildPageMetadata({
   title: pageTitle,
@@ -118,12 +118,39 @@ export default function ArticlesPage() {
             ARTICLES
           </p>
           <h1 className="mt-3 text-2xl sm:text-3xl font-extrabold text-gray-900">
-            FGO攻略・情報記事一覧
+            FGO攻略・戦略ガイド記事一覧
           </h1>
           <p className="mt-4 text-sm sm:text-base leading-relaxed text-gray-700">
-            初心者ガイド、システム解説、攻略法、豆知識など、FGOをより深く楽しむための情報をお届けします。
+            初心者ガイド、ゲームシステム解説、実戦攻略法、豆知識など、FGOをより深く理解し、効率的に攻略するための情報をお届けします。
           </p>
         </header>
+
+        {/* サイトの価値を説明するセクション */}
+        <section className="mt-10 max-w-3xl mx-auto rounded-2xl border border-blue-100 bg-gradient-to-br from-blue-50/50 to-indigo-50/50 p-6 sm:p-8">
+          <h2 className="text-lg sm:text-xl font-bold text-gray-900">
+            📖 体系的な学習で、FGO攻略を効率化
+          </h2>
+          <div className="mt-4 space-y-3 text-sm leading-relaxed text-gray-700 sm:text-base">
+            <p>
+              当サイトの記事は、単なる情報の羅列ではなく、実際のゲームプレイに基づいた実践的な攻略情報を提供しています。
+              初心者マスターがゲームを始める際に知っておくべき基礎知識から、上級者向けの戦術解説まで、段階的に学べる構成になっています。
+            </p>
+            <p>
+              各記事は以下のような実用的な情報を含んでいます：
+            </p>
+            <ul className="mt-2 space-y-1 pl-5 list-disc">
+              <li><strong>初心者ガイド</strong>：ゲームシステムの基礎、育成の優先順位、効率的な攻略方法</li>
+              <li><strong>システム解説</strong>：クラス相性、コマンドカード、宝具システムなどの詳細な仕組み</li>
+              <li><strong>戦略・攻略法</strong>：実戦で使える具体的なテクニック、編成のコツ、高難易度攻略</li>
+              <li><strong>学習・記憶法</strong>：サーヴァント知識を効率的に習得するための学習方法論</li>
+              <li><strong>設定・考察</strong>：プロフィールや宝具の背景にある神話・歴史の深掘り解説</li>
+            </ul>
+            <p className="mt-3">
+              記事で学んだ知識は、当サイトの知識定着ツール（インタラクティブ学習機能）で実践的に確認できます。
+              理論を学び、実践で定着させるという学習サイクルで、マスターとしてのスキルを着実に向上させることができます。
+            </p>
+          </div>
+        </section>
 
         <section className="mt-10 max-w-4xl mx-auto">
           <div className="space-y-6">
