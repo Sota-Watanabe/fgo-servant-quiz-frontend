@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react";
 
+import AdBanner from "@/app/components/AdBanner";
 import Breadcrumbs from "@/app/components/Breadcrumbs";
 import Footer from "@/app/components/Footer";
 import GlobalNav from "@/app/components/GlobalNav";
@@ -33,6 +34,9 @@ export default function PageLayout({ children }: PageLayoutProps) {
           </section>
         </div>
       </main>
+      <div className="mx-auto w-full max-w-7xl px-2 py-4 sm:px-4">
+        <AdBanner adKey="page-layout-bottom" />
+      </div>
       <Footer />
     </div>
   );

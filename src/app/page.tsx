@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import AdBanner from "./components/AdBanner";
 import { buildPageMetadata, DEFAULT_SOCIAL_IMAGE_PATH } from "@/utils/seo";
 import { generateWebSiteSchema } from "@/utils/structuredData";
 
@@ -189,6 +190,11 @@ export default function Home() {
             </div>
           </section>
 
+          {/* 広告 */}
+          <div className="mt-12">
+            <AdBanner adKey="home-mid-1" />
+          </div>
+
           {/* クイズモード選択 - 2番目に配置 */}
           <section className="mt-12 rounded-3xl border border-blue-100 bg-white/80 p-6 shadow-lg sm:p-8">
             <h2 className="text-2xl font-semibold text-gray-900 sm:text-3xl">
@@ -375,6 +381,11 @@ export default function Home() {
               </div>
             </div>
           </section>
+
+          {/* 広告 */}
+          <div className="mt-12">
+            <AdBanner adKey="home-mid-2" />
+          </div>
 
           <section className="mt-12 rounded-3xl border border-green-100 bg-white/80 p-6 shadow-lg sm:p-8">
             <h2 className="text-2xl font-semibold text-gray-900 sm:text-3xl">

@@ -9,6 +9,8 @@ const nextConfig: NextConfig = {
   env: {
     NEXT_PUBLIC_API_URL:
       process.env.NEXT_PUBLIC_API_URL || "http://localhost:3388",
+    NEXT_PUBLIC_GOOGLE_ADSENSE_CLIENT_ID:
+      process.env.NEXT_PUBLIC_GOOGLE_ADSENSE_CLIENT_ID || "ca-pub-6714287536670840",
   },
   // セキュリティヘッダーの設定
   async headers() {
