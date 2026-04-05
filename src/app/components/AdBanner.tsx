@@ -15,7 +15,8 @@ interface AdBannerProps {
 
 /**
  * 本番・開発環境に応じて広告を表示するコンポーネント
- * 本番環境では広告のみ、開発環境では広告枠付きで表示
+ * 本番環境では広告枠を非表示にするが、広告の高さは確保
+ * 開発環境では広告枠付きで表示
  */
 export default function AdBanner({ 
   adKey, 
@@ -27,19 +28,21 @@ export default function AdBanner({
   const isProduction = process.env.NODE_ENV === 'production';
 
   if (isProduction) {
-    // 本番環境では広告枠なしで広告のみ表示
+    // 本番環境では最小高さを確保した上で広告を表示
     return (
-      <AdSense
-        key={adKey}
-        adSlot={adSlot}
-        style={style}
-      />
+      <div className={`min-h-[100px] w-full ${className}`}>
+        <AdSense
+          key={adKey}
+          adSlot={adSlot}
+          style={style}
+        />
+      </div>
     );
   }
 
   // 開発環境では広告枠付きで表示
   return (
-    <div className={`bg-gray-50 rounded-lg p-2 sm:p-4 border-2 border-dashed border-gray-300 ${className}`}>
+    <div className={`bg-gray-50 rounded-lg p-2 sm:p-4 border-2 border-dashed border-gray-300 min-h-[100px] w-full ${className}`}>
       <p className="text-xs text-gray-500 mb-2">広告</p>
       <AdSense
         key={adKey}
