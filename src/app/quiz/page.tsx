@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import PageLayout from "@/app/components/PageLayout";
-import AdBanner from "@/app/components/AdBanner";
+// import AdBanner from "@/app/components/AdBanner";
 import { buildPageMetadata, DEFAULT_SOCIAL_IMAGE_PATH } from "@/utils/seo";
 
 export const dynamic = "force-static";
@@ -132,7 +132,7 @@ export default function QuizIndexPage() {
         </section>
 
         <div className="mt-10">
-          <AdBanner adKey="quiz-index-mid" />
+          {/* <AdBanner adKey="quiz-index-mid" /> */}
         </div>
 
         <section className="mt-12 rounded-[28px] border border-indigo-100 bg-gradient-to-br from-indigo-50/50 to-purple-50/50 p-6 sm:p-8">
