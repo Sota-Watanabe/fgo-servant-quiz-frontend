@@ -68,7 +68,7 @@ export default function AdSense({
   }, []);
 
   return (
-    <div style={{ textAlign: 'center', margin: '10px 0' }}>
+    <div style={{ textAlign: 'center', margin: '10px 0', minHeight: '100px' }}>
       <ins
         ref={adRef}
         className="adsbygoogle"
