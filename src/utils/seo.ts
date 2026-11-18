@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-export const SITE_URL = "https://fate-grand-quiz.com";
+export const SITE_URL = "https://fgo-servant-quiz.so-ta.net";
 export const SITE_NAME = "Fate/Grand Quiz";
 export const SITE_DESCRIPTION =
   "Fate/Grand Orderの攻略情報、戦略ガイド、サーヴァント解説を提供する総合学習プラットフォーム。初心者向けゲームシステム解説、育成優先度、クラス相性、戦闘戦略など実戦で役立つ攻略記事多数。知識定着ツールでサーヴァントのスキル・プロフィール・宝具を学習し、マスターとしてのスキルアップをサポート。無料・登録不要。";
